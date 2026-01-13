@@ -16,7 +16,9 @@
     "module": "preserve",
     "paths": {
       "@interfaces/*": ["./src/app/interfaces/*"],
-      "@pages/*": ["./src/app/pages/*"]
+      "@pages/*": ["./src/app/pages/*"],
+      "@app/*": ["./src/app/*"],
+      "@src/*": ["./src/*"]
     }
   },
   "angularCompilerOptions": {

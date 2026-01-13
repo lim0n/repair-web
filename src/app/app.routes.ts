@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,15 @@ export const routes: Routes = [
         path: '404',
         loadComponent: () => import('@pages/service-pages/not-found-page/not-found-page').then(m => m.NotFoundPage),
         title: 'Неверный адрес страницы'
+    },
+    { 
+        path: 'login',
+        loadComponent: () => import('@pages/service-pages/login-page/login-page').then(m => m.LoginPage)
+    },
+    {
+        path: 'manager',
+        loadComponent: () => import('@pages/manager/manager-page').then(m => m.ManagerPage),
+        canActivate: [ authGuard ]
     },
     {
         path: '**',
