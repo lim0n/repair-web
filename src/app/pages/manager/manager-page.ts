@@ -1,11 +1,37 @@
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { ProfileService } from '@app/services/profile.service';
+import { BehaviorSubject, catchError, Observable, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-manager-page',
-  imports: [],
+  imports: [
+    JsonPipe,
+    AsyncPipe
+  ],
   templateUrl: './manager-page.html',
   styleUrl: './manager-page.scss',
 })
 export class ManagerPage {
+  // profile$: Observable<any>;
+  profile$$ = new BehaviorSubject(null);
 
+  constructor(
+    private _api: ProfileService
+  ) {
+    this._api.getProfile()
+      .pipe(
+        take(1),
+        // catchError(error => of(error))
+        catchError(error => {
+          console.warn('catchError!!!!!!!!! ', error);
+          return of(error);
+        })
+      )
+      .subscribe(data => {
+        console.warn('FIRE subscribe');
+        console.warn('data ', data);
+        this.profile$$.next(data);
+      });
+  }
 }

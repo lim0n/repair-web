@@ -8,9 +8,10 @@ import { PlatformService } from './platform.service';
 @Injectable({
     providedIn: 'root',
 })
-export class Authentication {
-    private userData$$!: BehaviorSubject<User | null>;
+export class AuthenticationService {
+    private userData$$ = new BehaviorSubject<User | null>(null);
     public currentUser$!: Observable<User | null>;
+    localStorage: Storage | undefined;
 
     constructor(
         private http: HttpClient,
@@ -18,9 +19,9 @@ export class Authentication {
         @Inject(DOCUMENT) private _document: Document
     ) {
         if (this._platform.isServer) return;
-        const localStorage = this._document.defaultView?.localStorage;
+        this.localStorage = this._document.defaultView?.localStorage;
         if (localStorage) {
-            this.userData$$ = new BehaviorSubject<User | null>( typeof localStorage.getItem('currentUser') === 'string' ? JSON.parse( <string>localStorage.getItem('currentUser') ) : null);
+            this.userData$$.next( JSON.parse( <string>this.localStorage?.getItem('currentUser') ) );
             this.currentUser$ = this.userData$$.asObservable();
         }
     }
@@ -30,17 +31,20 @@ export class Authentication {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`,
+        console.warn('username, password', username, password);
+        console.warn('FIRE AuthenticationService login', `${environment.apiUrl}/auth/login`)
+        return this.http.post<any>(`${environment.apiUrl}/auth/login`,
             { username, password })
             .pipe(map(user => {
-                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.localStorage?.setItem('currentUser', JSON.stringify(user));
                 this.userData$$.next(user);
                 return user;
             }));
     }
 
     logout() {
-        localStorage.removeItem('currentUser');
+        console.warn('FIRE AuthenticationService logout');
+        this.localStorage?.removeItem('currentUser');
         this.userData$$.next(null);
     }
 }
