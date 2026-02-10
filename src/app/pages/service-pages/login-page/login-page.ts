@@ -57,17 +57,17 @@ export class LoginPage implements OnInit {
 
     this.loading = true;
     this.authenticationService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
-      // .pipe(first())
-      // .subscribe({
-      //   next: (data) => {
-      //     console.warn(data);
-      //     this.router.navigate([this.returnUrl]);
-      //   },
-      //   error: (error) => {
-      //     this.error = error;
-      //     this.loading = false;
-      //   }
-      // })
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          console.warn(data);
+          // this.router.navigate([this.returnUrl]);
+        },
+        error: (error) => {
+          this.error = error;
+          this.loading = false;
+        }
+      })
       ;
   }
 }

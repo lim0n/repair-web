@@ -13,17 +13,8 @@ export class ProfileService {
   ) { }
 
   getProfile(): Observable<any> {
-
+    console.warn('FIRE getProfile');
     const url = new URL(`/auth/profile`, environment.apiUrl);
-    // return this._api.get(String(url));
-    console.warn(String(url));
-    const x = this._api.get(String(url));
-    console.warn(x);
-
-    // const x = this._api.get<any>(`${environment.apiUrl}/auth/profile`, { mode: 'cors' });
-    // console.warn('FIRE getProfile', `${environment.apiUrl}/auth/profile`, { mode: 'cors' });
-    // console.warn(x);
-    return x;
-    // return this._api.get(`${environment.apiUrl}/auth/profile`, { mode: 'cors' });
+    return this._api.get(String(url));
   }
 }
