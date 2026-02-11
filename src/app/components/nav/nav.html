@@ -1,0 +1,15 @@
+<fieldset>
+  <legend align="left"><a routerLink="/">Web App</a></legend>
+  <nav>
+    <dl>
+      <dt routerLinkActive="active-route-container">
+        <a routerLink="manager" routerLinkActive="active-route" [routerLinkActiveOptions]="{ exact: true }">manager</a>
+      </dt>
+      <dd>
+        <a routerLink="manager/users" routerLinkActive="active-route">users</a>
+      </dd>
+      <!-- <li><a routerLink="login" routerLinkActive="active-route">login</a></li> -->
+      <!-- <li><a (click)="logout()">logout</a></li> -->
+    </dl>
+  </nav>
+</fieldset>

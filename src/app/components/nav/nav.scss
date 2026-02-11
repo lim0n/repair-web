@@ -1,0 +1,15 @@
+.app-nav {
+
+  dd {
+    display: none;
+  }
+
+  dt.active-route-container + dd {
+    display: block;
+  }
+  
+  .active-route {
+    text-decoration: none;
+    color: CanvasText;
+  }
+}

@@ -23,7 +23,8 @@ export const routes: Routes = [
     },
     {
         path: 'manager',
-        loadComponent: () => import('@pages/manager/manager-page').then(m => m.ManagerPage),
+        // loadComponent: () => import('@pages/manager/manager-page').then(m => m.ManagerPage),
+        loadChildren: () => import('@pages/manager/manager-page.routes').then(m => m.MANAGER_PAGE_ROUTES),
         canActivate: [ authGuard ]
     },
     {

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
+import { Nav } from './components/nav/nav';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { AuthenticationService } from './services/authentication.service';
   imports: [
     RouterOutlet,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    Nav
   ]
 })
 export class App {
