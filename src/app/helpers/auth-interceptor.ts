@@ -9,6 +9,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const authenticationService = inject(AuthenticationService);
 
   return next(req).pipe(catchError(err => {
+      console.warn('err', err);
       if (err.status === 401) {
           // auto logout if 401 response returned from api
           authenticationService.logout();

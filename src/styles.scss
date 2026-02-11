@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  color-scheme: light dark;
+  --light-link-color: #00f;
+  --dark-link-color: #99c3ff;
+  // --link-color: light-dark( var(--light-link-color), var(--dark-link-color) );
+
+  --link-color: var(--light-link-color);
+
+  @media (prefers-color-scheme: dark) {
+    --link-color: var(--dark-link-color);
+  }
+}
+
+a:link {
+  color: var(--link-color);
+}
+
+a:active,
+a.active-route {
+  // color: 
+}
