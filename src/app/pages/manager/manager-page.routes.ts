@@ -13,7 +13,7 @@ export const MANAGER_PAGE_ROUTES: Routes = [
   },
   {
     path: 'users/:username',
-    loadComponent: () => import('@pages/manager/users//user/user-page').then(m => m.UserPage),
+    loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
     title: 'Users page'
   }
 ];

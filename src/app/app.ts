@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal, ViewEncapsulation } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { Nav } from './components/nav/nav';
 
@@ -11,8 +11,6 @@ import { Nav } from './components/nav/nav';
   encapsulation: ViewEncapsulation.None,
   imports: [
     RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
     Nav
   ]
 })
@@ -20,8 +18,7 @@ export class App {
   protected readonly title = signal('web-app');
 
   constructor(
-    private _auth: AuthenticationService,
-    // readonly routerLinkActive: Touterli
+    private _auth: AuthenticationService
   ) {}
 
   logout() {

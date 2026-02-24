@@ -1,1 +1,66 @@
-<p>user-page works!</p>
+<!-- <pre>{{ user$$ | async | json }}</pre> -->
+<!-- <pre>username {{ (user$$ | async)?.username }}</pre> -->
+<!-- usernam = {{ username }} -->
+
+<fieldset>
+  <legend>{{ username }}</legend>
+  
+  @if ((user$$ | async)?.username) {
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <label for="id">Id:</label>
+        <input id="id" formControlName="id" type="text">
+  
+        <label for="userName">Login:</label>
+        <input id="userName" formControlName="username" type="text">
+  
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" type="password">
+  
+        <label for="email">Email:</label>
+        <input id="email" formControlName="email" type="text">
+  
+        <label for="name">Имя:</label>
+        <input id="name" formControlName="name" type="text">
+  
+        <label for="phone">Телефон:</label>
+        <input id="phone" formControlName="phone" type="text">
+  
+        <label for="user_role">Роль:</label>
+        <select formControlName="user_role">
+          <option>admin</option>
+          <option>manager</option>
+          <option>editor</option>
+          <option>viewer</option>
+        </select>
+
+        <label for="created_at">Создан:</label>
+        <input id="created_at" formControlName="created_at" type="datetime-local">
+
+        <label for="deleted_at">Удалён:</label>
+        <input id="deleted_at" formControlName="deleted_at" type="datetime-local">
+
+        <!-- <label for="deleted_at">Удалён:</label>
+        <input id="deleted_at" formControlName="deleted_at" type="datetime"> -->
+  
+  
+        <!-- Add validation feedback if needed -->
+        <!-- <div *ngIf="userForm.get('name').invalid && userForm.get('name').touched">
+          Name is required.
+        </div> -->
+  
+      <!-- <div>
+        <label for="description">Description:</label>
+        <textarea id="description" formControlName="description"></textarea>
+      </div> -->
+  
+      <!-- Add other fields -->
+      <div class="btn-group">
+        <button type="submit" [disabled]="!userForm.valid">Save Changes</button>
+        <button type="button" (click)="onDelete()">Delete user</button>
+      </div>
+    </form>
+  }
+  @else {
+    Пользователь {{ username }} не найден
+  }
+</fieldset>

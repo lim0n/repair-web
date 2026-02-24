@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT, Inject, Injectable } from '@angular/core';
-import { User } from '@interfaces/user.interface';
+import { IUser } from '@interfaces/user.interface';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
 import { PlatformService } from './platform.service';
@@ -9,8 +9,8 @@ import { PlatformService } from './platform.service';
     providedIn: 'root',
 })
 export class AuthenticationService {
-    private userData$$ = new BehaviorSubject<User | null>(null);
-    public currentUser$!: Observable<User | null>;
+    private userData$$ = new BehaviorSubject<IUser | null>(null);
+    public currentUser$!: Observable<IUser | null>;
     localStorage: Storage | undefined;
 
     constructor(
@@ -26,7 +26,7 @@ export class AuthenticationService {
         }
     }
 
-    public get currentUserValue(): User | null {
+    public get currentUserValue(): IUser | null {
         return this.userData$$.value;
     }
 
