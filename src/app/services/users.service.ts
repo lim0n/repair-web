@@ -24,13 +24,18 @@ export class UsersService {
 
   updateUser(id: string, item: IUser): Observable<any> {
     const url = new URL(`/users/${id}`, environment.apiUrl);
-    return this._api.put<any>(String(url),item);
+    return this._api.put<any>(String(url), item);
   }
 
   deleteUser(id: string) {
     const url = new URL(`/users/${id}`, environment.apiUrl);
     console.warn('UsersService deleteUser', id, 'url', String(url));
     return this._api.delete<void>(String(url));
+  }
+
+  createUser(item: IUser): Observable<any> {
+    const url = new URL(`/users`, environment.apiUrl);
+    return this._api.post<any>(String(url), item);
   }
   
 }

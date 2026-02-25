@@ -1,0 +1,57 @@
+<fieldset>
+  <legend>{{ username || 'Создать пользователя' }} - {{ serverError }}</legend>
+
+  @if (serverError) {
+    <p>Пользователь удалён, или произошла ошибка</p>
+  } @else {
+
+    @if (userForm.hasError('requiredUserIdField') && userForm.dirty) {
+      <div>Нужно ввести логин, или номер телефона пользователя, или адрес его электронной почты</div>
+    }
+    
+    <!-- <div [hidden]="!userForm.hasError('requiredUserIdField')" class="error">Нужно ввести логин, или номер телефона пользователя, или адрес его электронной почты</div> -->
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <label for="id">Id:</label>
+      <input id="id" formControlName="id" type="text">
+
+      <label for="userName">Login:</label>
+      <input id="userName" formControlName="username" type="text" autocomplete="off" />
+
+      <label for="password">Password:</label>
+      <input id="password" formControlName="password" type="password" autocomplete="off" />
+
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="text" autocomplete="off" />
+
+      <label for="name">Имя:</label>
+      <input id="name" formControlName="name" type="text" autocomplete="off" />
+
+      <label for="phone">Телефон:</label>
+      <input id="phone" formControlName="phone" type="text" autocomplete="off" />
+
+      <label for="user_role">Роль:</label>
+      <select id="user_role" formControlName="user_role">
+        <option>admin</option>
+        <option>manager</option>
+        <option>editor</option>
+        <option>viewer</option>
+      </select>
+
+      <label for="created_at">Создан:</label>
+      <input id="created_at" formControlName="created_at" type="datetime-local">
+
+      <label for="updated_at">Обновлён:</label>
+      <input id="updated_at" formControlName="updated_at" type="datetime-local">
+
+    <div class="btn-group">
+      @if ((user$$ | async)?.username) {
+        <button type="submit" [disabled]="!userForm.valid">Сохранить изменения</button>
+        <button type="button" (click)="onDelete()">Удалить пользователя</button>
+      } @else {
+        <button type="submit" [disabled]="!userForm.valid">Создать пользователя</button>
+      }
+    </div>
+  </form>
+  }
+</fieldset>

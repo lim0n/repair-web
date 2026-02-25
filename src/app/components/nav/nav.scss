@@ -5,7 +5,9 @@
   }
 
   dt.active-route-container + dd {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
   
   .active-route {
