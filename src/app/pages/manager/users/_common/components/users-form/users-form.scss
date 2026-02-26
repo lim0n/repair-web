@@ -12,5 +12,9 @@
       grid-template-columns: 1fr 1fr;
       gap: 1ex;
     }
+
+    input + .alert {
+      grid-column-end: span 2;
+    }
   }
 }

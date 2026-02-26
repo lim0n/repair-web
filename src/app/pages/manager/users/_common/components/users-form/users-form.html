@@ -1,34 +1,50 @@
 <fieldset>
-  <legend>{{ username || 'Создать пользователя' }} - {{ serverError }}</legend>
+  <legend>{{ username || 'Создать пользователя' }}</legend>
 
   @if (serverError) {
     <p>Пользователь удалён, или произошла ошибка</p>
   } @else {
 
-    @if (userForm.hasError('requiredUserIdField') && userForm.dirty) {
+    <!-- @if (userForm.hasError('requiredUserIdField') && userForm.dirty) {
       <div>Нужно ввести логин, или номер телефона пользователя, или адрес его электронной почты</div>
-    }
+    } -->
     
-    <!-- <div [hidden]="!userForm.hasError('requiredUserIdField')" class="error">Нужно ввести логин, или номер телефона пользователя, или адрес его электронной почты</div> -->
-
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <label for="id">Id:</label>
       <input id="id" formControlName="id" type="text">
 
       <label for="userName">Login:</label>
       <input id="userName" formControlName="username" type="text" autocomplete="off" />
+      @if (userForm.hasError('requiredUserIdField') && userForm.dirty) {
+        <div class="alert">Логин, если он окажется уникальным, может стать идентификатором иользователя</div>
+      }
 
       <label for="password">Password:</label>
       <input id="password" formControlName="password" type="password" autocomplete="off" />
 
       <label for="email">Email:</label>
-      <input id="email" formControlName="email" type="text" autocomplete="off" />
+      <input id="email"
+        formControlName="email"
+        type="text"
+        autocomplete="off" />
+      @if (userForm.hasError('requiredUserIdField') && userForm.dirty) {
+        <div class="alert">Адрес электронной почты (email)  может быть идентификатором иользователя</div>
+      }
 
       <label for="name">Имя:</label>
       <input id="name" formControlName="name" type="text" autocomplete="off" />
+      <!-- <div [hidden]="name.valid || name.untouched" class="alert">
+        Не указано имя
+      </div> -->
 
       <label for="phone">Телефон:</label>
-      <input id="phone" formControlName="phone" type="text" autocomplete="off" />
+      <input id="phone"
+        formControlName="phone"
+        type="text"
+        autocomplete="off" />
+      @if (userForm.hasError('requiredUserIdField') && userForm.dirty) {
+        <div class="alert">Номер телефона может быть идентификатором иользователя</div>
+      }
 
       <label for="user_role">Роль:</label>
       <select id="user_role" formControlName="user_role">

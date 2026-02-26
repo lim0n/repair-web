@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '@app/services/users.service';
 import { IUser } from '@interfaces/user.interface';
@@ -47,11 +47,14 @@ export class UsersForm implements OnInit {
 
     this.userForm = this._fb.group({
       id: [{value: '', disabled: true}],
-      username: [{value: '', disabled: this.username !== null}],
-      password: '',
-      email: '',
-      name: '',
-      phone: '',
+      username: [
+        {value: '', disabled: this.username !== null},
+        Validators.maxLength(30)
+      ],
+      password: ['', [Validators.maxLength(90)]],
+      email: ['', [Validators.email, Validators.maxLength(50)]],
+      name: ['', [Validators.maxLength(90)]],
+      phone: ['', [Validators.maxLength(20)]],
       user_role: '',
       created_at: [{value: '', disabled: true}],
       updated_at: [{value: '', disabled: true}]
@@ -70,7 +73,9 @@ export class UsersForm implements OnInit {
           return data;
         })
       )
-      .subscribe(data => this.userForm.patchValue(data));
+      .subscribe(data => {
+        console.warn('patchValue', data);
+        this.userForm.patchValue(data)});
 
     if (this.username) {
       this._usersService.getUserByUserName(String(this.username))

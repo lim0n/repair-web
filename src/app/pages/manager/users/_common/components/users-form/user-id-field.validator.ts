@@ -1,7 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 /**
- * Проверка, что заполнен хотя бы один идентификатор пользователя - номер телефона, электропочта или логин
+ * Проверка, что заполнен хотя бы один идентификатор пользователя - номер телефона,
+ * электропочта или логин
  * @returns A ValidatorFn.
  */
 export function requiredUserIdField (control: AbstractControl): ValidationErrors | null {
