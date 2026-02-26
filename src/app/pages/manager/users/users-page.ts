@@ -5,6 +5,7 @@ import {
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -16,6 +17,8 @@ import {
   take
 } from 'rxjs';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
+import { FnPipe } from '@app/pipes/fn-pipe';
+import { IUser } from '@interfaces/user.interface';
 
 @Component({
   selector: 'app-users-page',
@@ -27,15 +30,20 @@ import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
   imports: [
     AsyncPipe,
     KeyValuePipe,
-    RouterLink
+    RouterLink,
+    FnPipe
   ],
 })
-export class UsersPage {
+export class UsersPage implements OnInit {
   users$$ = new BehaviorSubject(null);
 
   constructor(
     private _usersService: UsersService
   ) {
+    
+  }
+
+  ngOnInit(): void {
     this._usersService.getUsersList()
       .pipe(
         take(1),
@@ -46,6 +54,14 @@ export class UsersPage {
       .subscribe(data => {
         this.users$$.next(data);
       });
+  }
+
+  getRoute(user: IUser): string[] {
+    const route = ['.'];
+    user?.username 
+      ? route.push(user.username) 
+      : route.push('id', String(user?.id));
+    return route;
   }
 
   readonly keepJsonOrder = keepJsonOrder;

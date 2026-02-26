@@ -45,7 +45,7 @@
       <input id="updated_at" formControlName="updated_at" type="datetime-local">
 
     <div class="btn-group">
-      @if ((user$$ | async)?.username) {
+      @if ((user$$ | async)?.id) {
         <button type="submit" [disabled]="!userForm.valid">Сохранить изменения</button>
         <button type="button" (click)="onDelete()">Удалить пользователя</button>
       } @else {

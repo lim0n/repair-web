@@ -29,8 +29,6 @@ export class ManagerPage {
         })
       )
       .subscribe(data => {
-        console.warn('FIRE subscribe');
-        console.warn('data ', data);
         this.profile$$.next(data);
       });
   }

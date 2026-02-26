@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '@app/services/users.service';
 import { IUser } from '@interfaces/user.interface';
@@ -34,6 +34,11 @@ export class UsersForm implements OnInit {
 
   ngOnInit(): void {
     this.username = this._route.snapshot.paramMap.get('username');
+    
+    if (this._route.snapshot.paramMap.get('userid') !== null) {
+      this.userid = String(this._route.snapshot.paramMap.get('userid'));
+    };
+
 
     const formOptions: AbstractControlOptions = {
       validators: [ requiredUserIdField ],
@@ -52,6 +57,21 @@ export class UsersForm implements OnInit {
       updated_at: [{value: '', disabled: true}]
     }, formOptions);
 
+    this.user$$
+      .pipe(
+        filter(val => val != null),
+        map(data => {
+          if (data.created_at && typeof data.created_at === 'string') {
+            data.created_at = datetimeTzToDatetimeLocal(data.created_at)
+          }
+          if (data.updated_at && typeof data.updated_at === 'string') {
+            data.updated_at = datetimeTzToDatetimeLocal(data.updated_at)
+          }
+          return data;
+        })
+      )
+      .subscribe(data => this.userForm.patchValue(data));
+
     if (this.username) {
       this._usersService.getUserByUserName(String(this.username))
         .pipe(
@@ -65,21 +85,18 @@ export class UsersForm implements OnInit {
           this.user$$.next(data);
           this.userid = data.id;
         });
-
-        this.user$$
-          .pipe(
-            filter(val => val != null),
-            map(data => {
-              if (data.created_at && typeof data.created_at === 'string') {
-                data.created_at = datetimeTzToDatetimeLocal(data.created_at)
-              }
-              if (data.updated_at && typeof data.updated_at === 'string') {
-                data.updated_at = datetimeTzToDatetimeLocal(data.updated_at)
-              }
-              return data;
-            })
-          )
-          .subscribe(data => this.userForm.patchValue(data));
+    } else if (this.userid) {
+      this._usersService.getUserById(String(this.userid))
+        .pipe(
+          take(1),
+          catchError(error => {
+            this.serverError = error;
+            return of(error);
+          })
+        )
+        .subscribe(data => {
+          this.user$$.next(data);
+        });
     }
   }
 
@@ -93,7 +110,7 @@ export class UsersForm implements OnInit {
         //   formData.created_at = utcDate.toISOString();
         // }
 
-        if (this.username) {
+        if (this.userid) {
           this._usersService.updateUser(this.userid, formData)
           .subscribe({
             next: (response) => {
@@ -106,8 +123,6 @@ export class UsersForm implements OnInit {
             }
           });
         } else {
-          console.warn('create, this.userForm.valid', this.userForm.valid);
-          console.warn('create, formData', formData);
           this._usersService.createUser(formData)
             .subscribe({
               next: (response) => {
@@ -124,7 +139,6 @@ export class UsersForm implements OnInit {
     }
   
     onDelete() {
-      console.warn('onDelete', this.userid);
       this._usersService.deleteUser(this.userid)
         .subscribe({
             next: (response) => {

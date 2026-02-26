@@ -2,19 +2,19 @@
   <legend>Users page</legend>
   <table border="1">
     @for (user of (users$$ | async); track user.id; let i = $index) {
-      <tr>
-        @if (i == 0) {
+      @if (i == 0) {
+          <tr>
           @for (item of user | keyvalue : keepJsonOrder; track item.key) {
             <th>
               {{ item.key }}
             </th>
           }
-        }
-      </tr>
+        </tr>
+      }
     }
 
     @for (user of (users$$ | async); track user.id) {
-      <tr [routerLink]="['.', user.username]" class="clickable">
+      <tr [routerLink]="user | fn : getRoute" class="clickable">
         @for (item of user | keyvalue : keepJsonOrder; track item.key) {
           <td>{{ item.value }}</td>
         }
