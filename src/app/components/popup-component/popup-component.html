@@ -1,0 +1,7 @@
+<fieldset>
+  <legend>{{ message || 'popup-component works!' }}</legend>
+
+  <ng-container *ngComponentOutlet="component"></ng-container>
+
+  <button (click)="close()">close</button>
+</fieldset>
