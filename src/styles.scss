@@ -1,40 +1,40 @@
-:root {
-  color-scheme: light dark;
-  --light-link-color: #00f;
-  --dark-link-color: #99c3ff;
-  // --link-color: light-dark( var(--light-link-color), var(--dark-link-color) );
+// :root {
+//   color-scheme: light dark;
+//   --light-link-color: #00f;
+//   --dark-link-color: #99c3ff;
+//   // --link-color: light-dark( var(--light-link-color), var(--dark-link-color) );
 
-  --link-color: var(--light-link-color);
+//   --link-color: var(--light-link-color);
 
-  @media (prefers-color-scheme: dark) {
-    --link-color: var(--dark-link-color);
-  }
-}
+//   @media (prefers-color-scheme: dark) {
+//     --link-color: var(--dark-link-color);
+//   }
+// }
 
-a {
+// a {
 
-  &:link {
-    color: var(--link-color);
-  }
-}
+//   &:link {
+//     color: var(--link-color);
+//   }
+// }
 
-// https://codepen.io/dutchcelt/pen/ExBYzrx
-// AccentColor: The background color for accented user interface controls
-// AccentColorText: The text color for accented user interface controls
-// ActiveText: The text color of active links
-// ButtonBorder: The base border color for controls
-// ButtonFace: The background color for controls
-// ButtonText: The text color for controls
-// Canvas: The background color of an application’s content or documents
-// CanvasText: The text color used in an application’s content or documents
-// Field: The background color for input fields
-// FieldText: The text color inside form input fields
-// GrayText: The text color for disabled items (e.g., a disabled control)
-// Highlight: The background color for selected items
-// HighlightText: The text color for selected items
-// LinkText: The text color used for non-active, non-visited links
-// Mark: The background color for text marked up in a <mark> element
-// MarkText: The text color for text marked up in a <mark> element
-// SelectedItem: The background color for selected items (e.g., a selected checkbox)
-// SelectedItemText: The text color for selected items
-// VisitedText: The text visited links
+// // https://codepen.io/dutchcelt/pen/ExBYzrx
+// // AccentColor: The background color for accented user interface controls
+// // AccentColorText: The text color for accented user interface controls
+// // ActiveText: The text color of active links
+// // ButtonBorder: The base border color for controls
+// // ButtonFace: The background color for controls
+// // ButtonText: The text color for controls
+// // Canvas: The background color of an application’s content or documents
+// // CanvasText: The text color used in an application’s content or documents
+// // Field: The background color for input fields
+// // FieldText: The text color inside form input fields
+// // GrayText: The text color for disabled items (e.g., a disabled control)
+// // Highlight: The background color for selected items
+// // HighlightText: The text color for selected items
+// // LinkText: The text color used for non-active, non-visited links
+// // Mark: The background color for text marked up in a <mark> element
+// // MarkText: The text color for text marked up in a <mark> element
+// // SelectedItem: The background color for selected items (e.g., a selected checkbox)
+// // SelectedItemText: The text color for selected items
+// // VisitedText: The text visited links

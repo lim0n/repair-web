@@ -1,0 +1,25 @@
+@use "sass:map";
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 37.5rem, // 600
+  md: 60rem, // 960
+  lg: 75rem, // 1200
+  xl: 100rem // 1600
+) !default;
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map.get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

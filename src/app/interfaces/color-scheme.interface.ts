@@ -1,0 +1,1 @@
+export type IColorScheme = 'dark' | 'light' | 'light dark';

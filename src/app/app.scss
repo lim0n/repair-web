@@ -1,0 +1,48 @@
+@use "styles/tools" as *;
+
+.app-root {
+  display: block;
+}
+
+:root {
+  color-scheme: light dark;
+  --breakpoint-sm: 37.5rem; // 600
+  --breakpoint-md: 60rem; // 960
+  --breakpoint-lg: 75rem; // 1200
+  --current-max: var(--breakpoint-sm);
+  --max-container: calc(var(--current-max) - 2rem);
+
+  @include media-breakpoint-up(md) {
+    --current-max: var(--breakpoint-md);
+  }
+
+  @include media-breakpoint-up(lg) {
+    --current-max: var(--breakpoint-lg);
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 1vw;
+  }
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+html,
+input,
+textarea,
+select,
+button {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  max-width: var(--max-container);
+  margin-left: auto;
+  margin-right: auto;
+}

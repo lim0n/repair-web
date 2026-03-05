@@ -4,7 +4,7 @@ import { authGuard } from './helpers/auth-guard';
 export const routes: Routes = [
     {
         path: '',
-        loadComponent: () => import('@pages/home/home').then(m => m.Home),
+        loadChildren: () => import('@pages/site.routes').then(m => m.MANAGER_PAGE_ROUTES),
         title: 'Home page'
     },
     {
