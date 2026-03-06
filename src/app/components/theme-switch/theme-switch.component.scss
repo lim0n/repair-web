@@ -1,0 +1,84 @@
+.theme-switch {
+
+  @mixin day {
+    .theme-switch__sun {
+      transform: rotate(0deg);
+    }
+
+    .theme-switch__moon {
+      transform: rotate(0deg);
+    }
+  }
+
+  @mixin night {
+    .theme-switch__sun {
+      transform: rotate(-180deg);
+    }
+
+    .theme-switch__moon {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__current {
+    width: 2em;
+    height: 2em;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  &__circle {
+    width: 200%;
+    height: 200%;
+    position: relative;
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+    transform-origin: 25% 25%;
+    transform: rotate(-45deg);
+
+    > * {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+
+    [data-theme='light dark'] & {
+      @media (prefers-color-scheme: dark) {
+        @include night;
+      }
+
+      @media (prefers-color-scheme: light) {
+        @include day;
+      }
+    }
+
+    [data-theme='dark'] & {
+      @include night;
+    }
+
+    [data-theme='light'] & {
+      @include day;
+    }
+  }
+  
+  &__sun {
+    transform-origin: 100% 100%;
+    transition: transform .5s;
+  }
+
+  &__moon {
+    grid-area: 2 / 2 / 3 / 3;
+    transform-origin: 0 0;
+    transition: transform .5s;
+
+    svg {
+      transform: rotate(260deg);
+    }
+  }
+
+  svg {
+    fill: currentcolor;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+}

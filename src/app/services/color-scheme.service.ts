@@ -1,4 +1,4 @@
-import { DOCUMENT, Inject, Injectable, signal } from '@angular/core';
+import { DOCUMENT, effect, Inject, Injectable, signal } from '@angular/core';
 import { IColorScheme } from '@interfaces/color-scheme.interface';
 import { PlatformService } from './platform.service';
 
@@ -7,58 +7,59 @@ import { PlatformService } from './platform.service';
 })
 export class ColorSchemeService {
   private window!: Window | null;
-  prefersDark: boolean | undefined;
-  prefersLight: boolean | undefined;
-  usedColorScheme!: IColorScheme;
-  localStorage: Storage | undefined;
-
-  private colorScheme = signal<IColorScheme>('light dark');
-  public readonly currentColorScheme = this.colorScheme.asReadonly();
-  
+  private prefersDark: boolean | undefined;
+  private prefersLight: boolean | undefined;
+  private localStorage: Storage | undefined;
+  colorScheme = signal<IColorScheme>('light dark');
 
   constructor(
     private _platform: PlatformService,
     @Inject(DOCUMENT) private _document: Document,
   ) {
-    if (this._platform.isServer) return;
+    if (this._platform.isServer) {
+      this.appendHeadScript();
+      return;
+    };
     this.window = this._document.defaultView;
     this.localStorage = this.window?.localStorage;
-    this.usedColorScheme = <IColorScheme>this.localStorage?.getItem('usedColorScheme');
     this.init();
-    this.initSignal();
   }
 
-  get getScheme(): IColorScheme {
-    return this.usedColorScheme;
+  switchScheme(suggestedScheme?: IColorScheme) {
+    this.colorScheme.update((current) => {
+      if (suggestedScheme) {
+        return suggestedScheme;
+      } else if (current === 'light dark' && this.prefersDark) {
+        return 'light';
+      } else if (current === 'light dark' && this.prefersLight) {
+        return 'dark';
+      } else {
+        return current === 'dark' ? 'light' : 'dark';
+      }
+    });
   }
 
-  init(): void {
+  private init(): void {
     this.prefersDark = this.window?.matchMedia('(prefers-color-scheme: dark)').matches;
     this.prefersLight = this.window?.matchMedia('(prefers-color-scheme: light)').matches;
-
-    if (this.usedColorScheme === null) {
-      this.usedColorScheme = this.prefersDark ? 'dark' : 'light';
-    }
-  }
-
-  initSignal(): void {
-    const storedScheme = <IColorScheme>this.localStorage?.getItem('usedColorScheme');
+    const storedScheme = <IColorScheme>this.localStorage?.getItem('color-scheme');
     if (storedScheme !== null) this.colorScheme.set(storedScheme);
-
+    effect(() => {
+      this.updateMarkup( this.colorScheme() );
+      this.localStorage?.setItem('color-scheme', this.colorScheme());
+    });
   }
 
-  selectInvertedScheme() {
-    return this.usedColorScheme == 'dark' ? 'light' : 'dark';
+  private updateMarkup(value: IColorScheme): void {
+    const rootEl = this._document.documentElement;
+    rootEl.dataset['theme'] = value;
   }
 
-  toggleScheme(suggestedScheme?: IColorScheme) {
-    const body = this._document.documentElement;
-    
-    this.usedColorScheme = suggestedScheme || this.selectInvertedScheme();
-    this.colorScheme.set(suggestedScheme || this.selectInvertedScheme());
-
-    this.localStorage?.setItem('usedColorScheme', this.usedColorScheme);
-    body.style.colorScheme = this.usedColorScheme;
+  private appendHeadScript() {
+    var code = 'document.documentElement.dataset.theme = localStorage.getItem("color-scheme") || "light dark";';
+    var scriptTag = this._document.createElement("script");
+    scriptTag.setAttribute("type", "text/javascript");
+    scriptTag.appendChild(this._document.createTextNode(code));
+    this._document.head.appendChild(scriptTag);
   }
-  
 }

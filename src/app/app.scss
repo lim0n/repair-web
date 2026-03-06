@@ -5,7 +5,10 @@
 }
 
 :root {
-  color-scheme: light dark;
+  &, &[data-theme='light dark'] { color-scheme: light dark; }
+  &[data-theme='light'] { color-scheme: light; }
+  &[data-theme='dark'] { color-scheme: dark; }
+
   --breakpoint-sm: 37.5rem; // 600
   --breakpoint-md: 60rem; // 960
   --breakpoint-lg: 75rem; // 1200
@@ -39,6 +42,7 @@ button {
 
 body {
   margin: 0;
+
 }
 
 .container {
