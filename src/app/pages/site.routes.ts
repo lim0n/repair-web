@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const MANAGER_PAGE_ROUTES: Routes = [
+export const SITE_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('@components/site-template/site-template.component').then((m) => m.SiteTemplateComponent),

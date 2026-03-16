@@ -1,0 +1,28 @@
+<fieldset>
+  <legend>Orders page</legend>
+  <table border="1">
+    @for (order of (orders$$ | async); track order.id; let i = $index) {
+      @if (i == 0) {
+          <tr>
+          @for (item of order | keyvalue : keepJsonOrder; track item.key) {
+            <th>
+              {{ item.key }}
+            </th>
+          }
+        </tr>
+      }
+    }
+
+    @for (order of (orders$$ | async); track order.id) {
+      <tr [routerLink]="['.', order.id]" class="clickable">
+        @for (item of order | keyvalue : keepJsonOrder; track item.key) {
+          <td>{{ item.value }}</td>
+        }
+      </tr>
+    } @empty {
+      <tfoot>
+        <tr><td>No orders found</td></tr>
+      </tfoot>
+    }
+  </table>
+</fieldset>

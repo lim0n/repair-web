@@ -1,0 +1,14 @@
+.manager-template {
+
+  &__header {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+}
