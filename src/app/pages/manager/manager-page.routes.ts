@@ -8,38 +8,75 @@ export const MANAGER_PAGE_ROUTES: Routes = [
       {
         path: '',
         loadComponent: () => import('@pages/manager/manager-page').then(m => m.ManagerPage),
-        title: 'Manager page'
+        title: 'Manager'
       },
       {
         path: 'users',
-        loadComponent: () => import('@pages/manager/users/users-page').then(m => m.UsersPage),
-        title: 'Users page'
+        // loadComponent: () => import('@pages/manager/users/users-page').then(m => m.UsersPage),
+        title: 'Users',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('@pages/manager/users/users-page').then(m => m.UsersPage),
+            // title: 'Users',
+          },
+          {
+            path: 'create-user',
+            loadComponent: () => import('@pages/manager/users/create-user/create-user-page').then(m => m.CreateUserPage),
+            title: 'Create user'
+          },
+          {
+            path: 'id/:userid',
+            loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
+            title: 'User'
+          },
+          {
+            path: ':username',
+            loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
+            title: 'User'
+          },
+        ]
       },
-      {
-        path: 'users/create-user',
-        loadComponent: () => import('@pages/manager/users/create-user/create-user-page').then(m => m.CreateUserPage),
-        title: 'Users page'
-      },
-      {
-        path: 'users/id/:userid',
-        loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
-        title: 'Users page'
-      },
-      {
-        path: 'users/:username',
-        loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
-        title: 'Users page'
-      },
+      // {
+      //   path: 'create-user',
+      //   loadComponent: () => import('@pages/manager/users/create-user/create-user-page').then(m => m.CreateUserPage),
+      //   title: 'Create user'
+      // },
+      // {
+      //   path: 'users/id/:userid',
+      //   loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
+      //   title: 'User'
+      // },
+      // {
+      //   path: 'users/:username',
+      //   loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
+      //   title: 'User'
+      // },
       {
         path: 'orders',
-        loadComponent: () => import('@pages/manager/orders/orders-page.component').then(m => m.OrdersPageComponent),
-        title: 'Orders page'
+        title: 'Orders',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('@pages/manager/orders/orders-page.component').then(m => m.OrdersPageComponent),
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('@pages/manager/orders/order/order-page.component').then(m => m.OrderPageComponent),
+            title: 'Order'
+          },
+        ]
       },
-      {
-        path: 'orders/:id',
-        loadComponent: () => import('@pages/manager/orders/order/order-page.component').then(m => m.OrderPageComponent),
-        title: 'Users page'
-      },
+      // {
+      //   path: 'orders',
+      //   loadComponent: () => import('@pages/manager/orders/orders-page.component').then(m => m.OrdersPageComponent),
+      //   title: 'Orders',
+      // },
+      // {
+      //   path: 'orders/:id',
+      //   loadComponent: () => import('@pages/manager/orders/order/order-page.component').then(m => m.OrderPageComponent),
+      //   title: 'Order'
+      // },
     ]
   }
   

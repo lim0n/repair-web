@@ -1,9 +1,10 @@
 <div class="manager-template__header container">
   <app-logo routerLink="/"></app-logo>
-  <nav>
+  <nav class="manager-template__nav">
     <a routerLink="/manager">Manager</a>
     <a routerLink="/manager/users">Users</a>
     <a routerLink="/manager/orders">Orders</a>
   </nav>
+  <app-breadcrumbs class="manager-template__breadcrumbs"></app-breadcrumbs>
 </div>
 <router-outlet></router-outlet>

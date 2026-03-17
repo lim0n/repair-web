@@ -1,29 +1,30 @@
 <fieldset>
   <legend>Users page</legend>
   <table border="1">
-    @for (user of (users$$ | async); track user.id; let i = $index) {
+    @for (user of (users$$ | async); track user; let i = $index) {
       @if (i == 0) {
+        <thead>
           <tr>
-          @for (item of user | keyvalue : keepJsonOrder; track item.key) {
-            <th>
-              {{ item.key }}
-            </th>
-          }
-        </tr>
+            @for (item of user | keyvalue : keepJsonOrder; track item.key) {
+              <th>
+                {{ item.key }}
+              </th>
+            }
+          </tr>
+        </thead>
       }
     }
-
-    @for (user of (users$$ | async); track user.id) {
-      <tr [routerLink]="user | fn : getRoute" class="clickable">
-        @for (item of user | keyvalue : keepJsonOrder; track item.key) {
-          <td>{{ item.value }}</td>
-        }
-      </tr>
-    } @empty {
-      <tfoot>
+    <tbody>
+      @for (user of (users$$ | async); track user.id) {
+        <tr [routerLink]="user | fn : getRoute" class="clickable">
+          @for (item of user | keyvalue : keepJsonOrder; track item.key) {
+            <td>{{ item.value }}</td>
+          }
+        </tr>
+      } @empty {
         <tr><td>No users found</td></tr>
-      </tfoot>
-    }
+      }
+    </tbody>
   </table>
   <button routerLink="./create-user">Создать пользователя</button>
 </fieldset>

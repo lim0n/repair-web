@@ -1,0 +1,14 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 1ex;
+
+  a {
+
+    &:last-of-type {
+      color: CanvasText;
+      text-decoration: none;
+      cursor: text;
+    }
+  }
+}

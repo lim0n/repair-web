@@ -1,14 +1,20 @@
 .manager-template {
 
   &__header {
-    display: flex;
+    display: grid;
     gap: 2rem;
     align-items: center;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
   }
 
-  nav {
+  &__nav {
     display: flex;
     gap: 1rem;
     align-items: center;
+  }
+
+  &__breadcrumbs {
+    grid-column-end: span 2;
   }
 }

@@ -19,13 +19,14 @@ export const routes: Routes = [
     },
     { 
         path: 'login',
-        loadComponent: () => import('@pages/service-pages/login-page/login-page').then(m => m.LoginPage)
+        loadComponent: () => import('@pages/service-pages/login-page/login-page').then(m => m.LoginPage),
+        title: 'Login'
     },
     {
         path: 'manager',
-        // loadComponent: () => import('@pages/manager/manager-page').then(m => m.ManagerPage),
         loadChildren: () => import('@pages/manager/manager-page.routes').then(m => m.MANAGER_PAGE_ROUTES),
-        canActivate: [ authGuard ]
+        canActivate: [ authGuard ],
+        title: 'Manager',
     },
     {
         path: '**',
