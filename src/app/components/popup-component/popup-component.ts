@@ -1,12 +1,14 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, EventEmitter, Input, Output, Type } from '@angular/core';
-// import { EventEmitter } from 'stream';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-popup-component',
+  selector: 'popup-component',
   imports: [NgComponentOutlet],
   templateUrl: './popup-component.html',
   styleUrl: './popup-component.scss',
+  host: { class: 'popup-component' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class PopupComponent {
   @Output() closed = new EventEmitter();

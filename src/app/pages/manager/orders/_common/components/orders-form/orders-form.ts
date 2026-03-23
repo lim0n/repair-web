@@ -1,9 +1,11 @@
 import { AsyncPipe, JsonPipe, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormControlState, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 import { OrderDetailsService } from '@app/services/order-details.service';
 import { OrdersService } from '@app/services/orders.service';
+import { PopupService } from '@app/services/popup.service';
 import { UsersService } from '@app/services/users.service';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
 import { IOrder } from '@interfaces/order.interface';
@@ -35,6 +37,9 @@ export class OrdersForm implements OnInit {
     private _ordersService: OrdersService,
     private _route: ActivatedRoute,
     private _fb: FormBuilder,
+    private _breadcrumbsService: BreadcrumbsService,
+    private _router: Router,
+    private _popupService: PopupService
   ) {
     
   }
@@ -57,24 +62,119 @@ export class OrdersForm implements OnInit {
       email: ['', [Validators.email, Validators.maxLength(50)]],
       name: ['', [Validators.maxLength(90)]],
       phone: ['', [Validators.maxLength(20)]],
+      details: [''],
       created_at: [{value: '', disabled: true}],
       updated_at: [{value: '', disabled: true}],
       deleted_at: [{value: '', disabled: true}]
     }, formOptions);
 
-    this._ordersService.getDetailedOrderById(String(this.orderid))
+    this.detailedOrder$$
       .pipe(
-        take(1),
-        catchError(error => {
-          this.serverError = error;
-          return of(error);
-        }),
-      )
-      .subscribe((data) => {
-        this.detailedOrder$$.next(data);
+        filter(val => val != null),
+        map(data => {
+          if (data.created_at && typeof data.created_at === 'string') {
+            data.created_at = datetimeTzToDatetimeLocal(data.created_at)
+          }
+          if (data.updated_at && typeof data.updated_at === 'string') {
+            data.updated_at = datetimeTzToDatetimeLocal(data.updated_at)
+          }
+          return data;
+        }))
+      .subscribe(data => {
+        console.warn('patchValue', data);
         this.orderForm.patchValue(data);
+        
+        const title = data.name || data.email || data.phone || data?.user?.name || data?.user?.username;
+        if (title) this._breadcrumbsService.changeLastTitle(String(title));
       });
+
+    if (this.orderid) {
+      this._ordersService.getDetailedOrderById(String(this.orderid))
+        .pipe(
+          take(1),
+          catchError(error => {
+            this.serverError = error;
+            return of(error);
+          }),
+        )
+        .subscribe((data) => {
+          this.detailedOrder$$.next(data);
+        });
+    }
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    if (this.orderForm.valid) {
+      const formData = this.orderForm.value;
+      console.warn('formData', formData);
+      if (this.orderid) {
+        // this._ordersService.updateOrder(this.orderid, formData)
+        //   .subscribe({
+        //     next: (response) => {
+        //       console.warn('Item updated successfully', response);
+        //       this._router.navigate(['..'], {relativeTo: this._route});
+        //     },
+        //     error: (error) => {
+        //       console.error('Error updating item', error);
+        //     }
+        //   });
+      }
+      else {
+        this._ordersService.createOrder(formData)
+          .subscribe({
+            next: (response) => {
+              console.warn('Item create successfully', response);
+              this._router.navigate(['..', response[0].id], {relativeTo: this._route});
+            },
+            error: (error) => {
+              console.error('Error creating item', error);
+            }
+          });
+      }
+    }
+  }
+
+  onDelete() {
+
+    this._popupService.confirm('Удалить заказ?')
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          // The inner observable (HTTP request) is only subscribed to if the filter passes
+          return this._ordersService.deleteOrder(this.orderid)
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          console.warn('Item deleted successfully', response);
+          // Redirect or show a success message
+          // this.user$$.next(response);
+        },
+        error: (error) => {
+          console.error('Error deleting item', error);
+        }
+      });
+
+
+      // .subscribe(confirmed => {
+      //   if (confirmed) {
+      //     console.log('Item deleted:', this.orderid);
+      //     // Actual deletion logic
+      //   } else {
+      //     console.log('Deletion cancelled');
+      //   }
+      // })
+
+    // this._ordersService.deleteOrder(this.orderid)
+    //   .subscribe({
+    //       next: (response) => {
+    //         console.warn('Item deleted successfully', response);
+    //         // Redirect or show a success message
+    //         // this.user$$.next(response);
+    //       },
+    //       error: (error) => {
+    //         console.error('Error deleting item', error);
+    //       }
+    //     });
+    }
 }

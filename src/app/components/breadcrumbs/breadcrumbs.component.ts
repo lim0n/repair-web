@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 

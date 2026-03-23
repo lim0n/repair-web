@@ -7,7 +7,6 @@ import { filter } from 'rxjs';
   providedIn: 'root',
 })
 export class BreadcrumbsService {
-  // breadcrumbs: IRouteEntry[] = [];
   private bs = signal<IRouteEntry[]>([]);
   breadcrumbs = this.bs.asReadonly();
 
@@ -18,14 +17,22 @@ export class BreadcrumbsService {
     this._router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.bs.set(this.dedup(this.createBreadcrumbs(this._activatedRoute.root)));
-      // this.breadcrumbs = this.createBreadcrumbs(this._activatedRoute.root);
+      this.bs.set(this.deduplicateBreadcrumbs(this.createBreadcrumbs(this._activatedRoute.root)));
     });
   }
 
-  private dedup(array: IRouteEntry[]): IRouteEntry[] {
-    const ids = new Set();
-    return array.filter(({ url }) => !ids.has(url) && ids.add(url));
+  changeLastTitle(title: string): void {
+    this.bs.update(bc => bc.map((item, index) => {
+      if (index === bc.length-1) {
+        item.title = title;
+      }
+      return item
+    }))
+  }
+
+  private deduplicateBreadcrumbs(array: IRouteEntry[]): IRouteEntry[] {
+    const entries = new Set();
+    return array.filter(({ url }) => !entries.has(url) && entries.add(url));
   }
 
   private createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: IRouteEntry[] = []): IRouteEntry[] {
@@ -41,8 +48,9 @@ export class BreadcrumbsService {
         url += `/${routeURL}`;
       }
 
-      // breadcrumbs.push({ label: child.snapshot.data['breadcrumb'], url });
-      breadcrumbs.push({ label: child.snapshot.title || 'Untitled', url });
+      if ( child.snapshot.title ) {
+        breadcrumbs.push({ title: child.snapshot.title, url });
+      }
       return this.createBreadcrumbs(child, url, breadcrumbs);
     }
 

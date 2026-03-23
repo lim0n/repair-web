@@ -57,8 +57,13 @@ export class OrdersService {
     return this._api.put<any>(String(url), item);
   }
 
-  deleteOrder(id: string) {
+  deleteOrder(id: string): Observable<any> {
     const url = new URL(`/orders/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
+  }
+
+  createOrder(item: IOrder): Observable<any> {
+    const url = new URL(`/orders`, environment.apiUrl);
+    return this._api.post<any>(String(url), item);
   }
 }

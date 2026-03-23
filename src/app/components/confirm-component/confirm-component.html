@@ -1,0 +1,10 @@
+<fieldset>
+  <legend>{{ title }}</legend>
+  @if (message) {
+    <p>{{ message }}</p>
+  }
+  <div class="confirm-component__footer">
+    <button (click)="answer(true)">Да</button>
+    <button (click)="answer(false)">Нет</button>
+  </div>
+</fieldset>

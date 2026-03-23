@@ -13,7 +13,7 @@ export const MANAGER_PAGE_ROUTES: Routes = [
       {
         path: 'users',
         // loadComponent: () => import('@pages/manager/users/users-page').then(m => m.UsersPage),
-        title: 'Users',
+        title: 'Пользователи',
         children: [
           {
             path: '',
@@ -23,17 +23,17 @@ export const MANAGER_PAGE_ROUTES: Routes = [
           {
             path: 'create-user',
             loadComponent: () => import('@pages/manager/users/create-user/create-user-page').then(m => m.CreateUserPage),
-            title: 'Create user'
+            title: 'Создать пользователя'
           },
           {
             path: 'id/:userid',
             loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
-            title: 'User'
+            title: 'Пользователь'
           },
           {
             path: ':username',
             loadComponent: () => import('@pages/manager/users/user/user-page').then(m => m.UserPage),
-            title: 'User'
+            title: 'Пользователь'
           },
         ]
       },
@@ -54,16 +54,21 @@ export const MANAGER_PAGE_ROUTES: Routes = [
       // },
       {
         path: 'orders',
-        title: 'Orders',
+        title: 'Заказы',
         children: [
           {
             path: '',
             loadComponent: () => import('@pages/manager/orders/orders-page.component').then(m => m.OrdersPageComponent),
           },
           {
+            path: 'create-order',
+            loadComponent: () => import('@pages/manager/orders/order/create-order/create-order-page.component').then(m => m.CreateOrderPage),
+            title: 'Создать заказ'
+          },
+          {
             path: ':id',
             loadComponent: () => import('@pages/manager/orders/order/order-page.component').then(m => m.OrderPageComponent),
-            title: 'Order'
+            title: 'Заказ'
           },
         ]
       },

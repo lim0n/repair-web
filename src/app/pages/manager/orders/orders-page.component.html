@@ -3,21 +3,26 @@
   <table border="1">
     @for (order of (orders$$ | async); track order.id; let i = $index) {
       @if (i == 0) {
-          <tr>
+        <tr>
           @for (item of order | keyvalue : keepJsonOrder; track item.key) {
             <th>
               {{ item.key }}
             </th>
           }
+          <th>Удалить</th>
         </tr>
       }
     }
 
     @for (order of (orders$$ | async); track order.id) {
-      <tr [routerLink]="['.', order.id]" class="clickable">
+      <tr>
         @for (item of order | keyvalue : keepJsonOrder; track item.key) {
-          <td>{{ item.value }}</td>
+          <td [routerLink]="['.', order.id]" class="clickable">{{ item.value }}</td>
         }
+        <td align="center">
+          <button type="button" (click)="onDelete(order)">x</button>
+           <!-- {{ order?.id }} -->
+        </td>
       </tr>
     } @empty {
       <tfoot>
@@ -25,4 +30,6 @@
       </tfoot>
     }
   </table>
+  <button routerLink="./create-order">Создать звказ</button>
 </fieldset>
+<!-- <pre>{{orders$$ | async | json}}</pre> -->

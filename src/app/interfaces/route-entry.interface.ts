@@ -1,4 +1,4 @@
 export interface IRouteEntry {
-  label: string;
+  title: string;
   url: string;
 }

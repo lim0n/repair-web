@@ -1,5 +1,5 @@
 <fieldset>
-  <legend>{{ username || 'Создать пользователя' }}</legend>
+  <legend>{{ username || (user$$ | async)?.email|| (user$$ | async)?.phone || 'Создать пользователя' }}</legend>
 
   @if (serverError) {
     <p>Пользователь удалён, или произошла ошибка</p>

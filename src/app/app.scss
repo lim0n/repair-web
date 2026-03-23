@@ -7,7 +7,23 @@
 :root {
   &, &[data-theme='light dark'] { color-scheme: light dark; }
   &[data-theme='light'] { color-scheme: light; }
-  &[data-theme='dark'] { color-scheme: dark; }
+  
+
+  --surface-light: #fefefe;
+  --surface-dark: #0e0e0e;
+  --surface-accented-light: #efefef;
+  --surface-accented-dark: #111111;
+
+  --surface-main: var(--surface-light);
+  --surface-accented: var(--surface-accented-light);
+  --surface-inverted: var(--surface-accented-dark);
+
+  &[data-theme='dark'] {
+    color-scheme: dark;
+    --surface-main: var(--surface-dark);
+    --surface-accented: var(var(--surface-accented-dark));
+    --surface-inverted: var(--surface-accented-light);
+  }
 
   --breakpoint-sm: 37.5rem; // 600
   --breakpoint-md: 60rem; // 960
@@ -49,4 +65,18 @@ body {
   max-width: var(--max-container);
   margin-left: auto;
   margin-right: auto;
+}
+
+popup-host {
+ position: fixed;
+ inset: 0;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 1;
+ background-color: color-mix(in srgb, var(--surface-inverted) 25%, transparent);
+
+ @at-root body:has(&) {
+  overflow: hidden;
+ }
 }

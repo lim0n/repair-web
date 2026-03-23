@@ -1,12 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '@app/services/users.service';
 import { IUser } from '@interfaces/user.interface';
 import { datetimeTzToDatetimeLocal } from '@pages/manager/users/user/utils/datetimetz-to-datetime-local.function';
 import { take, catchError, of, filter, map, BehaviorSubject } from 'rxjs';
 import { requiredUserIdField } from './user-id-field.validator';
+import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 
 @Component({
   selector: 'users-form',
@@ -28,6 +29,8 @@ export class UsersForm implements OnInit {
     private _usersService: UsersService,
     private _route: ActivatedRoute,
     private _fb: FormBuilder,
+    private _router: Router,
+    private _breadcrumbsService: BreadcrumbsService
   ) {
     
   }
@@ -75,7 +78,11 @@ export class UsersForm implements OnInit {
       )
       .subscribe(data => {
         console.warn('patchValue', data);
-        this.userForm.patchValue(data)});
+        this.userForm.patchValue(data);
+        
+        const title = data.name || data.email || data.username;
+        if (title) this._breadcrumbsService.changeLastTitle(String(title));
+      });
 
     if (this.username) {
       this._usersService.getUserByUserName(String(this.username))
@@ -108,7 +115,7 @@ export class UsersForm implements OnInit {
   onSubmit() {
       if (this.userForm.valid) {
         const formData: IUser = this.userForm.value;
-  
+        console.warn(formData);
         // if (formData.created_at && typeof formData.created_at === 'string') {
         //   const date = new Date(formData.created_at);
         //   const utcDate = new Date(date.getTime() + (3 * 60 * 60 * 1000));
@@ -120,8 +127,7 @@ export class UsersForm implements OnInit {
           .subscribe({
             next: (response) => {
               console.warn('Item updated successfully', response);
-              // Redirect or show a success message
-              // this.user$$.next(response);
+              this._router.navigate(['..'], {relativeTo: this._route});
             },
             error: (error) => {
               console.error('Error updating item', error);
@@ -132,8 +138,7 @@ export class UsersForm implements OnInit {
             .subscribe({
               next: (response) => {
                 console.warn('Item create successfully', response);
-                // Redirect or show a success message
-                // this.user$$.next(response);
+                this._router.navigate(['..'], {relativeTo: this._route});
               },
               error: (error) => {
                 console.error('Error creating item', error);

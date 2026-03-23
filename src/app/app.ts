@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { PopupService } from './services/popup.service';
@@ -13,14 +13,14 @@ import { ModalComponent } from './components/modal/modal.component';
   encapsulation: ViewEncapsulation.None,
   imports: [
     RouterOutlet
-  ]
+  ],
 })
 export class App {
   protected readonly title = signal('web-app');
 
   constructor(
     private _auth: AuthenticationService,
-    private _popup: PopupService
+    private _popup: PopupService,
   ) {}
 
   open() {

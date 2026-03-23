@@ -1,0 +1,17 @@
+.confirm-component {
+  
+  fieldset {
+    background-color: var(--surface-main);
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    justify-content: space-between;
+
+    button {
+      flex: 1;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 @for (breadcrumb of bs.breadcrumbs(); track breadcrumb.url; let isLast = $last, isFirst = $first) {
-  <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+  <a [routerLink]="breadcrumb.url">{{ breadcrumb.title }}</a>
   @if (!isLast) {
     <span>›</span>
   }
