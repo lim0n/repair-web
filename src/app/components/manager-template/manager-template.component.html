@@ -1,9 +1,21 @@
 <div class="manager-template__header container">
   <app-logo routerLink="/"></app-logo>
   <nav class="manager-template__nav">
-    <a routerLink="/manager">Manager</a>
-    <a routerLink="/manager/users">Users</a>
-    <a routerLink="/manager/orders">Orders</a>
+    <a routerLink="/manager"
+      class="manager-template__nav-item"
+      routerLinkActive="manager-template__nav-item_active">Manager</a>
+    <a routerLink="/manager/users"
+      class="manager-template__nav-item"
+      routerLinkActive="manager-template__nav-item_active">Users</a>
+    <a routerLink="/manager/orders"
+      class="manager-template__nav-item"
+      routerLinkActive="manager-template__nav-item_active">Orders</a>
+    <a routerLink="/manager/order-details"
+      class="manager-template__nav-item"
+      routerLinkActive="manager-template__nav-item_active">Order details</a>
+    <a routerLink="/login"
+      class="manager-template__nav-item"
+      routerLinkActive="manager-template__nav-item_active">Login</a>
   </nav>
   <app-breadcrumbs class="manager-template__breadcrumbs"></app-breadcrumbs>
 </div>

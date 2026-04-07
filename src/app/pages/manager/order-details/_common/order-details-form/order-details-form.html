@@ -5,32 +5,21 @@
 } @else {
   <fieldset>
     <legend>Заказ</legend>
-    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="orderDetailsForm" (ngSubmit)="onSubmit()">
       <label for="id">Id:</label>
       <input id="id" formControlName="id" type="number">
 
-      <label for="user_id">user_id:</label>
-      <input id="user_id" formControlName="user_id" type="number">
+      <label for="order_id">Order id:</label>
+      <input id="order_id" formControlName="order_id" type="number">
 
-      <label for="email">Email:</label>
-      <input id="email"
-        formControlName="email"
-        type="text"
-        autocomplete="off" />
+      <label for="user_id">author:</label>
+      <input id="user_id" formControlName="author" type="number">
 
-      <label for="name">Имя:</label>
-      <input id="name" formControlName="name" type="text" autocomplete="off" />
+      <label for="details">Подробности:</label>
+      <textarea id="details" formControlName="details"></textarea>
 
-      <label for="phone">Телефон:</label>
-      <input id="phone"
-        formControlName="phone"
-        type="text"
-        autocomplete="off" />
-
-      @if (!orderid) {
-        <label for="details">Подробности:</label>
-        <textarea id="details" formControlName="details"></textarea>
-      }
+      <label for="hidden">Скрыт:</label>
+      <input id="hidden" formControlName="hidden" type="checkbox">
 
       <label for="created_at">Создан:</label>
       <input id="created_at" formControlName="created_at" type="datetime-local">
@@ -42,18 +31,20 @@
       <input id="deleted_at" formControlName="deleted_at" type="datetime-local">
 
       <div class="btn-group">
-        @if ((detailedOrder$$ | async)?.id) {
-          <button type="submit" [disabled]="!orderForm.valid">Сохранить изменения</button>
+        @if ((orderDetailsItem$$ | async)?.id) {
+          <button type="submit" [disabled]="!orderDetailsForm.valid">Сохранить изменения</button>
           <button type="button" (click)="onDelete()">Удалить заказ</button>
         } @else {
-          <button type="submit" [disabled]="!orderForm.valid">Создать заказ</button>
+          <button type="submit" [disabled]="!orderDetailsForm.valid">Создать заказ</button>
         }
       </div>
     </form>
   </fieldset>
+
   
-  @if ( (detailedOrder$$ | async)?.user ) {
-    @let user = (detailedOrder$$ | async)?.user;
+  
+  <!-- @if ( (orderDetailsItem$$ | async)?.user ) {
+    @let user = (orderDetailsItem$$ | async)?.user;
     <fieldset>
       <legend>Пользователь</legend>
       <dl>
@@ -65,9 +56,9 @@
         }
       </dl>
     </fieldset>
-  }
+  } -->
 
-  @let order_details_list = (detailedOrder$$ | async)?.order_details;
+  <!-- @let order_details_list = (orderDetailsItem$$ | async)?.order_details;
   @if ( order_details_list && order_details_list.length ) {
     <fieldset>
       <legend>Подробности</legend>
@@ -82,9 +73,6 @@
         </dl>
       }
     </fieldset>
-  }
+  } -->
 
 }
-
-  <!-- <h3>json</h3>
-  <pre>{{ detailedOrder$$ | async | json }}</pre> -->

@@ -12,6 +12,13 @@
     display: flex;
     gap: 1rem;
     align-items: center;
+
+    &-item {
+
+      &_active {
+        text-shadow: .1em .05em .05em color-mix(in srgb, var(--text-main), transparent);
+      }
+    }
   }
 
   &__breadcrumbs {

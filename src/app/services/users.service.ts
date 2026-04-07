@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IUser } from '@interfaces/user.interface';
 import { environment } from '@src/environments/environment';
@@ -12,9 +12,10 @@ export class UsersService {
     private _api: HttpClient,
   ) { }
 
-  getUsersList(): Observable<any> {
+  getUsersList(withDeleted?: boolean): Observable<any> {
     const url = new URL(`/users`, environment.apiUrl);
-    return this._api.get(String(url));
+    const params = new HttpParams().set('withDeleted', String(Boolean(withDeleted)));
+    return this._api.get(String(url), { params });
   }
 
   getUserByUserName(username: string): Observable<any> {
@@ -34,6 +35,11 @@ export class UsersService {
 
   deleteUser(id: string) {
     const url = new URL(`/users/${id}`, environment.apiUrl);
+    return this._api.delete<void>(String(url));
+  }
+
+  deleteUserHard(id: string) {
+    const url = new URL(`/users/hard/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
   }
 

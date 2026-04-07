@@ -13,8 +13,7 @@ import { IOrder } from '@interfaces/order.interface';
   imports: [
     AsyncPipe,
     KeyValuePipe,
-    RouterLink,
-    // JsonPipe
+    RouterLink
   ],
   templateUrl: './orders-page.component.html',
   styleUrl: './orders-page.component.scss',
@@ -23,34 +22,27 @@ import { IOrder } from '@interfaces/order.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdersPageComponent {
-  // orders$: Observable<any>;
-  orders: IOrder[] = [];
-  orders$$ = new BehaviorSubject<IOrder[] | null>(null);
+  orders$$ = new BehaviorSubject<IOrder[]>([]);
+  getListWithDeleted = true;
 
   constructor(
     private _ordersService: OrdersService,
     private _platform: PlatformService
   ) {
     if (this._platform.isServer) return;
-    // this.orders$ = new Observable.pipe(
-    //   catchError(error => {
-    //     return of(error);
-    //   })
-    // );
     this.initSubscriptions();
   }
 
   readonly keepJsonOrder = keepJsonOrder;
 
   initSubscriptions(): void {
-    this._ordersService.getOrdersList()
+    this._ordersService.getOrdersList(this.getListWithDeleted)
       .pipe(
         take(1),
         catchError(error => {
           return of(error);
         })
       ).subscribe(data => {
-        this.orders = data;
         this.orders$$.next(data);
       })
   }
@@ -59,12 +51,31 @@ export class OrdersPageComponent {
     this._ordersService.deleteOrder(String(order.id)).pipe(
       take(1),
       catchError(() => EMPTY))
-    .subscribe((data) => {
-      if (data?.affected) {
-        this.orders = this.orders.filter(item => item.id !== order.id);
-        this.orders$$.next(this.orders);
+    .subscribe({
+      next: () => {
+        let orders = this.orders$$.getValue();
+        orders = orders.filter(item => item.id !== order.id);
+        this.orders$$.next(orders);
+      },
+      error: (error) => {
+        console.error('Error deleting item', error);
       }
     });
-    
+  }
+
+  onDeleteHard(order: IOrder) {
+    this._ordersService.hardDeleteOrder(String(order.id)).pipe(
+      take(1),
+      catchError(() => EMPTY))
+    .subscribe({
+      next: () => {
+        let orders = this.orders$$.getValue();
+        orders = orders.filter(item => item.id !== order.id);
+        this.orders$$.next(orders);
+      },
+      error: (error) => {
+        console.error('Error deleting item', error);
+      }
+    });
   }
 }

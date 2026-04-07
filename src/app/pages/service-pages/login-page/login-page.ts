@@ -1,7 +1,7 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { first } from 'rxjs/operators';
 
@@ -10,7 +10,8 @@ import { first } from 'rxjs/operators';
   imports: [ 
     ReactiveFormsModule,
     NgIf,
-    NgClass
+    NgClass,
+    RouterLink
    ],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss'
@@ -37,7 +38,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['']
     });
 
     // get return url from route parameters or default to '/'
@@ -45,7 +46,7 @@ export class LoginPage implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  // get f() { return this.loginForm.controls; }
 
   onSubmit() {
     this.submitted = true;
@@ -60,7 +61,8 @@ export class LoginPage implements OnInit {
       .pipe(first())
       .subscribe({
         next: (data) => {
-          console.warn(data);
+          console.warn('success login data', data);
+          this.loading = false;
           // this.router.navigate([this.returnUrl]);
         },
         error: (error) => {

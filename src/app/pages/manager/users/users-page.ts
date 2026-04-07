@@ -14,7 +14,9 @@ import {
   BehaviorSubject,
   catchError,
   of,
-  take
+  take,
+  filter,
+  map
 } from 'rxjs';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
 import { FnPipe } from '@app/pipes/fn-pipe';
@@ -35,16 +37,17 @@ import { IUser } from '@interfaces/user.interface';
   ],
 })
 export class UsersPage implements OnInit {
-  users$$ = new BehaviorSubject(null);
+  users$$ = new BehaviorSubject<IUser[]>([]);
+  getListWithDeleted = true;
 
   constructor(
     private _usersService: UsersService
-  ) {
-    
-  }
+  ) { }
+
+  readonly keepJsonOrder = keepJsonOrder;
 
   ngOnInit(): void {
-    this._usersService.getUsersList()
+    this._usersService.getUsersList(this.getListWithDeleted)
       .pipe(
         take(1),
         catchError(error => {
@@ -64,5 +67,32 @@ export class UsersPage implements OnInit {
     return route;
   }
 
-  readonly keepJsonOrder = keepJsonOrder;
+  onDelete(user: IUser) {
+    this._usersService.deleteUser(String(user.id))
+      .subscribe({
+          next: () => {
+            let users = this.users$$.getValue();
+            users = users.filter(item => item.id !== user.id);
+            this.users$$.next(users)
+          },
+          error: (error) => {
+            console.error('Error deleting item', error);
+          }
+        });
+  }
+
+  onDeleteHard(user: IUser) {
+    this._usersService.deleteUserHard(String(user.id))
+      .subscribe({
+        next: () => {
+          let users = this.users$$.getValue();
+          users = users.filter(item => item.id !== user.id);
+          this.users$$.next(users)
+        },
+        error: (error) => {
+          console.error('Error deleting item', error);
+        }
+      });
+  }
+
 }

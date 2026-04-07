@@ -10,16 +10,21 @@
                 {{ item.key }}
               </th>
             }
+            <td>Удалить</td>
           </tr>
         </thead>
       }
     }
     <tbody>
       @for (user of (users$$ | async); track user.id) {
-        <tr [routerLink]="user | fn : getRoute" class="clickable">
+        <tr>
           @for (item of user | keyvalue : keepJsonOrder; track item.key) {
-            <td>{{ item.value }}</td>
+            <td [routerLink]="user | fn : getRoute" class="clickable">{{ item.value }}</td>
           }
+          <td>
+            <button type="button" (click)="onDelete(user)">Del</button>
+            <button type="button" (click)="onDeleteHard(user)">xXx</button>
+          </td>
         </tr>
       } @empty {
         <tr><td>No users found</td></tr>

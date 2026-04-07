@@ -62,7 +62,7 @@ export const MANAGER_PAGE_ROUTES: Routes = [
           },
           {
             path: 'create-order',
-            loadComponent: () => import('@pages/manager/orders/order/create-order/create-order-page.component').then(m => m.CreateOrderPage),
+            loadComponent: () => import('@pages/manager/orders/create-order/create-order-page.component').then(m => m.CreateOrderPage),
             title: 'Создать заказ'
           },
           {
@@ -82,6 +82,26 @@ export const MANAGER_PAGE_ROUTES: Routes = [
       //   loadComponent: () => import('@pages/manager/orders/order/order-page.component').then(m => m.OrderPageComponent),
       //   title: 'Order'
       // },
+      {
+        path: 'order-details',
+        title: 'Подробности',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('@pages/manager/order-details/order-details-page.component').then(m => m.OrderDetailsPage),
+          },
+          {
+            path: 'create-order-details',
+            loadComponent: () => import('@pages/manager/order-details/create-order-details-item/create-order-details-item-page.component').then(m => m.CreateOrderDetailsItemPageComponent),
+            title: 'Создать заказ'
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('@pages/manager/order-details/order-details-item/order-details-item-page.component').then(m => m.OrderDetailsItemPageComponent),
+            title: 'Заказ'
+          },
+        ]
+      },
     ]
   }
   

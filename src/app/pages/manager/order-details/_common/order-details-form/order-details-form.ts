@@ -1,73 +1,73 @@
 import { AsyncPipe, JsonPipe, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormControl, FormControlState, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 import { OrderDetailsService } from '@app/services/order-details.service';
-import { OrdersService } from '@app/services/orders.service';
 import { PopupService } from '@app/services/popup.service';
-import { UsersService } from '@app/services/users.service';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
-import { IOrder } from '@interfaces/order.interface';
-import { IUser } from '@interfaces/user.interface';
+import { IOrderDetails } from '@interfaces/order-details.interface';
 import { datetimeTzToDatetimeLocal } from '@pages/manager/users/user/utils/datetimetz-to-datetime-local.function';
-import { BehaviorSubject, catchError, expand, filter, map, Observable, of, switchMap, take } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, of, switchMap, take } from 'rxjs';
 
 @Component({
-  selector: 'orders-form',
+  selector: 'order-details-form',
   imports: [
     ReactiveFormsModule,
+    KeyValuePipe,
     AsyncPipe,
-    KeyValuePipe
+    JsonPipe
   ],
-  templateUrl: './orders-form.html',
-  styleUrl: './orders-form.scss',
-  host: { class: 'orders-form' },
+  templateUrl: './order-details-form.html',
+  styleUrl: './order-details-form.scss',
+  host: { class: 'order-details-form' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class OrdersForm implements OnInit {
-  detailedOrder$$ = new BehaviorSubject<IOrder | null>(null);
-  orderForm!: FormGroup;
+export class OrderDetailsFormComponent implements OnInit {
+  orderDetailsItem$$ = new BehaviorSubject<IOrderDetails | null>(null)
+  orderDetailsForm!: FormGroup;
   serverError = false;
-  orderid!: string;
+  orderDetailsId!: string;
 
   constructor(
-    private _ordersService: OrdersService,
+    private _orderDetailsService: OrderDetailsService,
     private _route: ActivatedRoute,
     private _fb: FormBuilder,
     private _breadcrumbsService: BreadcrumbsService,
     private _router: Router,
     private _popupService: PopupService
-  ) {
-    
-  }
+  ) { }
 
   readonly keepJsonOrder = keepJsonOrder;
 
   ngOnInit(): void {
 
     if (this._route.snapshot.paramMap.get('id') !== null) {
-      this.orderid = String(this._route.snapshot.paramMap.get('id'));
+      this.orderDetailsId = String(this._route.snapshot.paramMap.get('id'));
     };
 
     const formOptions: AbstractControlOptions = {
       updateOn: 'change'
     };
 
-    this.orderForm = this._fb.group({
+    this.orderDetailsForm = this._fb.group({
       id: [{value: '', disabled: true}],
-      user_id: '',
-      email: ['', [Validators.email, Validators.maxLength(50)]],
-      name: ['', [Validators.maxLength(90)]],
-      phone: ['', [Validators.maxLength(20)]],
-      details: [null],
+      order_id: [{value: ''}, [Validators.required]],
+      
+      // details: [{value: ''}, [Validators.required]],
+
+      // details: [{value: ''}, [ Validators.required ]],
+      details: ['', [Validators.required]],
+      
+      author: [{value: ''}, [Validators.required]],
+      hidden: false,
       created_at: [{value: '', disabled: true}],
       updated_at: [{value: '', disabled: true}],
       deleted_at: [{value: '', disabled: true}]
     }, formOptions);
 
-    this.detailedOrder$$
+    this.orderDetailsItem$$
       .pipe(
         filter(val => val != null),
         map(data => {
@@ -81,14 +81,15 @@ export class OrdersForm implements OnInit {
         }))
       .subscribe(data => {
         console.warn('patchValue', data);
-        this.orderForm.patchValue(data);
+        this.orderDetailsForm.patchValue(data);
         
-        const title = data.name || data.email || data.phone || data?.user?.name || data?.user?.username;
+        const title = data.author;
         if (title) this._breadcrumbsService.changeLastTitle(String(title));
       });
 
-    if (this.orderid) {
-      this._ordersService.getDetailedOrderById(String(this.orderid))
+    if (this.orderDetailsId) {
+      console.warn('if this.orderDetailsId', this.orderDetailsId);
+      this._orderDetailsService.getOrderDetailsById(String(this.orderDetailsId))
         .pipe(
           take(1),
           catchError(error => {
@@ -97,18 +98,17 @@ export class OrdersForm implements OnInit {
           }),
         )
         .subscribe((data) => {
-          this.detailedOrder$$.next(data);
+          this.orderDetailsItem$$.next(data);
         });
     }
   }
 
   onSubmit(): void {
-    if (this.orderForm.valid) {
-      const formData = this.orderForm.value;
+    if (this.orderDetailsForm.valid) {
+      const formData = this.orderDetailsForm.value;
       console.warn('formData', formData);
-      if (this.orderid) {        
-        let { details, ...updateData } = formData;
-        this._ordersService.updateOrder(this.orderid, updateData)
+      if (this.orderDetailsId) {
+        this._orderDetailsService.updateOrderDetails(this.orderDetailsId, formData)
           .subscribe({
             next: (response) => {
               console.warn('Item updated successfully', response);
@@ -120,12 +120,11 @@ export class OrdersForm implements OnInit {
           });
       }
       else {
-
-        this._ordersService.createOrder(formData)
+        this._orderDetailsService.createOrderDetails(formData)
           .subscribe({
             next: (response) => {
               console.warn('Item create successfully', response);
-              this._router.navigate(['..', response[0].id], {relativeTo: this._route});
+              this._router.navigate(['..', response.id], {relativeTo: this._route});
             },
             error: (error) => {
               console.error('Error creating item', error);
@@ -142,7 +141,7 @@ export class OrdersForm implements OnInit {
         filter(Boolean),
         switchMap(() => {
           // The inner observable (HTTP request) is only subscribed to if the filter passes
-          return this._ordersService.deleteOrder(this.orderid)
+          return this._orderDetailsService.deleteOrderDetails(this.orderDetailsId)
         })
       )
       .subscribe({
@@ -155,27 +154,5 @@ export class OrdersForm implements OnInit {
           console.error('Error deleting item', error);
         }
       });
-
-
-      // .subscribe(confirmed => {
-      //   if (confirmed) {
-      //     console.log('Item deleted:', this.orderid);
-      //     // Actual deletion logic
-      //   } else {
-      //     console.log('Deletion cancelled');
-      //   }
-      // })
-
-    // this._ordersService.deleteOrder(this.orderid)
-    //   .subscribe({
-    //       next: (response) => {
-    //         console.warn('Item deleted successfully', response);
-    //         // Redirect or show a success message
-    //         // this.user$$.next(response);
-    //       },
-    //       error: (error) => {
-    //         console.error('Error deleting item', error);
-    //       }
-    //     });
-    }
+  }
 }

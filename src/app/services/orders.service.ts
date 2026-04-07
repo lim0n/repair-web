@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IOrder } from '@interfaces/order.interface';
 import { environment } from '@src/environments/environment';
@@ -16,9 +16,10 @@ export class OrdersService {
     private _orderDetailsService: OrderDetailsService
   ) {}
 
-  getOrdersList(): Observable<IOrder[]> {
+  getOrdersList(withDeleted?: boolean): Observable<IOrder[]> {
     const url = new URL(`/orders`, environment.apiUrl);
-    return this._api.get<IOrder[]>(String(url));
+    const params = new HttpParams().set('withDeleted', String(Boolean(withDeleted)));
+    return this._api.get<IOrder[]>(String(url), { params });
   }
 
   getOrderById(id: string): Observable<IOrder> {
@@ -54,11 +55,16 @@ export class OrdersService {
 
   updateOrder(id: string, item: IOrder): Observable<any> {
     const url = new URL(`/orders/${id}`, environment.apiUrl);
-    return this._api.put<any>(String(url), item);
+    return this._api.patch<any>(String(url), item);
   }
 
   deleteOrder(id: string): Observable<any> {
     const url = new URL(`/orders/${id}`, environment.apiUrl);
+    return this._api.delete<void>(String(url));
+  }
+
+  hardDeleteOrder(id: string): Observable<any> {
+    const url = new URL(`/orders/hard/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
   }
 

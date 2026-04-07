@@ -4,6 +4,7 @@ import { AuthenticationService } from '@app/services/authentication.service';
 
 
 export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
+  console.warn('FIRE jwtInterceptor');
   const authenticationService = inject(AuthenticationService);
   let currentUser = authenticationService.currentUserValue;
   if (currentUser && currentUser.access_token) {

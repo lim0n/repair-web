@@ -14,15 +14,36 @@
   --surface-accented-light: #efefef;
   --surface-accented-dark: #111111;
 
+  --text-main-light: #080808;
+  --text-secondary-light: #111111;
+  --text-main-dark: #f8f8f8;
+  --text-secondary-dark: #eeeeee;
+
+  // --surface-light: 254, 254, 254;           // #fefefe
+  // --surface-dark: 14, 14, 14;               // #0e0e0e
+  // --surface-accented-light: 239, 239, 239;  // #efefef;
+  // --surface-accented-dark: 17, 17, 17       // #111111;
+
+  // --text-main-light: 8, 8, 8                // #080808;
+  // --text-secondary-light: 17, 17, 17;       // #111111
+  // --text-main-dark: 248, 248, 248;          // #f8f8f8
+  // --text-secondary-dark: 238, 238, 238;     // #eeeeee;
+
   --surface-main: var(--surface-light);
   --surface-accented: var(--surface-accented-light);
   --surface-inverted: var(--surface-accented-dark);
+  --text-main: var(--text-main-light);
+  --text-secondary: var(--text-secondary-light);
+  --text-inverted: var(--text-main-dark);
 
   &[data-theme='dark'] {
     color-scheme: dark;
     --surface-main: var(--surface-dark);
-    --surface-accented: var(var(--surface-accented-dark));
+    --surface-accented: var(--surface-accented-dark);
     --surface-inverted: var(--surface-accented-light);
+    --text-main: var(--text-main-dark);
+    --text-secondary: var(--text-secondary-dark);
+    --text-inverted: var(--text-main-light);
   }
 
   --breakpoint-sm: 37.5rem; // 600

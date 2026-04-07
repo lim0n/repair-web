@@ -5,6 +5,7 @@ import { Component, Input, Type } from '@angular/core';
   selector: 'app-modal',
   imports: [ NgComponentOutlet ],
   templateUrl: './modal.component.html',
+  host: { class: 'modal-component' },
   styleUrl: './modal.component.scss',
 })
 export class ModalComponent {

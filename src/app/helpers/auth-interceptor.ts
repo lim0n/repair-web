@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  console.warn('FIRE auth interceptor');
+  console.warn('FIRE authInterceptor');
   const authenticationService = inject(AuthenticationService);
 
   return next(req).pipe(catchError(err => {

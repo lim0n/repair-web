@@ -20,7 +20,8 @@
           <td [routerLink]="['.', order.id]" class="clickable">{{ item.value }}</td>
         }
         <td align="center">
-          <button type="button" (click)="onDelete(order)">x</button>
+          <button type="button" (click)="onDelete(order)">del</button>
+          <button type="button" (click)="onDeleteHard(order)">xXx</button>
            <!-- {{ order?.id }} -->
         </td>
       </tr>
@@ -30,6 +31,6 @@
       </tfoot>
     }
   </table>
-  <button routerLink="./create-order">Создать звказ</button>
+  <button routerLink="./create-order">Создать заказ</button>
 </fieldset>
 <!-- <pre>{{orders$$ | async | json}}</pre> -->

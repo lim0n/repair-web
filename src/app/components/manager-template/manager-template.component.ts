@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { BreadcrumbsComponent } from '@components/breadcrumbs/breadcrumbs.component';
 import { Logo } from '@components/logo/logo';
 
@@ -9,7 +9,8 @@ import { Logo } from '@components/logo/logo';
     RouterOutlet,
     RouterLink,
     Logo,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    RouterLinkActive
   ],
   host: { class: 'manager-template' },
   templateUrl: './manager-template.component.html',

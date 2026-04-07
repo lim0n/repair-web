@@ -1,0 +1,35 @@
+<fieldset>
+  <legend>Order details page</legend>
+  <table border="1">
+    @for (orderDetails of (orderDetails$$ | async); track orderDetails.id; let i = $index) {
+      @if (i == 0) {
+        <tr>
+          @for (item of orderDetails | keyvalue : keepJsonOrder; track item.key) {
+            <th>
+              {{ item.key }}
+            </th>
+          }
+          <th>Удалить</th>
+        </tr>
+      }
+    }
+
+    @for (orderDetails of (orderDetails$$ | async); track orderDetails.id) {
+      <tr>
+        @for (item of orderDetails | keyvalue : keepJsonOrder; track item.key) {
+          <td [routerLink]="['.', orderDetails.id]" class="clickable">{{ item.value }}</td>
+        }
+        <td align="center">
+          <button type="button" (click)="onDelete(orderDetails)">Del</button>
+          <button type="button" (click)="onDeleteHard(orderDetails)">xXx</button>
+           <!-- {{ order?.id }} -->
+        </td>
+      </tr>
+    } @empty {
+      <tfoot>
+        <tr><td>No orders found</td></tr>
+      </tfoot>
+    }
+  </table>
+  <button routerLink="./create-order-details">Создать комментарий к заказу</button>
+</fieldset>
