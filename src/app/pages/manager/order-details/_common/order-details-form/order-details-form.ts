@@ -80,7 +80,6 @@ export class OrderDetailsFormComponent implements OnInit {
           return data;
         }))
       .subscribe(data => {
-        console.warn('patchValue', data);
         this.orderDetailsForm.patchValue(data);
         
         const title = data.author;
@@ -88,7 +87,6 @@ export class OrderDetailsFormComponent implements OnInit {
       });
 
     if (this.orderDetailsId) {
-      console.warn('if this.orderDetailsId', this.orderDetailsId);
       this._orderDetailsService.getOrderDetailsById(String(this.orderDetailsId))
         .pipe(
           take(1),
@@ -106,12 +104,10 @@ export class OrderDetailsFormComponent implements OnInit {
   onSubmit(): void {
     if (this.orderDetailsForm.valid) {
       const formData = this.orderDetailsForm.value;
-      console.warn('formData', formData);
       if (this.orderDetailsId) {
         this._orderDetailsService.updateOrderDetails(this.orderDetailsId, formData)
           .subscribe({
             next: (response) => {
-              console.warn('Item updated successfully', response);
               this._router.navigate(['..'], {relativeTo: this._route});
             },
             error: (error) => {
@@ -123,7 +119,6 @@ export class OrderDetailsFormComponent implements OnInit {
         this._orderDetailsService.createOrderDetails(formData)
           .subscribe({
             next: (response) => {
-              console.warn('Item create successfully', response);
               this._router.navigate(['..', response.id], {relativeTo: this._route});
             },
             error: (error) => {
@@ -140,15 +135,12 @@ export class OrderDetailsFormComponent implements OnInit {
       .pipe(
         filter(Boolean),
         switchMap(() => {
-          // The inner observable (HTTP request) is only subscribed to if the filter passes
           return this._orderDetailsService.deleteOrderDetails(this.orderDetailsId)
         })
       )
       .subscribe({
-        next: (response) => {
-          console.warn('Item deleted successfully', response);
-          // Redirect or show a success message
-          // this.user$$.next(response);
+        next: () => {
+          this._router.navigate(['..'], {relativeTo: this._route});
         },
         error: (error) => {
           console.error('Error deleting item', error);

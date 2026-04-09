@@ -77,7 +77,6 @@ export class UsersForm implements OnInit {
         })
       )
       .subscribe(data => {
-        console.warn('patchValue', data);
         this.userForm.patchValue(data);
         
         const title = data.name || data.email || data.username;
@@ -115,18 +114,10 @@ export class UsersForm implements OnInit {
   onSubmit() {
       if (this.userForm.valid) {
         const formData: IUser = this.userForm.value;
-        console.warn(formData);
-        // if (formData.created_at && typeof formData.created_at === 'string') {
-        //   const date = new Date(formData.created_at);
-        //   const utcDate = new Date(date.getTime() + (3 * 60 * 60 * 1000));
-        //   formData.created_at = utcDate.toISOString();
-        // }
-
         if (this.userid) {
           this._usersService.updateUser(this.userid, formData)
           .subscribe({
             next: (response) => {
-              console.warn('Item updated successfully', response);
               this._router.navigate(['..'], {relativeTo: this._route});
             },
             error: (error) => {
@@ -137,8 +128,7 @@ export class UsersForm implements OnInit {
           this._usersService.createUser(formData)
             .subscribe({
               next: (response) => {
-                console.warn('Item create successfully', response);
-                this._router.navigate(['..'], {relativeTo: this._route});
+                this._router.navigate(['..', 'id', response.id], {relativeTo: this._route});
               },
               error: (error) => {
                 console.error('Error creating item', error);
@@ -152,9 +142,7 @@ export class UsersForm implements OnInit {
       this._usersService.deleteUser(this.userid)
         .subscribe({
             next: (response) => {
-              console.warn('Item deleted successfully', response);
-              // Redirect or show a success message
-              // this.user$$.next(response);
+              this._router.navigate(['..'], {relativeTo: this._route});
             },
             error: (error) => {
               console.error('Error deleting item', error);

@@ -22,11 +22,7 @@ export class ManagerPage {
     this._api.getProfile()
       .pipe(
         take(1),
-        // catchError(error => of(error))
-        catchError(error => {
-          console.warn('catchError!!!!!!!!! ', error);
-          return of(error);
-        })
+        catchError(error => of(error))
       )
       .subscribe(data => {
         this.profile$$.next(data);

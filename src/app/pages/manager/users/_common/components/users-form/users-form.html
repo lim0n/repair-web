@@ -19,8 +19,10 @@
         <div class="alert">Логин, если он окажется уникальным, может стать идентификатором иользователя</div>
       }
 
-      <label for="password">Password:</label>
-      <input id="password" formControlName="password" type="password" autocomplete="off" />
+      @if (!(user$$ | async)?.id) {
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" type="password" autocomplete="off" />
+      }
 
       <label for="email">Email:</label>
       <input id="email"
@@ -33,9 +35,6 @@
 
       <label for="name">Имя:</label>
       <input id="name" formControlName="name" type="text" autocomplete="off" />
-      <!-- <div [hidden]="name.valid || name.untouched" class="alert">
-        Не указано имя
-      </div> -->
 
       <label for="phone">Телефон:</label>
       <input id="phone"
@@ -46,13 +45,15 @@
         <div class="alert">Номер телефона может быть идентификатором иользователя</div>
       }
 
-      <label for="user_role">Роль:</label>
-      <select id="user_role" formControlName="user_role">
-        <option>admin</option>
-        <option>manager</option>
-        <option>editor</option>
-        <option>viewer</option>
-      </select>
+      @if (!(user$$ | async)?.id) {
+        <label for="user_role">Роль:</label>
+        <select id="user_role" formControlName="user_role">
+          <option>admin</option>
+          <option>manager</option>
+          <option>editor</option>
+          <option>viewer</option>
+        </select>
+      }
 
       <label for="created_at">Создан:</label>
       <input id="created_at" formControlName="created_at" type="datetime-local">

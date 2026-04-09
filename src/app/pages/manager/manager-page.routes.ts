@@ -102,6 +102,11 @@ export const MANAGER_PAGE_ROUTES: Routes = [
           },
         ]
       },
+      {
+        path: 'roles',
+        title: 'Роли',
+        loadComponent: () => import('@pages/manager/roles/roles-page.component').then(m => m.RolesPageComponent),
+      },
     ]
   }
   

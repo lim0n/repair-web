@@ -80,7 +80,6 @@ export class OrdersForm implements OnInit {
           return data;
         }))
       .subscribe(data => {
-        console.warn('patchValue', data);
         this.orderForm.patchValue(data);
         
         const title = data.name || data.email || data.phone || data?.user?.name || data?.user?.username;
@@ -105,13 +104,11 @@ export class OrdersForm implements OnInit {
   onSubmit(): void {
     if (this.orderForm.valid) {
       const formData = this.orderForm.value;
-      console.warn('formData', formData);
       if (this.orderid) {        
         let { details, ...updateData } = formData;
         this._ordersService.updateOrder(this.orderid, updateData)
           .subscribe({
             next: (response) => {
-              console.warn('Item updated successfully', response);
               this._router.navigate(['..'], {relativeTo: this._route});
             },
             error: (error) => {
@@ -124,7 +121,6 @@ export class OrdersForm implements OnInit {
         this._ordersService.createOrder(formData)
           .subscribe({
             next: (response) => {
-              console.warn('Item create successfully', response);
               this._router.navigate(['..', response[0].id], {relativeTo: this._route});
             },
             error: (error) => {
@@ -141,41 +137,16 @@ export class OrdersForm implements OnInit {
       .pipe(
         filter(Boolean),
         switchMap(() => {
-          // The inner observable (HTTP request) is only subscribed to if the filter passes
           return this._ordersService.deleteOrder(this.orderid)
         })
       )
       .subscribe({
-        next: (response) => {
-          console.warn('Item deleted successfully', response);
-          // Redirect or show a success message
-          // this.user$$.next(response);
+        next: () => {
+          this._router.navigate(['..'], {relativeTo: this._route});
         },
         error: (error) => {
           console.error('Error deleting item', error);
         }
       });
-
-
-      // .subscribe(confirmed => {
-      //   if (confirmed) {
-      //     console.log('Item deleted:', this.orderid);
-      //     // Actual deletion logic
-      //   } else {
-      //     console.log('Deletion cancelled');
-      //   }
-      // })
-
-    // this._ordersService.deleteOrder(this.orderid)
-    //   .subscribe({
-    //       next: (response) => {
-    //         console.warn('Item deleted successfully', response);
-    //         // Redirect or show a success message
-    //         // this.user$$.next(response);
-    //       },
-    //       error: (error) => {
-    //         console.error('Error deleting item', error);
-    //       }
-    //     });
     }
 }

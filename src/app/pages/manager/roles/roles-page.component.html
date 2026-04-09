@@ -1,0 +1,41 @@
+<fieldset>
+  <legend>Roles page</legend>
+  <table border="1">
+    @for (user of (roles$$ | async); track user; let i = $index) {
+      @if (i == 0) {
+        <thead>
+          <tr>
+            @for (item of user | keyvalue : keepJsonOrder; track item.key) {
+              <th>
+                {{ item.key }}
+              </th>
+            }
+            <td>+/-</td>
+          </tr>
+        </thead>
+      }
+    }
+    <tbody>
+      @for (user of (roles$$ | async); track user.id) {
+        <tr>
+          @for (item of user | keyvalue : keepJsonOrder; track item.key) {
+            <td>{{ item.value }}</td>
+          }
+          <td>
+            <button type="button" (click)="onDeleteHard(user)">-</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td>No users found</td></tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr [formGroup]="roleForm" (ngSubmit)="add()">
+        <td>#</td>
+        <td><input formControlName="name" type="text" placeholder="name"/></td>
+        <td><input formControlName="description" type="text" placeholder="description"/></td>
+        <td><button type="button" (click)="add()">+</button></td>
+      </tr>
+    </tfoot>
+  </table>
+</fieldset>

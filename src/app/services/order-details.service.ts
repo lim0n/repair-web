@@ -29,7 +29,6 @@ export class OrderDetailsService {
   }
 
   updateOrderDetails(id: string, item: IOrderDetails): Observable<any> {
-    console.warn('details item data', item);
     const url = new URL(`/order-details/${id}`, environment.apiUrl);
     return this._api.patch<any>(String(url), item);
   }
