@@ -121,7 +121,8 @@ export class OrdersForm implements OnInit {
         this._ordersService.createOrder(formData)
           .subscribe({
             next: (response) => {
-              this._router.navigate(['..', response[0].id], {relativeTo: this._route});
+              this._router.navigate(['..', response.id], {relativeTo: this._route});
+              console.warn(response);
             },
             error: (error) => {
               console.error('Error creating item', error);
