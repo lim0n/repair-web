@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-page',
@@ -30,9 +30,12 @@ export class LoginPage implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     // redirect to home if already logged in
+    
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
+
+
   }
 
   ngOnInit() {
@@ -40,6 +43,14 @@ export class LoginPage implements OnInit {
       username: ['', Validators.required],
       password: ['']
     });
+
+    // this.authenticationService.getTokens
+    //   .pipe(take(1))
+    //   .subscribe(tokens => {
+    //     if (tokens !== null) {
+    //       this.router.navigate(['/']);
+    //     }
+    //   })
 
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

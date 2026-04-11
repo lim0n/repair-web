@@ -16,5 +16,4 @@ export class ThemeSwitch {
   toggle() {
     this.themeService.switchScheme();
   }
-
 }

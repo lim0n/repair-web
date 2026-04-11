@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT, Inject, Injectable } from '@angular/core';
 import { IUser } from '@interfaces/user.interface';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, skip, Subject, tap } from 'rxjs';
 import { environment } from '@src/environments/environment';
 import { PlatformService } from './platform.service';
 import { IJwt } from '@interfaces/jwt.interface';
@@ -10,9 +10,8 @@ import { IJwt } from '@interfaces/jwt.interface';
     providedIn: 'root',
 })
 export class AuthenticationService {
-    private userData$$ = new BehaviorSubject<IUser | null>(null);
-    // public currentUser$!: Observable<IUser | null>;
-    localStorage: Storage | undefined;
+    private userData$$ = new BehaviorSubject<IJwt | null>(null);
+    private localStorage: Storage | undefined;
 
     constructor(
         private http: HttpClient,
@@ -21,11 +20,16 @@ export class AuthenticationService {
     ) {
         if (this._platform.isServer) return;
         this.localStorage = this._document.defaultView?.localStorage;
-        if (localStorage) {
-            this.userData$$.next( JSON.parse( <string>this.localStorage?.getItem('currentUser') ) );
-            // this.currentUser$ = this.userData$$.asObservable();
-            
-        }
+        this.userData$$.next( JSON.parse( <string>this.localStorage?.getItem('currentUser') ) );
+        this.userData$$
+            .pipe(skip(1))
+            .subscribe(data=>{
+                if (data !== null) {
+                    this.localStorage?.setItem('currentUser', JSON.stringify(data));
+                } else {
+                    this.localStorage?.removeItem('currentUser');
+                };
+            })
     }
 
     public get currentUserValue(): IUser | null {
@@ -33,19 +37,19 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        console.warn('username, password', username, password);
-        console.warn('FIRE AuthenticationService login', `${environment.apiUrl}/auth/login`)
         return this.http.post<IJwt>(`${environment.apiUrl}/auth/login`,
             { username, password })
-            .pipe(map(user => {
-                this.localStorage?.setItem('currentUser', JSON.stringify(user));
-                this.userData$$.next(user);
-            }));
+            .pipe(
+                tap(data => {
+                        this.setData(data);
+                    }));
     }
 
     logout() {
-        console.warn('FIRE AuthenticationService logout');
-        this.localStorage?.removeItem('currentUser');
         this.userData$$.next(null);
+    }
+
+    setData(data: IJwt) {
+        this.userData$$.next(data);
     }
 }

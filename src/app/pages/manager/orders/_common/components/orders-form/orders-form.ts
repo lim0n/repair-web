@@ -2,6 +2,7 @@ import { AsyncPipe, JsonPipe, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormControlState, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '@app/services/authentication.service';
 import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 import { OrderDetailsService } from '@app/services/order-details.service';
 import { OrdersService } from '@app/services/orders.service';
@@ -38,7 +39,8 @@ export class OrdersForm implements OnInit {
     private _fb: FormBuilder,
     private _breadcrumbsService: BreadcrumbsService,
     private _router: Router,
-    private _popupService: PopupService
+    private _popupService: PopupService,
+    private _authenticationService: AuthenticationService
   ) {
     
   }
@@ -122,7 +124,9 @@ export class OrdersForm implements OnInit {
           .subscribe({
             next: (response) => {
               this._router.navigate(['..', response.id], {relativeTo: this._route});
-              console.warn(response);
+              if (response.tokens) {
+                this._authenticationService.setData(response.tokens);
+              }
             },
             error: (error) => {
               console.error('Error creating item', error);
