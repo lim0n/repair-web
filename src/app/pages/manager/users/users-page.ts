@@ -51,7 +51,8 @@ export class UsersPage implements OnInit {
       .pipe(
         take(1),
         catchError(error => {
-          return of(error);
+          console.warn('error', error, this.users$$.getValue());
+          return of([]);
         })
       )
       .subscribe(data => {

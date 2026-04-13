@@ -1,7 +1,12 @@
 <fieldset>
   <legend>Users page</legend>
+  
+  
+  @let users = (users$$ | async);
+  <pre>{{ users }}</pre>
+
   <table border="1">
-    @for (user of (users$$ | async); track user; let i = $index) {
+    @for (user of users; track user; let i = $index) {
       @if (i == 0) {
         <thead>
           <tr>
@@ -16,7 +21,7 @@
       }
     }
     <tbody>
-      @for (user of (users$$ | async); track user.id) {
+      @for (user of users; track user.id) {
         <tr>
           @for (item of user | keyvalue : keepJsonOrder; track item.key) {
             <td [routerLink]="user | fn : getRoute" class="clickable">{{ item.value }}</td>

@@ -13,7 +13,6 @@ import { BehaviorSubject, catchError, Observable, of, take } from 'rxjs';
   styleUrl: './manager-page.scss',
 })
 export class ManagerPage {
-  // profile$: Observable<any>;
   profile$$ = new BehaviorSubject(null);
 
   constructor(

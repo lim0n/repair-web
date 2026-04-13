@@ -1,21 +1,17 @@
-import { HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  console.warn('FIRE authInterceptor');
   const authenticationService = inject(AuthenticationService);
 
-  return next(req).pipe(catchError(err => {
-      console.warn('err', err);
-      if (err.status === 401) {
-          // auto logout if 401 response returned from api
+  return next(req).pipe(catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
           authenticationService.logout();
       }
 
-      const error = err.error.message || err.statusText;
-      return throwError(() => new Error(error));
+      return throwError(() => error.error.message);
   }))
 };

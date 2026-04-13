@@ -13,7 +13,6 @@ export class ProfileService {
   ) { }
 
   getProfile(): Observable<any> {
-    console.warn('FIRE getProfile');
     const url = new URL(`/auth/profile`, environment.apiUrl);
     return this._api.get(String(url));
   }

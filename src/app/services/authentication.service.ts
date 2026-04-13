@@ -12,6 +12,8 @@ import { IJwt } from '@interfaces/jwt.interface';
 export class AuthenticationService {
     private userData$$ = new BehaviorSubject<IJwt | null>(null);
     private localStorage: Storage | undefined;
+    userData$ = this.userData$$.asObservable();
+    isLoggedIn$ = this.userData$.pipe(map(data => !!data));
 
     constructor(
         private http: HttpClient,
@@ -32,7 +34,7 @@ export class AuthenticationService {
             })
     }
 
-    public get currentUserValue(): IUser | null {
+    public get currentUserValue(): IJwt | null {
         return this.userData$$.value;
     }
 
@@ -46,10 +48,10 @@ export class AuthenticationService {
     }
 
     logout() {
-        this.userData$$.next(null);
+        this.setData(null);
     }
 
-    setData(data: IJwt) {
+    setData(data: IJwt | null) {
         this.userData$$.next(data);
     }
 }
