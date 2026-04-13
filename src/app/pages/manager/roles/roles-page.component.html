@@ -1,11 +1,12 @@
 <fieldset>
   <legend>Roles page</legend>
   <table border="1">
-    @for (user of (roles$$ | async); track user; let i = $index) {
+    @let roles = roles$$ | async;
+    @for (role of roles; track role; let i = $index) {
       @if (i == 0) {
         <thead>
           <tr>
-            @for (item of user | keyvalue : keepJsonOrder; track item.key) {
+            @for (item of role | keyvalue : keepJsonOrder; track item.key) {
               <th>
                 {{ item.key }}
               </th>
@@ -16,13 +17,13 @@
       }
     }
     <tbody>
-      @for (user of (roles$$ | async); track user.id) {
+      @for (role of roles; track role.id) {
         <tr>
-          @for (item of user | keyvalue : keepJsonOrder; track item.key) {
-            <td>{{ item.value }}</td>
+          @for (item of role | keyvalue : keepJsonOrder; track item.key) {
+            <td [routerLink]="['.', role.name]" class="clickable">{{ item.value }}</td>
           }
           <td>
-            <button type="button" (click)="onDeleteHard(user)">-</button>
+            <button type="button" (click)="onDeleteHard(role)">-</button>
           </td>
         </tr>
       } @empty {

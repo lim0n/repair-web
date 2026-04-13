@@ -1,11 +1,23 @@
-import { AsyncPipe, JsonPipe, KeyValuePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import {
+  AsyncPipe,
+  KeyValuePipe
+} from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FnPipe } from '@app/pipes/fn-pipe';
 import { OrdersService } from '@app/services/orders.service';
 import { PlatformService } from '@app/services/platform.service';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
-import { BehaviorSubject, catchError, EMPTY, Observable, of, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  EMPTY,
+  of,
+  take
+} from 'rxjs';
 import { IOrder } from '@interfaces/order.interface';
 
 @Component({

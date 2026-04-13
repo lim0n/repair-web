@@ -3,6 +3,7 @@
     <legend>Заказ удалён, или произошла ошибка</legend>
   </fieldset>
 } @else {
+  @let detailedOrder = detailedOrder$$ | async;
   <fieldset>
     <legend>Заказ</legend>
     <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
@@ -42,7 +43,7 @@
       <input id="deleted_at" formControlName="deleted_at" type="datetime-local">
 
       <div class="btn-group">
-        @if ((detailedOrder$$ | async)?.id) {
+        @if (detailedOrder?.id) {
           <button type="submit" [disabled]="!orderForm.valid">Сохранить изменения</button>
           <button type="button" (click)="onDelete()">Удалить заказ</button>
         } @else {
@@ -52,8 +53,8 @@
     </form>
   </fieldset>
   
-  @if ( (detailedOrder$$ | async)?.user ) {
-    @let user = (detailedOrder$$ | async)?.user;
+  @let user = detailedOrder?.user;
+  @if (user) {
     <fieldset>
       <legend>Пользователь</legend>
       <dl>
@@ -67,7 +68,7 @@
     </fieldset>
   }
 
-  @let order_details_list = (detailedOrder$$ | async)?.order_details;
+  @let order_details_list = detailedOrder?.order_details;
   @if ( order_details_list && order_details_list.length ) {
     <fieldset>
       <legend>Подробности</legend>
@@ -83,8 +84,4 @@
       }
     </fieldset>
   }
-
 }
-
-  <!-- <h3>json</h3>
-  <pre>{{ detailedOrder$$ | async | json }}</pre> -->

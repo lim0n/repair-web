@@ -1,0 +1,21 @@
+@if (serverError) {
+  <fieldset>
+    <legend>Заказ удалён, или произошла ошибка</legend>
+  </fieldset>
+} @else {
+  <fieldset>
+    <legend>Роль</legend>
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+      <label for="id">Id:</label>
+      <input id="id" formControlName="id" type="number">
+      <label for="name">Роль:</label>
+      <input id="name" formControlName="name" type="text" autocomplete="off" />
+      <label for="description">Описание:</label>
+      <input id="description" formControlName="description" type="text" autocomplete="off" />
+
+      <div class="btn-group">
+        <button type="submit" [disabled]="!roleForm.valid">Сохранить изменения</button>
+      </div>
+    </form>
+  </fieldset>
+}

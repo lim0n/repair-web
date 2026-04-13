@@ -109,7 +109,12 @@ export const MANAGER_PAGE_ROUTES: Routes = [
           {
             path: '',
             loadComponent: () => import('@pages/manager/roles/roles-page.component').then(m => m.RolesPageComponent),
-          }
+          },
+          {
+            path: ':name',
+            loadComponent: () => import('@pages/manager/roles/role/role-page.component').then(m => m.RolePageComponent),
+            title: 'Роль'
+          },
         ]
       },
     ]

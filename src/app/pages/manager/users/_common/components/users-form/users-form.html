@@ -1,5 +1,6 @@
 <fieldset>
-  <legend>{{ username || (user$$ | async)?.email|| (user$$ | async)?.phone || 'Создать пользователя' }}</legend>
+  @let user = user$$ | async;
+  <legend>{{ username || user?.email|| user?.phone || 'Создать пользователя' }}</legend>
 
   @if (serverError) {
     <p>Пользователь удалён, или произошла ошибка</p>
@@ -19,7 +20,7 @@
         <div class="alert">Логин, если он окажется уникальным, может стать идентификатором иользователя</div>
       }
 
-      @if (!(user$$ | async)?.id) {
+      @if (!user?.id) {
         <label for="password">Password:</label>
         <input id="password" formControlName="password" type="password" autocomplete="off" />
       }
@@ -45,7 +46,7 @@
         <div class="alert">Номер телефона может быть идентификатором иользователя</div>
       }
 
-      @if (!(user$$ | async)?.id) {
+      @if (!user?.id) {
         <label for="user_role">Роль:</label>
         <select id="user_role" formControlName="user_role">
           <option>admin</option>
@@ -62,7 +63,7 @@
       <input id="updated_at" formControlName="updated_at" type="datetime-local">
 
     <div class="btn-group">
-      @if ((user$$ | async)?.id) {
+      @if (user?.id) {
         <button type="submit" [disabled]="!userForm.valid">Сохранить изменения</button>
         <button type="button" (click)="onDelete()">Удалить пользователя</button>
       } @else {

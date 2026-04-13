@@ -40,39 +40,4 @@
       </div>
     </form>
   </fieldset>
-
-  
-  
-  <!-- @if ( (orderDetailsItem$$ | async)?.user ) {
-    @let user = (orderDetailsItem$$ | async)?.user;
-    <fieldset>
-      <legend>Пользователь</legend>
-      <dl>
-        @for (field of user | keyvalue : keepJsonOrder; track field.key) {
-          @if (field.value) {
-            <dt>{{field.key}}</dt>
-            <dd>{{field.value}}</dd>
-          }
-        }
-      </dl>
-    </fieldset>
-  } -->
-
-  <!-- @let order_details_list = (orderDetailsItem$$ | async)?.order_details;
-  @if ( order_details_list && order_details_list.length ) {
-    <fieldset>
-      <legend>Подробности</legend>
-      @for (order_details of order_details_list; track order_details.id) {
-        <dl>
-          @for (field of order_details | keyvalue : keepJsonOrder; track field.key) {
-            @if (field.value) {
-              <dt>{{field.key}}</dt>
-              <dd>{{field.value}}</dd>
-            }
-          }
-        </dl>
-      }
-    </fieldset>
-  } -->
-
 }

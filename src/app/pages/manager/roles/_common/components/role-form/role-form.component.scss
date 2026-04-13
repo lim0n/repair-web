@@ -1,0 +1,20 @@
+.role-form {
+
+  form {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+
+    .btn-group {
+      grid-column: 1 / span 2;
+      align-self: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1ex;
+    }
+
+    input + .alert {
+      grid-column-end: span 2;
+    }
+  }
+}

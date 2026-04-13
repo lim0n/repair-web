@@ -31,4 +31,9 @@ export class RolesService {
     const url = new URL(`/roles/hard/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
   }
+
+  updateRole(name: string, item: IRole): Observable<any> {
+    const url = new URL(`/roles/${name}`, environment.apiUrl);
+    return this._api.patch<any>(String(url), item);
+  }
 }
