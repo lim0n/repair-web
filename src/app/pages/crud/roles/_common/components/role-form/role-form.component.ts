@@ -1,15 +1,33 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
+import {
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 import { RolesService } from '@app/services/roles';
 import { IRole } from '@interfaces/role.interface';
-import { datetimeTzToDatetimeLocal } from '@pages/manager/users/user/utils/datetimetz-to-datetime-local.function';
-import { BehaviorSubject, catchError, filter, map, of, take } from 'rxjs';
+import { datetimeTzToDatetimeLocal } from '@pages/crud/users/user/utils/datetimetz-to-datetime-local.function';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  map,
+  of,
+  take
+} from 'rxjs';
 
 @Component({
   selector: 'role-form',
-  imports: [AsyncPipe, JsonPipe, ReactiveFormsModule],
+  imports: [ ReactiveFormsModule],
   templateUrl: './role-form.component.html',
   styleUrl: './role-form.component.scss',
   host: { class: 'role-form' },
@@ -27,6 +45,7 @@ export class RoleFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
+    private _breadcrumbsService: BreadcrumbsService
   ) { }
 
   ngOnInit(): void {
@@ -61,9 +80,8 @@ export class RoleFormComponent implements OnInit {
         }))
       .subscribe(data => {
         this.roleForm.patchValue(data);
-        
-        // const title = data.name || data.email || data.phone || data?.user?.name || data?.user?.username;
-        // if (title) this._breadcrumbsService.changeLastTitle(String(title));
+        const title = data?.name;
+        if (title) this._breadcrumbsService.changeLastTitle(String(title));
       });
   }
 

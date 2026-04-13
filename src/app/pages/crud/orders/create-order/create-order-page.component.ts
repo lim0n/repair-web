@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { OrdersForm } from '@pages/manager/orders/_common/components/orders-form/orders-form';
+import { OrdersForm } from '@pages/crud/orders/_common/components/orders-form/orders-form';
 
 @Component({
   selector: 'app-create-order-page',

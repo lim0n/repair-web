@@ -4,7 +4,7 @@ import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Va
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '@app/services/users.service';
 import { IUser } from '@interfaces/user.interface';
-import { datetimeTzToDatetimeLocal } from '@pages/manager/users/user/utils/datetimetz-to-datetime-local.function';
+import { datetimeTzToDatetimeLocal } from '@pages/crud/users/user/utils/datetimetz-to-datetime-local.function';
 import { take, catchError, of, filter, map, BehaviorSubject } from 'rxjs';
 import { requiredUserIdField } from './user-id-field.validator';
 import { BreadcrumbsService } from '@app/services/breadcrumbs.service';

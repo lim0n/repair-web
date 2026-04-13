@@ -6,12 +6,12 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server
   },
   {
-    path: 'manager/users/id/:userid',
-    renderMode: RenderMode.Server
+    path: 'crud/users/id/:userid',
+    renderMode: RenderMode.Client
   },
   {
-    path: 'manager/users/:username',
-    renderMode: RenderMode.Server
+    path: 'crud/users/:username',
+    renderMode: RenderMode.Client
   },
   {
     path: '**',

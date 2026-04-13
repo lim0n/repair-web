@@ -1,7 +1,7 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ProfileService } from '@app/services/profile.service';
-import { BehaviorSubject, catchError, Observable, of, take } from 'rxjs';
+import { BehaviorSubject, catchError, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-manager-page',
@@ -9,10 +9,10 @@ import { BehaviorSubject, catchError, Observable, of, take } from 'rxjs';
     JsonPipe,
     AsyncPipe
   ],
-  templateUrl: './manager-page.html',
-  styleUrl: './manager-page.scss',
+  templateUrl: './crud-page.component.html',
+  styleUrl: './crud-page.component.scss',
 })
-export class ManagerPage {
+export class CrudPageComponent {
   profile$$ = new BehaviorSubject(null);
 
   constructor(

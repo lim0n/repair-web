@@ -23,10 +23,10 @@ export const routes: Routes = [
         title: 'Login'
     },
     {
-        path: 'manager',
-        loadChildren: () => import('@pages/manager/manager-page.routes').then(m => m.MANAGER_PAGE_ROUTES),
+        path: 'crud',
+        loadChildren: () => import('@pages/crud/crud-page.routes').then(m => m.CRUD_PAGE_ROUTES),
         canActivate: [ authGuard ],
-        title: 'Manager',
+        title: 'API CRUD',
     },
     {
         path: '**',

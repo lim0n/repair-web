@@ -1,22 +1,39 @@
-import { AsyncPipe, JsonPipe, KeyValuePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
+import {
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
 import { OrderDetailsService } from '@app/services/order-details.service';
 import { PopupService } from '@app/services/popup.service';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
 import { IOrderDetails } from '@interfaces/order-details.interface';
-import { datetimeTzToDatetimeLocal } from '@pages/manager/users/user/utils/datetimetz-to-datetime-local.function';
-import { BehaviorSubject, catchError, filter, map, of, switchMap, take } from 'rxjs';
+import { datetimeTzToDatetimeLocal } from '@pages/crud/users/user/utils/datetimetz-to-datetime-local.function';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  map,
+  of,
+  switchMap,
+  take
+} from 'rxjs';
 
 @Component({
   selector: 'order-details-form',
   imports: [
     ReactiveFormsModule,
-    KeyValuePipe,
     AsyncPipe,
-    JsonPipe
   ],
   templateUrl: './order-details-form.html',
   styleUrl: './order-details-form.scss',
@@ -54,12 +71,7 @@ export class OrderDetailsFormComponent implements OnInit {
     this.orderDetailsForm = this._fb.group({
       id: [{value: '', disabled: true}],
       order_id: [{value: ''}, [Validators.required]],
-      
-      // details: [{value: ''}, [Validators.required]],
-
-      // details: [{value: ''}, [ Validators.required ]],
       details: ['', [Validators.required]],
-      
       author: [{value: ''}, [Validators.required]],
       hidden: false,
       created_at: [{value: '', disabled: true}],

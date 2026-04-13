@@ -11,7 +11,7 @@ import { UsersService } from '@app/services/users.service';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
 import { IOrder } from '@interfaces/order.interface';
 import { IUser } from '@interfaces/user.interface';
-import { datetimeTzToDatetimeLocal } from '@pages/manager/users/user/utils/datetimetz-to-datetime-local.function';
+import { datetimeTzToDatetimeLocal } from '@pages/crud/users/user/utils/datetimetz-to-datetime-local.function';
 import { BehaviorSubject, catchError, expand, filter, map, Observable, of, switchMap, take } from 'rxjs';
 
 @Component({

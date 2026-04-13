@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { UsersForm } from '@pages/manager/users/_common/components/users-form/users-form';
+import { UsersForm } from '@pages/crud/users/_common/components/users-form/users-form';
 
 @Component({
   selector: 'app-create-user-page',
