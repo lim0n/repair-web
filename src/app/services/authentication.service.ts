@@ -22,10 +22,10 @@ export class AuthenticationService {
     ) {
         if (this._platform.isServer) return;
         this.localStorage = this._document.defaultView?.localStorage;
-        this.userData$$.next( JSON.parse( <string>this.localStorage?.getItem('currentUser') ) );
+        this.userData$$.next(JSON.parse(<string>this.localStorage?.getItem('currentUser')));
         this.userData$$
             .pipe(skip(1))
-            .subscribe(data=>{
+            .subscribe(data => {
                 if (data !== null) {
                     this.localStorage?.setItem('currentUser', JSON.stringify(data));
                 } else {
@@ -43,15 +43,27 @@ export class AuthenticationService {
             { username, password })
             .pipe(
                 tap(data => {
-                        this.setData(data);
-                    }));
+                    this.setData(data);
+                }));
     }
 
     logout() {
+        console.warn('AuthenticationService logout fired');
         this.setData(null);
+    }
+
+    updateAccessToken(access_token: string) {
+        if (this.currentUserValue !== null) {
+            this.setData({ ...this.currentUserValue, access_token });
+        }
     }
 
     setData(data: IJwt | null) {
         this.userData$$.next(data);
+    }
+
+    getAccessTokenByRefreshToken() {
+        const refreshToken = this.currentUserValue?.refresh_token;
+        return this.http.post<Partial<IJwt>>(`${environment.apiUrl}/auth/refresh-access-token`, { refreshToken })
     }
 }

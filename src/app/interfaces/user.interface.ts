@@ -15,7 +15,7 @@ export interface IUser {
   /** Роль */
   user_role?: 'admin' | 'manager' | 'editor' | 'viewer';
   /** JWT-токен */
-  access_token?: string;
+  access_token: string;
   /** Заказы пользователя */
   orders?: IOrder[];
   created_at?: string;

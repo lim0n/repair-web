@@ -1,8 +1,6 @@
 <fieldset>
   <legend>Users page</legend>
   @let users = (users$$ | async);
-  <pre>{{ users }}</pre>
-
   <table border="1">
     @for (user of users; track user; let i = $index) {
       @if (i == 0) {
