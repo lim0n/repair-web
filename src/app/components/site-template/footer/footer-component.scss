@@ -1,5 +1,8 @@
 .footer-component {
   display: grid;
+  padding: var(--container-padding) 0;
+
+  width: 100%;
 
   .login-cell {
     justify-self: end;

@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.scss',
-  // imports: [ RouterLink ]
+  host: { class: 'home-page container' },
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    WhatWeDo
+  ]
 })
 export class Home {
 

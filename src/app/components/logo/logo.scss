@@ -4,6 +4,10 @@
   column-gap: 1em;
   padding: .5em;
 
+  &[routerlink] {
+    cursor: pointer;
+  }
+
   &__kv {
     grid-row-end: span 2;
   }
