@@ -82,6 +82,10 @@ body {
 
 }
 
+button {
+  cursor: pointer;
+}
+
 .container {
   max-width: var(--max-container);
   margin-left: auto;

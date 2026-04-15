@@ -1,0 +1,5 @@
+@if (!isLoggedIn) {
+  <button routerLink="/login">Войти</button>
+} @else {
+  <button (click)="logout()">Выйти</button>
+}

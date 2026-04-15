@@ -1,0 +1,14 @@
+.login-cell {
+  display: flex;
+  flex: 1;
+
+  button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // padding: min-max(1em, 5vw) 1em;
+    padding: 1em clamp(1rem, 5vw, 3rem);
+  }
+}
