@@ -1,7 +1,16 @@
+@use "../../styles/tools" as *;
+
 .app-header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
+  .app-logo {
+    font-size: 2vw;
+    @include media-breakpoint-up(sm) {
+      font-size: 1em;
+    }
+  }
 }

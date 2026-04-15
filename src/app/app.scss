@@ -54,7 +54,7 @@
 
   --container-padding: 2em;
   --card-gap: .5em 1em;
-  --tile-gap: 1em;
+  --tile-gap: min(2vw, 1em);
 
   @include media-breakpoint-up(md) {
     --current-max: var(--breakpoint-md);
