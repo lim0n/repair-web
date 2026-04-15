@@ -19,8 +19,6 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
                     return next(clonedReq);
                 }),
                 catchError((refreshError) => {
-                    console.warn('catchError refreshError', refreshError);
-                    console.warn('fire logout from authInterceptor')
                     authenticationService.logout();
                     return throwError(() => refreshError);
                 })
