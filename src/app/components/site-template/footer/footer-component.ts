@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '@app/services/authentication.service';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { LoginCell } from '../login-cell/login-cell';
 import { CookieAccept } from '../cookie-accept/cookie-accept';
 import { Ids } from '../ids/ids';
+import { Logo } from '@components/logo/logo';
+import { Credentials } from '@app/credentials.enum';
 
 @Component({
   selector: 'footer-component',
@@ -14,20 +15,11 @@ import { Ids } from '../ids/ids';
   imports: [
     LoginCell,
     CookieAccept,
-    Ids
+    Ids,
+    Logo
   ]
 })
-export class FooterComponent implements OnInit {
-
-  isLoggedIn: boolean = false;
-
-  constructor(
-    private authService: AuthenticationService
-  ) {}
-
-  ngOnInit() {
-    this.authService.isLoggedIn$.subscribe((val: boolean) => {
-      this.isLoggedIn = val;
-    });
-  }
+export class FooterComponent {
+  readonly credentials = Credentials;
+  readonly tel = `tel:${this.credentials.Phone}`;
 }

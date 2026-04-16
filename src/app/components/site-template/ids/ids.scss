@@ -1,7 +1,13 @@
 .app-ids {
-  display: grid;
+  display: block;
   padding: var(--container-padding);
-  gap: 1ex;
+  container: cell/inline-size;
+  font-size: 6cqw;
+  
+  &__wrapper {
+    display: grid;
+    gap: .5ex 3em;
+  }
 
   dl {
     display: grid;
@@ -12,5 +18,21 @@
 
   dl, dd {
     margin: 0;
+  }
+
+  @container cell (min-width: 20rem) {
+    font-size: 1em;
+  }
+
+  @container cell (min-width: 35.5rem) {
+    font-size: 1rem;
+
+    &__wrapper {
+      grid-template-columns: auto 1fr;
+    }
+
+    dl {
+      grid-row-end: span 2;
+    }
   }
 }

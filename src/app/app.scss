@@ -52,9 +52,11 @@
   --current-max: var(--breakpoint-sm);
   --max-container: calc(var(--current-max) - 2rem);
 
+  --tile-padding: 1em;
+  --card-padding: 1.5em;
   --container-padding: 2em;
-  --card-gap: .5em 1em;
   --tile-gap: min(2vw, 1em);
+  --card-gap: .5em 1em;
   --container-gap: 1.5em;
 
   @include media-breakpoint-up(md) {

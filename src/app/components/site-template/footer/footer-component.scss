@@ -1,8 +1,45 @@
 .footer-component {
-  display: grid;
+  display: block;
+  container: cell/inline-size;
   padding-top: var(--container-padding);
   padding-bottom: var(--container-padding);
   width: 100%;
 
-  grid-auto-flow: column;
+  &__wrapper {
+    display: grid;
+    gap: var(--card-gap);
+    grid-template-columns: 10rem 1fr;
+  }
+
+  app-logo {
+    font-size: .4em;
+  }
+
+  &__phone {
+    justify-self: end;
+    align-self: center;
+  }
+
+  app-ids, cookie-accept {
+    grid-column-end: span 2;
+  }
+
+  login-cell {
+    grid-column-end: -1;
+  }
+
+  @container cell (min-width: 35.5rem) {
+
+    &__wrapper {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    cookie-accept, app-ids {
+      grid-column-end: span 1;
+    }
+
+    cookie-accept:not(:empty) + login-cell {
+      grid-column-start: -2;
+    }
+  }
 }
