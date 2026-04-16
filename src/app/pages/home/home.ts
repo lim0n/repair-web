@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
+import { HowWeWorks } from "@components/content/how-we-works/how-we-works";
 
 @Component({
   selector: 'app-home',
@@ -9,8 +10,9 @@ import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    WhatWeDo
-  ]
+    WhatWeDo,
+    HowWeWorks
+]
 })
 export class Home {
 

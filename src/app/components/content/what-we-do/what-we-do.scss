@@ -16,7 +16,6 @@
   &-tile {
     display: grid;
     grid-template-columns: 4em 1fr;
-    // gap: var(--card-gap);
     align-items: center;
     background: var(--surface-accented);
   }
@@ -26,12 +25,9 @@
   }
 
   @supports (container: cell/inline-size) {
-    // @container cell (max-width: 48rem) and (min-width: 34rem) {
     @container cell (min-width: 37.5rem) {
       &__grid {
-        // border: 1px solid #0f0;
         --columns: 3;
-        // grid-template-columns: repeat(3, 1fr)
       }
 
       &-tile {

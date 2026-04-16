@@ -1,14 +1,28 @@
-export interface IEntity {
-  title?: string;
-  description?: string;
-  icon?: string;
-}
+import { IEntity } from "@interfaces/entity.interface";
 
 export const WHAT_WE_DO: IEntity[] = [
-  { title: 'Стиральные машинки' },
-  { title: 'Посудомоечные машины' },
-  { title: 'Сушильные машины' },
-  { title: 'Электрические кухонные плиты' },
-  { title: 'Духовки' },
-  { title: 'Холодильники' }
+  {
+    title: 'Стиральные машинки',
+    icon: 'icon_washing_machine'
+  },
+  {
+    title: 'Посудомоечные машины',
+    icon: 'icon_dishwasher'
+  },
+  {
+    title: 'Сушильные машины',
+    icon: 'icon_dryer'
+  },
+  {
+    title: 'Электрические кухонные плиты',
+    icon: 'icon_stove'
+  },
+  {
+    title: 'Духовки',
+    icon: 'icon_oven'
+  },
+  {
+    title: 'Холодильники',
+    icon: 'icon_refrigerator'
+  }
 ];

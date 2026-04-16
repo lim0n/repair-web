@@ -1,0 +1,22 @@
+.how-we-works {
+  display: block;
+  container: cell/inline-size;
+  
+  &__wrapper {}
+  
+  &__grid {
+    --columns: 2;
+    display: grid;
+    gap: var(--tile-gap);
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-auto-rows: 1fr;
+  }
+
+  &-tile {
+    display: grid;
+    grid-template-columns: 4em 1fr;
+    align-items: center;
+    background: var(--surface-accented);
+  }
+  
+}

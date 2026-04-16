@@ -1,6 +1,7 @@
 .footer-component {
   display: grid;
-  padding: var(--container-padding) 0;
+  padding-top: var(--container-padding);
+  padding-bottom: var(--container-padding);
 
   width: 100%;
 
