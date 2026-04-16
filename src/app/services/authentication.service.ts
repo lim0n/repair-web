@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT, Inject, Injectable } from '@angular/core';
-import { IUser } from '@interfaces/user.interface';
-import { BehaviorSubject, map, Observable, skip, Subject, tap } from 'rxjs';
+import { BehaviorSubject, map, skip, tap } from 'rxjs';
 import { environment } from '@src/environments/environment';
 import { PlatformService } from './platform.service';
 import { IJwt } from '@interfaces/jwt.interface';

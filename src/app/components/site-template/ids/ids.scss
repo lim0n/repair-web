@@ -1,0 +1,14 @@
+.app-ids {
+  display: block;
+  padding: var(--container-padding);
+
+  dl {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .5ex 1em;
+  }
+
+  dl, dd {
+    margin: 0;
+  }
+}

@@ -2,10 +2,7 @@
   display: grid;
   padding-top: var(--container-padding);
   padding-bottom: var(--container-padding);
-
   width: 100%;
 
-  .login-cell {
-    justify-self: end;
-  }
+  grid-auto-flow: column;
 }

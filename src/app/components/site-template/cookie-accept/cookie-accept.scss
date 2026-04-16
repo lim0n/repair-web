@@ -1,0 +1,25 @@
+.cookie-accept {
+  display: flex;
+  
+  div {
+    flex: 1;
+    display: flex;
+
+    > * {
+      padding: var(--container-padding);
+    }
+
+    &.leaving {
+      opacity: 0;
+      transition: opacity 500ms ease-out;
+    }
+  }
+
+  span {
+    background: var(--surface-accented);
+  }
+
+  &:empty {
+    display: none;
+  }
+}
