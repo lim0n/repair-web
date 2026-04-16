@@ -1,10 +1,10 @@
 <div class="how-we-works__wrapper">
-  <div class="how-we-works__title h2">Как мы работаем</div>
+  <div class="how-we-works__title h2 with-mb">Как мы работаем</div>
   <div class="how-we-works__grid">
     @for (item of data; track item) {
       <div class="how-we-works-tile">
         <svg viewBox="0 0 58.535 61.489">
-           <use [attr.xlink:href]="'#'+item.icon"></use>
+           <use [attr.href]="'#'+item.icon"></use>
         </svg>
         <div class="how-we-works-tile__title">{{ item.title }}</div>
       </div>

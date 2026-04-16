@@ -1,3 +1,8 @@
 .home-page {
   display: block;
+
+  > * {
+    margin-block-start: var(--container-gap);
+    margin-block-end: var(--container-gap);
+  }
 }

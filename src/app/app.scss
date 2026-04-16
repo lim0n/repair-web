@@ -55,17 +55,21 @@
   --container-padding: 2em;
   --card-gap: .5em 1em;
   --tile-gap: min(2vw, 1em);
+  --container-gap: 1.5em;
 
   @include media-breakpoint-up(md) {
     --current-max: var(--breakpoint-md);
+    --container-gap: 2em;
   }
 
   @include media-breakpoint-up(lg) {
     --current-max: var(--breakpoint-lg);
+    --container-gap: 3em;
   }
 
   @include media-breakpoint-up(xl) {
     font-size: 1vw;
+    --container-gap: 4em;
   }
 }
 
@@ -128,22 +132,40 @@ svg {
 .h1 {
   font-size: 2rem;
   font-weight: 700;
-  margin-block-start: .67em;
-  margin-block-end: .67em;
+
+  &.with-mt {
+    margin-block-start: .67em;
+  }
+
+  &.with-mb {
+    margin-block-end: .67em;
+  }
 }
 
 .h2 {
   font-size: 1.5em;
   font-weight: bold;
-  margin-block-start: .83em;
-  margin-block-end: .83em;
+
+  &.with-mt {
+    margin-block-start: .83em;
+  }
+
+  &.with-mb {
+    margin-block-end: .83em;
+  }
 }
 
 .h3 {
   font-size: 1.170em;
   font-weight: bold;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
+
+  &.with-mt {
+    margin-block-start: 1em;
+  }
+
+  &.with-mb {
+    margin-block-end: 1em;
+  }
 }
 
 h1, h2, h3, .h1, .h2, .h3 {
