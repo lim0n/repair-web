@@ -1,11 +1,13 @@
 .app-ids {
-  display: block;
+  display: grid;
   padding: var(--container-padding);
+  gap: 1ex;
 
   dl {
     display: grid;
     grid-template-columns: auto auto;
     gap: .5ex 1em;
+
   }
 
   dl, dd {

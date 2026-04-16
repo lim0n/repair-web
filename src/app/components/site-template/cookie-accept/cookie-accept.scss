@@ -4,6 +4,7 @@
   div {
     flex: 1;
     display: flex;
+    background: var(--surface-accented);
 
     > * {
       padding: var(--container-padding);
@@ -16,7 +17,7 @@
   }
 
   span {
-    background: var(--surface-accented);
+    align-self: center;
   }
 
   &:empty {
