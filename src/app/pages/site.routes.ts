@@ -19,6 +19,11 @@ export const SITE_ROUTES: Routes = [
         loadComponent: () => import('@pages/privacy-policy/privacy-policy-page-component').then(m => m.PrivacyPolicyPageComponent),
         title: 'Согласие на обработку персональных данных'
       },
+      { 
+        path: 'washing-machine',
+        loadComponent: () => import('@pages/washing-machine/washing-machine-page-component').then(m => m.WashingMachinePageComponent),
+        title: 'Ремонт стиральных машин'
+      },
     ]
   }
 ];

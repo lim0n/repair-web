@@ -3,7 +3,8 @@ import { IEntity } from "@interfaces/entity.interface";
 export const WHAT_WE_DO: IEntity[] = [
   {
     title: 'Стиральные машинки',
-    icon: 'icon_washing_machine'
+    icon: 'icon_washing_machine',
+    route: '/washing-machine'
   },
   {
     title: 'Посудомоечные машины',
