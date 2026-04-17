@@ -1,16 +1,28 @@
 @use "../../styles/tools" as *;
 
 .app-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
   align-items: center;
   width: 100%;
-
+  grid-auto-flow: column;
+  
   .app-logo {
     font-size: 2vw;
+
     @include media-breakpoint-up(sm) {
       font-size: 1em;
+    }
+  }
+
+  .theme-switch {
+    justify-self: end;
+  }
+
+  .breadcrumbs {
+    grid-area: 2/1/3/3;
+
+    &:has(a:only-of-type) {
+      display: none;
     }
   }
 }

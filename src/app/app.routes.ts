@@ -5,7 +5,7 @@ export const routes: Routes = [
     {
         path: '',
         loadChildren: () => import('@pages/site.routes').then(m => m.SITE_ROUTES),
-        title: 'Эксперт-сервис"'
+        title: 'Эксперт-сервис'
     },
     {
         path: 'articles/:name',

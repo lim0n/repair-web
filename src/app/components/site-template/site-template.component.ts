@@ -8,7 +8,7 @@ import { FooterComponent } from "./footer/footer-component";
   imports: [
     RouterOutlet,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
 ],
   host: { class: 'site-template' },
   templateUrl: './site-template.component.html',
