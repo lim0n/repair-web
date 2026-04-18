@@ -2,4 +2,15 @@
   display: grid;
   height: 100dvh;
   grid-template-rows: auto 1fr auto;
+
+  &__content {
+
+    > [class*=-page] {
+      
+      > * {
+        margin-block-start: var(--container-gap);
+        margin-block-end: var(--container-gap);
+      }
+    }
+  }
 }

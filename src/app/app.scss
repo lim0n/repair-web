@@ -17,7 +17,7 @@
   --text-main-light: #080808;
   --text-secondary-light: #111111;
   --text-main-dark: #f8f8f8;
-  --text-secondary-dark: #eeeeee;
+  --text-secondary-dark: #dedede;
 
   // --surface-light: 254, 254, 254;           // #fefefe
   // --surface-dark: 14, 14, 14;               // #0e0e0e
@@ -56,11 +56,13 @@
   --card-padding: 1.5em;
   --container-padding: 2em;
   --tile-gap: min(2vw, 1em);
+  --item-gap: .5ex;
   --card-gap: .5em 1em;
   --container-gap: 1.5em;
 
   @include media-breakpoint-up(md) {
     --current-max: var(--breakpoint-md);
+    --item-gap: 1ex;
     --container-gap: 2em;
   }
 
@@ -68,9 +70,10 @@
     --current-max: var(--breakpoint-lg);
     --container-gap: 3em;
   }
-
+  
   @include media-breakpoint-up(xl) {
     font-size: 1vw;
+    --item-gap: 1.5ex;
     --container-gap: 4em;
   }
 }
@@ -174,4 +177,8 @@ h1, h2, h3, .h1, .h2, .h3 {
   font-optical-sizing: auto;
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 500;
+
+  &.with-mb {
+    margin-block-start: 0;
+  }
 }

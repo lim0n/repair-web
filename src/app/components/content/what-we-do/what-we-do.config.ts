@@ -2,28 +2,46 @@ import { IEntity } from "@interfaces/entity.interface";
 
 export const WHAT_WE_DO: IEntity[] = [
   {
-    title: 'Стиральные машинки',
-    icon: 'icon_washing_machine',
-    route: '/washing-machine'
+    title: 'Стиральные машины',
+    icon: {
+      title: 'Стиральные машины',
+      link: 'icon_washing_machine'
+    },
+    route: 'washing-machine'
   },
   {
     title: 'Посудомоечные машины',
-    icon: 'icon_dishwasher'
+    icon: {
+      title: 'Посудомоечные машины',
+      link: 'icon_dishwasher'
+    },
   },
   {
     title: 'Сушильные машины',
-    icon: 'icon_dryer'
+    icon: {
+      title: 'Сушильные машины',
+      link: 'icon_dryer'
+    },
   },
   {
     title: 'Электрические кухонные плиты',
-    icon: 'icon_stove'
+    icon: {
+      title: 'Электрические кухонные плиты',
+      link: 'icon_stove'
+    },
   },
   {
     title: 'Духовки',
-    icon: 'icon_oven'
+    icon: {
+      title: 'Духовки',
+      link: 'icon_oven'
+    },
   },
   {
     title: 'Холодильники',
-    icon: 'icon_refrigerator'
+    icon: {
+      title: 'Холодильники',
+      link: 'icon_refrigerator'
+    },
   }
 ];

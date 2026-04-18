@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { WHAT_WE_DO } from './what-we-do.config';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   selector: 'what-we-do',
   templateUrl: './what-we-do.html',
   styleUrl: './what-we-do.scss',
-  host: { class: 'what-we-do container' },
+  host: { class: 'what-we-do' },
   encapsulation: ViewEncapsulation.None,
   imports: [
     NgTemplateOutlet,
@@ -15,5 +15,5 @@ import { RouterLink } from '@angular/router';
   ]
 })
 export class WhatWeDo {
-  readonly data = WHAT_WE_DO;
+  @Input() data = WHAT_WE_DO;
 }
