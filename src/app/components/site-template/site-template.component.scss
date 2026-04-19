@@ -1,16 +1,31 @@
 .site-template {
   display: grid;
   height: 100dvh;
-  grid-template-rows: auto 1fr auto;
+  // grid-template-rows: auto 1fr auto;
 
-  &__content {
 
-    > [class*=-page] {
-      
-      > * {
-        margin-block-start: var(--container-gap);
-        margin-block-end: var(--container-gap);
-      }
+  router-outlet {
+    height: 0;
+  }
+
+
+  [class*=-page] {
+
+    &.container {
+      width: 100%;
     }
+    
+    > * {
+      margin-block-start: var(--container-gap);
+      margin-block-end: var(--container-gap);
+    }
+  }
+
+  app-header {
+    align-self: start;
+  }
+
+  footer-component {
+    align-self: end;
   }
 }

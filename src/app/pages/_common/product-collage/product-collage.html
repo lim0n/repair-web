@@ -1,5 +1,37 @@
+
 <div class="product-collage__wrapper">
+  <!-- <pre>{{ product | json }}</pre> -->
+
   <what-we-do [data]="products"></what-we-do>
+
+  @if (product) {
+    <h1>{{ product.title }}</h1>
+    <div class="product-collage__kv">
+      <svg viewBox="0 0 58.535 61.489">
+        <use [attr.href]="'#'+product?.icon?.link"></use>
+      </svg>
+    </div>
+    @if (product.content?.length) {
+      <div class="product-collage__list">
+        @for (item of product.content; track item) {
+          <div class="product-collage__list-item">
+            <div class="product-collage__list-item-icon">
+              <svg viewBox="0 0 58.535 61.489">
+                <use [attr.href]="'#'+item?.icon"></use>
+              </svg>
+            </div>
+            <div class="product-collage__list-item-title h3">{{ item.title }}</div>
+            <div class="product-collage__list-item-description">{{ item.description }}</div>
+          </div>
+        }
+      </div>
+    }
+    <div class="product-collage__button-group">
+      <button class="product-collage__button">Вызвать мастера</button>
+    </div>
+  }
+
+
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg">
@@ -9,4 +41,7 @@
   <symbol id="icon_stove" viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-360v280h560v-280h-80v200H280v-200h-80Zm160 120h240v-120H360v120ZM200-560h560v-200H200v200Zm91.5-91.5Q280-663 280-680t11.5-28.5Q303-720 320-720t28.5 11.5Q360-697 360-680t-11.5 28.5Q337-640 320-640t-28.5-11.5Zm160 0Q440-663 440-680t11.5-28.5Q463-720 480-720t28.5 11.5Q520-697 520-680t-11.5 28.5Q497-640 480-640t-28.5-11.5Zm160 0Q600-663 600-680t11.5-28.5Q623-720 640-720t28.5 11.5Q680-697 680-680t-11.5 28.5Q657-640 640-640t-28.5-11.5Z"/></symbol>
   <symbol id="icon_oven" viewBox="0 -960 960 960"><path d="M668.5-691.5Q680-703 680-720t-11.5-28.5Q657-760 640-760t-28.5 11.5Q600-737 600-720t11.5 28.5Q623-680 640-680t28.5-11.5Zm-160 0Q520-703 520-720t-11.5-28.5Q497-760 480-760t-28.5 11.5Q440-737 440-720t11.5 28.5Q463-680 480-680t28.5-11.5Zm-160 0Q360-703 360-720t-11.5-28.5Q337-760 320-760t-28.5 11.5Q280-737 280-720t11.5 28.5Q303-680 320-680t28.5-11.5ZM200-560v360h560v-360H200Zm200 160h160v-80H400v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-440Zm0 0Z"/></symbol>
   <symbol id="icon_refrigerator" viewBox="0 -960 960 960"><path d="M440-80v-73l-64 54-52-61 116-98v-152l-132 76-27 149-79-14 15-83-64 37-40-69 64-37-79-29 27-75 143 51 132-76-132-76-143 52-27-76 79-28-64-37 40-69 64 37-15-83 79-14 27 149 132 76v-152l-116-98 52-61 64 54v-74h80v74l64-54 52 61-116 98v152l131-76 27-149 79 14-15 83 64-37 40 69-64 37 79 28-27 76-143-52-131 76 131 76 143-51 27 75-79 29 64 37-40 69-64-37 15 83-79 14-27-149-131-76v152l116 98-52 61-64-54v73h-80Z"/></symbol>
+  <symbol id="icon_front_load" viewBox="0 -960 960 960"><path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z"/></symbol>
+  <symbol id="icon_top_load" viewBox="0 -960 960 960"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></symbol>
+  <symbol id="icon_built_in" viewBox="0 -960 960 960"><path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/></symbol>
 </svg>

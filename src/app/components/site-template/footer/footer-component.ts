@@ -4,6 +4,7 @@ import { CookieAccept } from '../cookie-accept/cookie-accept';
 import { Ids } from '../ids/ids';
 import { Logo } from '@components/logo/logo';
 import { Credentials } from '@app/credentials.enum';
+import { ThemeSwitch } from '@components/theme-switch/theme-switch.component';
 
 @Component({
   selector: 'footer-component',
@@ -16,7 +17,8 @@ import { Credentials } from '@app/credentials.enum';
     LoginCell,
     CookieAccept,
     Ids,
-    Logo
+    Logo,
+    ThemeSwitch
   ]
 })
 export class FooterComponent {

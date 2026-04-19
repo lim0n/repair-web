@@ -2,33 +2,124 @@
   display: block;
   container: cell/inline-size;
 
-  &__wrapper {
-
+  svg {
+    // display: block;
   }
 
-  &__list {
-    display: grid;
-    gap: var(--card-gap);
+  &__wrapper {
+    // border: 1px solid #00f;
+  }
 
-    &-item {
+  @at-root [class*=washing-machine-page] {
+    .what-we-do__grid {
+      grid-template-columns: 1fr;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+    }
+
+    .what-we-do-tile {
+      grid-template-columns: 1fr;
+    }
+
+    .what-we-do-tile__title {
+      display: none;
+    }
+
+    .product-collage__wrapper {
       display: grid;
-      gap: 0 1em;
-      grid-template-columns: 2em 1fr;
-      grid-template-rows: auto 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 1lh var(--container-gap);
+    }
 
-      svg {
+    h1 {
+      // grid-column-end: span 2;
+    }
+
+    .product-collage__kv {
+      grid-row: 1 / 5;
+      align-self: start;
+    }
+
+    .product-collage__list {
+      display: grid;
+      align-content: start;
+      gap: 1em var(--item-gap);
+      grid-column: 1 / 3;
+
+      @container cell (min-width: 30rem) {
+        grid-column: 2 / 3;
+      }
+    }
+
+    .product-collage__list-item {
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      gap: var(--item-gap) 1em;
+
+      &-icon {
         grid-row-end: span 2;
-        height: auto;
+        align-self: start;
+        
+        svg {
+          display: block;
+        }
       }
 
       &-title {
-        align-self: end;
-        font-weight: 600;
+        font-family: "Roboto Condensed", sans-serif;
+      }
+    }
+
+    .product-collage__button {
+      width: 100%;
+      padding: .75em;
+
+      &-group {
+        // container: cell/inline-size;
+        grid-column: 1 / 3;
       }
 
-      &-description {
-        color: var(--text-secondary);
+      font-size: 2cqh;
+
+      @container cell (min-width: 30rem) {
+        
+        &-group {
+          grid-column: auto;
+        }
       }
     }
   }
+
+  // @container cell (min-height: 1px) {
+  //   &__wrapper {
+  //     border: 1px solid #ff0;
+  //   }
+  // }
+  
+
+  // &__list {
+  //   display: grid;
+  //   gap: var(--card-gap);
+
+  //   &-item {
+  //     display: grid;
+  //     gap: 0 1em;
+  //     grid-template-columns: 2em 1fr;
+  //     grid-template-rows: auto 1fr;
+
+  //     svg {
+  //       grid-row-end: span 2;
+  //       height: auto;
+  //     }
+
+  //     &-title {
+  //       align-self: end;
+  //       font-weight: 600;
+  //     }
+
+  //     &-description {
+  //       color: var(--text-secondary);
+  //     }
+  //   }
+  // }
 }

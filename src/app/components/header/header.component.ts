@@ -8,7 +8,6 @@ import { ThemeSwitch } from '@components/theme-switch/theme-switch.component';
   selector: 'app-header',
   imports: [
     Logo,
-    ThemeSwitch,
     RouterLink,
     BreadcrumbsComponent
   ],

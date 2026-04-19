@@ -4,11 +4,13 @@ import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { IEntity } from '@interfaces/entity.interface';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'product-collage',
   imports: [
-    WhatWeDo
+    WhatWeDo,
+    JsonPipe
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
