@@ -15,7 +15,7 @@ export const SERVICE_PRODUCTS: IEntity<IEntity[]>[] = [
         icon: 'icon_front_load'
       },
       { 
-        title: 'Вертигальные',
+        title: 'Вертикальные',
         description: 'Стиральные машины с загрузкой белья сверху',
         icon: 'icon_top_load'
       },

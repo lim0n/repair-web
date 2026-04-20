@@ -136,7 +136,8 @@ svg {
 }
 
 .h1 {
-  font-size: 2rem;
+  // font-size: 2rem;
+  
   font-weight: 700;
 
   &.with-mt {
@@ -174,12 +175,28 @@ svg {
   }
 }
 
-h1, h2, h3, .h1, .h2, .h3 {
-  font-optical-sizing: auto;
-  font-family: "Roboto Condensed", sans-serif;
-  font-weight: 500;
+h1, h2, h3 {
 
   &.with-mb {
     margin-block-start: 0;
   }
+}
+
+h1, h2, h3, .h1, .h2, .h3,
+[class*=__button] {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 500;
+  font-optical-sizing: auto;
+}
+
+h1, .h1 {
+  font-size: max(3vw,3vh);
+}
+
+h2, .h2 {
+  font-size: max(2.5vw,2.5vh);
+}
+
+h3, .h3 {
+  font-size: max(2vw,2vh);
 }

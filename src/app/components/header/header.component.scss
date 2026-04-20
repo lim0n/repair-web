@@ -5,13 +5,10 @@
   align-items: center;
   width: 100%;
   grid-auto-flow: column;
-  
-  .app-logo {
-    font-size: 2vw;
+  height: 4em;
 
-    @include media-breakpoint-up(sm) {
-      font-size: 1em;
-    }
+  .app-logo {
+    font-size: max(1.3vw, 1.3vh);
   }
 
   .theme-switch {
