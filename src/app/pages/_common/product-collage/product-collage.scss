@@ -32,7 +32,7 @@
     }
 
     h1 {
-      background-image: conic-gradient(at 50% 50%,red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
+      // background-image: conic-gradient(red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
       background-image: linear-gradient(to right, #ff850a, #ffc800);
       -webkit-background-clip: text;
       background-clip: text;
@@ -94,6 +94,26 @@
       width: 100%;
       padding: .75em;
       font-size: max(2vh, 2vw);
+      
+      border: none;
+      padding: 1ex;
+      // background: #ff850a;
+      background-image: linear-gradient(to right, #ff850a, #ffc800);
+      position: relative;
+
+      &:after {
+        // background-image: conic-gradient(from .64turn at 50% 50%,red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
+        // @include offset-gradient(15%);
+        background-image: linear-gradient(to left, #ff850a, #ffc800);
+        content: "";
+        display: block;
+        position: absolute;
+        inset: -0.5ex;
+        z-index: -1;
+      }
+
+      
+
 
       &-group {
         grid-column: 1 / 3;

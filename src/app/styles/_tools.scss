@@ -23,3 +23,23 @@ $grid-breakpoints: (
     @content;
   }
 }
+
+@mixin conic-rainbow($offset) {
+
+}
+
+@mixin offset-gradient($offset) {
+  background: conic-gradient(red 0% + $offset,
+    #ff850a 8.33% + $offset,
+    #ffc800 16.67% + $offset,
+    #c3eb00 25% + $offset,
+    #0f0    33.33% + $offset,
+    #00e9e8 41.67% + $offset,
+    #00baff 50% + $offset,
+    #007fff 58.33% + $offset,
+    #33f    66.67% + $offset,
+    #d300b7 75% + $offset,
+    #fa0080 83.33% + $offset,
+    #ff004d 91.67% + $offset,
+    red     100% + $offset);
+}
