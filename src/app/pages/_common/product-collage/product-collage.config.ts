@@ -2,7 +2,8 @@ import { IEntity } from "@interfaces/entity.interface";
 
 export const SERVICE_PRODUCTS: IEntity<IEntity[]>[] = [
   {
-    title: 'Ремонт стиральных машин всех моделей',
+    title: 'Стиральные машины',
+    longTitle: 'Ремонт стиральных машин всех моделей',
     icon: {
       title: 'Стиральные машины',
       link: 'icon_washing_machine'
@@ -27,35 +28,40 @@ export const SERVICE_PRODUCTS: IEntity<IEntity[]>[] = [
     ]
   },
   {
-    title: 'Ремонт посудомоечных машин',
+    title: 'Посудомоечные машины',
+    longTitle: 'Ремонт посудомоечных машин',
     icon: {
       title: 'Посудомоечные машины',
       link: 'icon_dishwasher'
     },
   },
   {
-    title: 'Ремонт сушильных машин',
+    title: 'Сушильные машины',
+    longTitle: 'Ремонт сушильных машин',
     icon: {
       title: 'Сушильные машины',
       link: 'icon_dryer'
     },
   },
   {
-    title: 'Ремонт электрических кухонных плит',
+    title: 'Электрические кухонные плиты',
+    longTitle: 'Ремонт электрических кухонных плит',
     icon: {
       title: 'Электрические кухонные плиты',
       link: 'icon_stove'
     },
   },
   {
-    title: 'Ремонт духовок',
+    title: 'Духовки',
+    longTitle: 'Ремонт духовок',
     icon: {
       title: 'Духовки',
       link: 'icon_oven'
     },
   },
   {
-    title: 'Ремонт холодильников',
+    title: 'Холодильники',
+    longTitle: 'Ремонт холодильников',
     icon: {
       title: 'Холодильники',
       link: 'icon_refrigerator'

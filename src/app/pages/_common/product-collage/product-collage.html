@@ -5,30 +5,46 @@
   <what-we-do [data]="products"></what-we-do>
 
   @if (product) {
-    <h1>{{ product.title }}</h1>
+    @let step = step$$ | async;
+    <nav>
+      <a (click)="step$$.next('welcome')">welcome</a> - <a (click)="step$$.next('interacted')">interacted</a> step$$ {{ step$$ | async }}
+    </nav>
+    <h1>{{ product.longTitle }}</h1>
     <div class="product-collage__kv">
       <svg viewBox="0 0 58.535 61.489" fill="url(#myGradient)">
         <use [attr.href]="'#'+product?.icon?.link"></use>
       </svg>
     </div>
-    @if (product.content?.length) {
-      <div class="product-collage__list">
-        @for (item of product.content; track item) {
-          <div class="product-collage__list-item">
-            <div class="product-collage__list-item-icon">
-              <svg viewBox="0 0 58.535 61.489">
-                <use [attr.href]="'#'+item?.icon"></use>
-              </svg>
+    @if (step === 'welcome') {
+      @if (product.content?.length && step == 'welcome') {
+        <div class="product-collage__list">
+          @for (item of product.content; track item) {
+            <div class="product-collage__list-item">
+              <div class="product-collage__list-item-icon">
+                <svg viewBox="0 0 58.535 61.489">
+                  <use [attr.href]="'#'+item?.icon"></use>
+                </svg>
+              </div>
+              <div class="product-collage__list-item-title h3">{{ item.title }}</div>
+              <div class="product-collage__list-item-description">{{ item.description }}</div>
             </div>
-            <div class="product-collage__list-item-title h3">{{ item.title }}</div>
-            <div class="product-collage__list-item-description">{{ item.description }}</div>
-          </div>
-        }
+          }
+        </div>
+      }
+      <div class="product-collage__button-group">
+        <button class="product-collage__button" (click)="onSubmit()">Вызвать мастера</button>
       </div>
     }
-    <div class="product-collage__button-group">
-      <button class="product-collage__button">Вызвать мастера</button>
-    </div>
+
+    @if (step === 'interacted') {
+      <div>
+        <!-- <div>sync {{ isLoggedIn }}</div> -->
+        <!-- <div>async {{ isLoggedIn$ | async }}</div> -->
+        <div>wtf<pre>{{userProfile$ | async | json }}</pre></div>
+
+      </div>
+    }
+
   }
 
 

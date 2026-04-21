@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'login-cell',
@@ -10,24 +12,20 @@ import { AuthenticationService } from '@app/services/authentication.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    // AuthenticationService
-    RouterLink
+    RouterLink,
+    AsyncPipe
   ]
 })
 export class LoginCell {
-  isLoggedIn: boolean = false;
+  isLoggedIn$: Observable<boolean>;
 
   constructor(
-    private authService: AuthenticationService
-  ) {}
-
-  ngOnInit() {
-    this.authService.isLoggedIn$.subscribe((val: boolean) => {
-      this.isLoggedIn = val;
-    });
+    private _authenitacionService: AuthenticationService
+  ) {
+    this.isLoggedIn$ = this._authenitacionService.isLoggedIn$;
   }
 
   logout() {
-    this.authService.logout();
+    this._authenitacionService.logout();
   }
 }

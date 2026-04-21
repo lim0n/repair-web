@@ -1,4 +1,5 @@
 import { IOrder } from "./order.interface";
+import { IRole } from "./role.interface";
 
 export interface IUser {
   id?: number;
@@ -14,8 +15,11 @@ export interface IUser {
   phone?: string;
   /** Роль */
   user_role?: 'admin' | 'manager' | 'editor' | 'viewer';
-  /** JWT-токен */
+  /** Роли */
+  roles: IRole[];
+  /** JWT-токены */
   access_token: string;
+  refresh_token: string;
   /** Заказы пользователя */
   orders?: IOrder[];
   created_at?: string;

@@ -9,7 +9,7 @@ import { IJwt } from '@interfaces/jwt.interface';
     providedIn: 'root',
 })
 export class AuthenticationService {
-    private userData$$ = new BehaviorSubject<IJwt | null>(null);
+    userData$$ = new BehaviorSubject<IJwt | null>(null);
     private localStorage: Storage | undefined;
     userData$ = this.userData$$.asObservable();
     isLoggedIn$ = this.userData$.pipe(map(data => !!data));

@@ -1,4 +1,4 @@
-@if (!isLoggedIn) {
+@if (!(isLoggedIn$ | async)) {
   <button routerLink="/login">Войти</button>
 } @else {
   <button (click)="logout()">Выйти</button>
