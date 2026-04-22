@@ -1,3 +1,4 @@
+import { IAgreement } from "./agreement.interface";
 import { IOrder } from "./order.interface";
 import { IRole } from "./role.interface";
 
@@ -22,6 +23,7 @@ export interface IUser {
   refresh_token: string;
   /** Заказы пользователя */
   orders?: IOrder[];
+  agreements: IAgreement[];
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

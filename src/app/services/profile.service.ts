@@ -10,7 +10,7 @@ import { IProfile } from '@interfaces/profile.interface';
   providedIn: 'root',
 })
 export class ProfileService {
-  private userProfile$$ = new BehaviorSubject<IProfile | null>(null);
+  userProfile$$ = new BehaviorSubject<IProfile | null>(null);
   userProfile$ = this.userProfile$$.asObservable();
   isLoggedIn$ = inject(AuthenticationService).isLoggedIn$;
   userData$$ = inject(AuthenticationService).userData$$;
@@ -21,7 +21,6 @@ export class ProfileService {
   ) {
     this.userData$$
       .subscribe(val => {
-        console.warn('FIRE profile userData$$ subscribe, val', val);
         if (val !== null) {
           this.getProfile().subscribe(val => {
             this.userProfile$$.next(val);

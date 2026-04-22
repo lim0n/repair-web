@@ -13,7 +13,6 @@ export class StorageService {
   ) {
     if (this._platform.isServer) return;
     this.localStorage = this._document.defaultView?.localStorage;
-    console.warn(typeof this.localStorage);
   }
 
   getItem(key: string): string | null | undefined {

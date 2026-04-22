@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbsService } from '@app/services/breadcrumbs.service';
-import { RolesService } from '@app/services/roles';
+import { RolesService } from '@app/services/roles.service';
 import { IRole } from '@interfaces/role.interface';
 import { datetimeTzToDatetimeLocal } from '@pages/crud/users/user/utils/datetimetz-to-datetime-local.function';
 import {

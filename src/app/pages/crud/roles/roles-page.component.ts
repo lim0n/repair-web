@@ -3,7 +3,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { RolesService } from '@app/services/roles';
+import { RolesService } from '@app/services/roles.service';
 import { keepJsonOrder } from '@app/utils/keep-json-order-sort.function';
 import { IRole } from '@interfaces/role.interface';
 import { BehaviorSubject, catchError, of, take } from 'rxjs';

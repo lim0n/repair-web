@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IAgreement } from '@interfaces/agreement.interface';
 import { IUser } from '@interfaces/user.interface';
 import { environment } from '@src/environments/environment';
 import { Observable } from 'rxjs';
@@ -45,6 +46,16 @@ export class UsersService {
 
   createUser(item: IUser): Observable<any> {
     const url = new URL(`/users`, environment.apiUrl);
+    return this._api.post<any>(String(url), item);
+  }
+
+  addAgreement(item: IAgreement): Observable<any> {
+    const url = new URL(`/users/add-agreement`, environment.apiUrl);
+    return this._api.post<any>(String(url), item);
+  }
+
+  removeAgreement(item: IAgreement): Observable<any> {
+    const url = new URL(`/users/remove-agreement`, environment.apiUrl);
     return this._api.post<any>(String(url), item);
   }
   

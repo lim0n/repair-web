@@ -131,4 +131,24 @@
       }
     }
   }
+
+  &-agreement {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--item-gap);
+
+    @at-root label#{&} {
+      cursor: pointer;
+    }
+    
+    > * {
+      padding: var(--tile-padding);
+      background: var(--surface-accented);
+    }
+    
+    &__checkbox {
+      display: flex;
+      align-items: center;
+    }
+  }
 }

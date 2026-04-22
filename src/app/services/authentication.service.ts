@@ -47,7 +47,6 @@ export class AuthenticationService {
     }
 
     logout() {
-        console.warn('AuthenticationService logout fired');
         this.setData(null);
     }
 

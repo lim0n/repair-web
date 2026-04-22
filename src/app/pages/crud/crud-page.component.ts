@@ -1,7 +1,8 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ProfileService } from '@app/services/profile.service';
-import { BehaviorSubject, catchError, of, take } from 'rxjs';
+import { IProfile } from '@interfaces/profile.interface';
+import { BehaviorSubject, catchError, Observable, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-manager-page',
@@ -14,10 +15,14 @@ import { BehaviorSubject, catchError, of, take } from 'rxjs';
 })
 export class CrudPageComponent {
   profile$$ = new BehaviorSubject(null);
+  userProfile$: Observable<IProfile | null>;
 
   constructor(
     private _api: ProfileService
   ) {
+
+    this.userProfile$ = this._api.userProfile$;
+
     this._api.getProfile()
       .pipe(
         take(1),

@@ -6,6 +6,8 @@
 
   @if (product) {
     @let step = step$$ | async;
+    <!-- @let profile = (userProfile$ | async)?.profile; -->
+    @let orderData = (orderData$$ | async);
     <nav>
       <a (click)="step$$.next('welcome')">welcome</a> - <a (click)="step$$.next('interacted')">interacted</a> step$$ {{ step$$ | async }}
     </nav>
@@ -38,16 +40,41 @@
 
     @if (step === 'interacted') {
       <div>
-        <!-- <div>sync {{ isLoggedIn }}</div> -->
-        <!-- <div>async {{ isLoggedIn$ | async }}</div> -->
-        <div>wtf<pre>{{userProfile$ | async | json }}</pre></div>
+        <button (click)="addAgreement()">add ПДН</button>
+        <button (click)="removeAgreement()">remove ПДН</button>
+
+        @if (orderData && !orderData?.name) {
+          <div>
+            <input type="text" placeholder="Ваше имя" />
+          </div>
+        }
+
+        @if (orderData && !orderData?.phone) {
+          <div>
+            <input type="number" placeholder="Номер телефона" />
+          </div>
+        }
+
+        @if (!(agreed$$ | async)) {
+          <label class="product-collage-agreement">
+            <span class="product-collage-agreement__checkbox">
+              <input type="checkbox" />
+            </span>
+            <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy">Политикой</a> обработки персональных данных.</span>
+          </label>
+        }
+
+        
+
+        <!-- @if ((userProfile$ | async).?.profile) -->
 
       </div>
     }
 
   }
 
-
+  <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div>
+  <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div>
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg">
