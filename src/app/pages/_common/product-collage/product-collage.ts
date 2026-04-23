@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnDestroy, OnInit, signal, untracked, ViewEncapsulation } from '@angular/core';
 import { SERVICE_PRODUCTS } from './product-collage.config';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, debounceTime, Observable, skip, Subject, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { IEntity } from '@interfaces/entity.interface';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
@@ -11,8 +11,9 @@ import { OrdersService } from '@app/services/orders.service';
 import { ProfileService } from '@app/services/profile.service';
 import { IOrder } from '@interfaces/order.interface';
 import { UsersService } from '@app/services/users.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IProfile } from '@interfaces/profile.interface';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'product-collage',
@@ -20,7 +21,8 @@ import { IProfile } from '@interfaces/profile.interface';
     WhatWeDo,
     JsonPipe,
     AsyncPipe,
-    // ReactiveFormsModule
+    // ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
@@ -39,9 +41,16 @@ export class ProductCollage implements OnInit, OnDestroy {
   orderData$$ = new BehaviorSubject<IOrder | null>(null);
   // orderForm!: FormGroup;
 
+  orderName$$ = new BehaviorSubject<string | null>(null);
+
   step$$ = new BehaviorSubject<'welcome' | 'interacted'>('welcome');
+  stepSignal = toSignal(this.step$$.asObservable())
 
   agreed$$ = new BehaviorSubject<boolean>(false);
+
+  nameControl = signal('');
+  phoneControl = signal('');
+  agree = signal(false);
 
 
   constructor(
@@ -54,6 +63,25 @@ export class ProductCollage implements OnInit, OnDestroy {
   ) {
     if (this._platform.isServer) return;
     this.initSubscriptions();
+
+    effect(() => {
+      const step = this.stepSignal();
+      console.log('Signal value changed:', step);
+
+        if (step === 'interacted') {
+        const currentOrderData = this.orderData$$.getValue();
+
+        if (currentOrderData !== null) {
+          const { name, phone } = currentOrderData;
+  
+          untracked(() => {
+            if (name) this.nameControl.set(name); 
+            if (phone) this.phoneControl.set(phone)
+          });
+        }
+      }
+      
+    });
   }
 
   ngOnInit(): void {
@@ -80,6 +108,31 @@ export class ProductCollage implements OnInit, OnDestroy {
         this.agreed$$.next(false)
       }
     });
+
+    toObservable(this.nameControl)
+      .pipe(
+        debounceTime(2000),
+        skip(1)
+      )
+      .subscribe(name => this.updateName(name));
+
+    toObservable(this.phoneControl)
+      .pipe(
+        debounceTime(2000),
+        skip(1)
+      )
+      .subscribe(phone => this.updatePhone(String(phone)));
+
+    toObservable(this.agree)
+      .pipe(
+        debounceTime(2000),
+        skip(1)
+      )
+      .subscribe(value => {
+        value
+          ? this.addAgreement()
+          : this.removeAgreement()
+      });
   }
 
   getProductByPath(path: string) {
@@ -122,7 +175,6 @@ export class ProductCollage implements OnInit, OnDestroy {
             this.orderData$$.next(lastOrder)
           }
       }
-      console.warn('SUBMIT lastOrder = ', lastOrder);
       this.step$$.next('interacted');
     }
   }
@@ -157,6 +209,43 @@ export class ProductCollage implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error adding agreement', error);
+        }
+      });
+  }
+
+  updateName(name: string) {
+    if (name) this.updateOrder({name});
+  }
+
+  updatePhone(phone: string) {
+    if (phone) this.updateOrder({phone});
+  }
+
+  updateOrder(data: Partial<IOrder>): void {
+    const currentOrderData = this.orderData$$.getValue();
+    if (currentOrderData === null) return;
+    const { id, name, phone } = currentOrderData;
+
+    if ((data.name && data.name === name) || (data.phone && data.phone === phone)) return;
+
+
+    this._ordersService.updateOrder(String(id), data)
+      .subscribe({
+        next: (response) => {
+          const user = this.userProfile$$.getValue();
+          const orders = user?.profile?.orders;
+
+          if (orders && orders.length) {
+            let index = orders.findIndex(order => order.id === id);
+            orders.splice(index,1,response);
+            this.userProfile$$.next(user);
+          }
+
+          console.warn('Updated', response);
+          this.orderData$$.next(response);
+        },
+        error: (error) => {
+          console.error('Error creating item', error);
         }
       });
   }
