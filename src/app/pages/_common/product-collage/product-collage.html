@@ -7,14 +7,14 @@
   @if (product) {
     @let step = step$$ | async;
     <!-- @let profile = (userProfile$ | async)?.profile; -->
-    @let orderData = (orderData$$ | async);
-    <nav>
+    <!-- @let orderData = (orderData$$ | async); -->
+    <!-- <nav>
       <a (click)="step$$.next('welcome')">welcome</a> - <a (click)="step$$.next('interacted')">interacted</a> step$$ {{ step$$ | async }}
-    </nav>
+    </nav> -->
     <h1>{{ product.longTitle }}</h1>
     <div class="product-collage__kv">
       <svg viewBox="0 0 58.535 61.489" fill="url(#myGradient)">
-        <use [attr.href]="'#'+product?.icon?.link"></use>
+        <use [attr.href]="'#'+product.icon?.link"></use>
       </svg>
     </div>
     @if (step === 'welcome') {
@@ -39,42 +39,43 @@
     }
 
     @if (step === 'interacted') {
-      <div>
-        <button (click)="addAgreement()">add ПДН</button>
-        <button (click)="removeAgreement()">remove ПДН</button>
-        <div>agree = {{ agree() }}</div>
-        <div>
+      <div class="product-collage-form">
+        <!-- <button (click)="addAgreement()">add ПДН</button>
+        <button (click)="removeAgreement()">remove ПДН</button> -->
+        <!-- <div>agree = {{ agree() }}</div> -->
           <input 
             type="text" 
             placeholder="Ваше имя" 
-            [disabled]="agree()"
+            [disabled]="agree() === false"
             [(ngModel)]="nameControl" />
-        </div>
 
-        <div>
           <input
-            type="number"
+            type="text"
             placeholder="Номер телефона"
-            [disabled]="agree()"
+            [disabled]="agree() === false"
             [(ngModel)]="phoneControl" />
-        </div>
 
-        @if (!(agreed$$ | async)) {
+        <!-- @if (!(agreed$$ | async)) { -->
           <label class="product-collage-agreement">
             <span class="product-collage-agreement__checkbox">
               <input type="checkbox"  [(ngModel)]="agree" />
             </span>
-            <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy">Политикой</a> обработки персональных данных.</span>
+            <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
           </label>
-        }
+        <!-- } -->
+        
+        <button
+          type="button"
+          [disabled]="agree() === false"
+          >Отправить заявку</button>
 
       </div>
     }
 
   }
 
-  <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div>
-  <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div>
+  <!-- <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div>
+  <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div> -->
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg">

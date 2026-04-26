@@ -17,13 +17,13 @@ export interface IUser {
   /** Роль */
   user_role?: 'admin' | 'manager' | 'editor' | 'viewer';
   /** Роли */
-  roles: IRole[];
+  roles?: IRole[];
   /** JWT-токены */
-  access_token: string;
-  refresh_token: string;
+  access_token?: string;
+  refresh_token?: string;
   /** Заказы пользователя */
   orders?: IOrder[];
-  agreements: IAgreement[];
+  agreements?: IAgreement[];
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

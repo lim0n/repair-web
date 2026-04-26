@@ -30,8 +30,8 @@ export class UsersService {
   }
 
   updateUser(id: string, item: IUser): Observable<any> {
-    const url = new URL(`/users/${id}`, environment.apiUrl);
-    return this._api.put<any>(String(url), item);
+    const url = new URL(`/users/id/${id}`, environment.apiUrl);
+    return this._api.patch<any>(String(url), item);
   }
 
   deleteUser(id: string) {

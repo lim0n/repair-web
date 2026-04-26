@@ -15,6 +15,7 @@ export interface IOrder {
   phone?: string;
   /** Подробности/комментарии к заказу */
   order_details?: IOrderDetails[];
+  isDraft?: boolean;
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

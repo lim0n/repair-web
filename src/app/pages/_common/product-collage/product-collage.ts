@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, inject, OnDestroy, OnInit, signal, untracked, ViewEncapsulation } from '@angular/core';
 import { SERVICE_PRODUCTS } from './product-collage.config';
 import { BehaviorSubject, debounceTime, Observable, skip, Subject, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IEntity } from '@interfaces/entity.interface';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
 import { AsyncPipe, JsonPipe } from '@angular/common';
@@ -14,6 +14,7 @@ import { UsersService } from '@app/services/users.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IProfile } from '@interfaces/profile.interface';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { IUser } from '@interfaces/user.interface';
 
 @Component({
   selector: 'product-collage',
@@ -22,7 +23,8 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
     JsonPipe,
     AsyncPipe,
     // ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
@@ -45,8 +47,6 @@ export class ProductCollage implements OnInit, OnDestroy {
 
   step$$ = new BehaviorSubject<'welcome' | 'interacted'>('welcome');
   stepSignal = toSignal(this.step$$.asObservable())
-
-  agreed$$ = new BehaviorSubject<boolean>(false);
 
   nameControl = signal('');
   phoneControl = signal('');
@@ -103,9 +103,9 @@ export class ProductCollage implements OnInit, OnDestroy {
       }
 
       if (val?.profile.agreements && val?.profile.agreements.length && val.profile?.agreements?.some(profile => profile.name === 'obrabotka_pdn')) {
-        this.agreed$$.next(true)
+        this.agree.set(true)
       } else {
-        this.agreed$$.next(false)
+        this.agree.set(false)
       }
     });
 
@@ -123,16 +123,16 @@ export class ProductCollage implements OnInit, OnDestroy {
       )
       .subscribe(phone => this.updatePhone(String(phone)));
 
-    toObservable(this.agree)
-      .pipe(
-        debounceTime(2000),
-        skip(1)
-      )
-      .subscribe(value => {
-        value
-          ? this.addAgreement()
-          : this.removeAgreement()
-      });
+    // toObservable(this.agree)
+    //   .pipe(
+    //     debounceTime(2000),
+    //     skip(1)
+    //   )
+    //   .subscribe(value => {
+    //     value
+    //       ? this.addAgreement()
+    //       : this.removeAgreement()
+    //   });
   }
 
   getProductByPath(path: string) {
@@ -214,20 +214,27 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   updateName(name: string) {
-    if (name) this.updateOrder({name});
+    if (name) {
+      this.updateOrder({name});
+      this.updateUser({name});
+    }
   }
 
   updatePhone(phone: string) {
-    if (phone) this.updateOrder({phone});
+    if (phone) {
+      this.updateOrder({phone});
+      this.updateUser({phone});
+    }
   }
 
   updateOrder(data: Partial<IOrder>): void {
     const currentOrderData = this.orderData$$.getValue();
     if (currentOrderData === null) return;
-    const { id, name, phone } = currentOrderData;
+    const { id, name, phone, isDraft } = currentOrderData;
 
-    if ((data.name && data.name === name) || (data.phone && data.phone === phone)) return;
-
+    if ((data.name && data.name === name) 
+          || (data.phone && data.phone === phone)
+          || (data.isDraft && data.isDraft === isDraft)) return;
 
     this._ordersService.updateOrder(String(id), data)
       .subscribe({
@@ -241,11 +248,31 @@ export class ProductCollage implements OnInit, OnDestroy {
             this.userProfile$$.next(user);
           }
 
-          console.warn('Updated', response);
+          console.warn('Updated order', response);
           this.orderData$$.next(response);
         },
         error: (error) => {
-          console.error('Error creating item', error);
+          console.error('Error updating order item', error);
+        }
+      });
+  }
+
+  updateUser(data: Partial<IUser>): void {
+    const user = this.userProfile$$.getValue();
+    if (!user || !user.profile) return;
+    const { id, name, phone } = user.profile;
+
+    if ((data.name && data.name === name) || (data.phone && data.phone === phone)) return;
+
+    this._usersService.updateUser(String(id), data)
+      .subscribe({
+        next: (response) => {
+          user.profile = response;
+          this.userProfile$$.next(user);
+          console.warn('Updated user', response);
+        },
+        error: (error) => {
+          console.error('Error updating user item', error);
         }
       });
   }
