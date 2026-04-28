@@ -6,17 +6,13 @@
 
   @if (product) {
     @let step = step$$ | async;
-    <!-- @let profile = (userProfile$ | async)?.profile; -->
-    <!-- @let orderData = (orderData$$ | async); -->
-    <!-- <nav>
-      <a (click)="step$$.next('welcome')">welcome</a> - <a (click)="step$$.next('interacted')">interacted</a> step$$ {{ step$$ | async }}
-    </nav> -->
     <h1>{{ product.longTitle }}</h1>
     <div class="product-collage__kv">
       <svg viewBox="0 0 58.535 61.489" fill="url(#myGradient)">
         <use [attr.href]="'#'+product.icon?.link"></use>
       </svg>
     </div>
+
     @if (step === 'welcome') {
       @if (product.content?.length && step == 'welcome') {
         <div class="product-collage__list">
@@ -34,48 +30,90 @@
         </div>
       }
       <div class="product-collage__button-group">
-        <button class="product-collage__button" (click)="onSubmit()">Вызвать мастера</button>
+        <button class="product-collage__button" (click)="onSubmitWelcome()">Вызвать мастера</button>
       </div>
     }
+    
+    <div class="product-collage-form"
+      [formGroup]="orderForm"
+      (ngSubmit)="onSubmit()">
 
-    @if (step === 'interacted') {
-      <div class="product-collage-form">
-        <!-- <button (click)="addAgreement()">add ПДН</button>
-        <button (click)="removeAgreement()">remove ПДН</button> -->
-        <!-- <div>agree = {{ agree() }}</div> -->
-          <input 
-            type="text" 
-            placeholder="Ваше имя" 
-            [disabled]="agree() === false"
-            [(ngModel)]="nameControl" />
-
-          <input
-            type="text"
-            placeholder="Номер телефона"
-            [disabled]="agree() === false"
-            [(ngModel)]="phoneControl" />
-
-        <!-- @if (!(agreed$$ | async)) { -->
+      @if (step === 'interacted') {
+        <input class="product-collage-form__phone"
+          type="text"
+          placeholder="Номер телефона"
+          formControlName="phone" />
+        
+        @if (phoneNumberFieldValid) {
           <label class="product-collage-agreement">
             <span class="product-collage-agreement__checkbox">
-              <input type="checkbox"  [(ngModel)]="agree" />
+              <input type="checkbox" [checked]="agree()" (change)="changeAgreement($event)"  />
+              <!-- [(ngModel)]="agree" -->
             </span>
             <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
           </label>
-        <!-- } -->
-        
+
+          <button
+            type="button"
+            [disabled]="agree() === false || !orderForm.valid"
+            (click)="setNextStep()"
+            >Далее</button>
+        }
+      }
+
+      @if (step === 'detailing') {
+        @let orderData = orderData$$ | async;
+        <dl>
+          <dt>Телефон</dt>
+          <dd>{{ orderData?.phone }}</dd>
+
+          @if (orderData?.name) {
+            <dt>Имя</dt>
+            <dd>{{ orderData?.name }}</dd>
+          }
+
+          @if (orderData?.order_details && orderData!.order_details?.length) {
+            <dt>{{ orderData!.order_details!.length > 1 ? 'Комментарии' : 'Комментарий' }}</dt>
+            @for (item of orderData!.order_details!; track item) {
+              <dd>{{ item.details }}</dd>
+            }
+          }
+        </dl>
+
+        @if (!orderData?.name) {
+          <input class="product-collage-form__name"
+            type="text"
+            placeholder="Ваше имя"
+            formControlName="name" />
+        }
+
+        <textarea placeholder="Дополнительная информация" formControlName="order_details"></textarea>
+
         <button
           type="button"
-          [disabled]="agree() === false"
-          >Отправить заявку</button>
-
-      </div>
-    }
-
+          (click)="setNextStep()"
+          >{{ orderData?.isDraft === false ? 'Добавить комментарий' : 'Отправить заявку' }}</button>
+        
+        @if (orderData?.isDraft === false) {
+          @let user_id = (userProfile$ | async)?.sub;
+          <button
+            type="button"
+            (click)="createNewOrder(user_id)"
+            >Создать новую заявку</button>
+        }
+        
+      }
+    </div>
   }
 
-  <!-- <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div>
-  <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div> -->
+  <!-- <div>
+    agreed = {{ agree() }}
+    <div><pre>{{ orderForm.value | json }}</pre></div>
+  
+    <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div>
+    <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div>
+  </div> -->
+
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg">

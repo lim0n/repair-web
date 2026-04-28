@@ -156,5 +156,9 @@
   &-form {
     display: grid;
     gap: 1em;
+
+    // &__phone.ng-invalid + &__name {
+    //   display: none;
+    // }
   }
 }

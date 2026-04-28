@@ -11,10 +11,14 @@ import { OrdersService } from '@app/services/orders.service';
 import { ProfileService } from '@app/services/profile.service';
 import { IOrder } from '@interfaces/order.interface';
 import { UsersService } from '@app/services/users.service';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IProfile } from '@interfaces/profile.interface';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { IUser } from '@interfaces/user.interface';
+import { createOrderForm } from '@pages/crud/orders/_common/components/orders-form/utils/create-orders-form';
+import { phonePrettier } from './utils/phone-prettier.function';
+import { OrderDetailsService } from '@app/services/order-details.service';
+import { RegexPatterns } from '@app/utils/patterns.const';
 
 @Component({
   selector: 'product-collage',
@@ -22,7 +26,7 @@ import { IUser } from '@interfaces/user.interface';
     WhatWeDo,
     JsonPipe,
     AsyncPipe,
-    // ReactiveFormsModule,
+    ReactiveFormsModule,
     FormsModule,
     RouterLink
   ],
@@ -41,16 +45,19 @@ export class ProductCollage implements OnInit, OnDestroy {
   userProfile$ = inject(ProfileService).userProfile$;
   userProfile$$ = inject(ProfileService).userProfile$$;
   orderData$$ = new BehaviorSubject<IOrder | null>(null);
-  // orderForm!: FormGroup;
+  orderForm!: FormGroup;
 
   orderName$$ = new BehaviorSubject<string | null>(null);
 
-  step$$ = new BehaviorSubject<'welcome' | 'interacted'>('welcome');
+  step$$ = new BehaviorSubject<'welcome' | 'interacted' | 'detailing'>('welcome');
   stepSignal = toSignal(this.step$$.asObservable())
 
   nameControl = signal('');
   phoneControl = signal('');
   agree = signal(false);
+
+  phoneNumberFieldValid = false;
+  nameFieldValid = false;
 
 
   constructor(
@@ -59,7 +66,8 @@ export class ProductCollage implements OnInit, OnDestroy {
     private _ordersService: OrdersService,
     private _authenticationService: AuthenticationService,
     private _usersService: UsersService,
-    // private _fb: FormBuilder,
+    private _fb: FormBuilder,
+    private _orderDetailsService: OrderDetailsService
   ) {
     if (this._platform.isServer) return;
     this.initSubscriptions();
@@ -71,20 +79,34 @@ export class ProductCollage implements OnInit, OnDestroy {
         if (step === 'interacted') {
         const currentOrderData = this.orderData$$.getValue();
 
-        if (currentOrderData !== null) {
-          const { name, phone } = currentOrderData;
+        // if (currentOrderData !== null) {
+        //   const { name, phone } = currentOrderData;
   
-          untracked(() => {
-            if (name) this.nameControl.set(name); 
-            if (phone) this.phoneControl.set(phone)
-          });
-        }
+        //   untracked(() => {
+        //     if (name) this.nameControl.set(name); 
+        //     if (phone) this.phoneControl.set(phone)
+        //   });
+        // }
       }
       
     });
   }
 
   ngOnInit(): void {
+    this.orderForm = createOrderForm(this._fb);
+    const nameField = this.orderForm.get('name');
+    nameField?.statusChanges.subscribe(status => {
+      this.nameFieldValid = status === 'VALID';
+    });
+    const phoneField = this.orderForm.get('phone');
+    phoneField?.setValidators([Validators.required, Validators.pattern(RegexPatterns.PhoneValidation)]);
+    phoneField?.valueChanges.subscribe(value=> {
+        phoneField?.patchValue(phonePrettier(value), {emitEvent: false})
+    });
+    phoneField?.statusChanges.subscribe(status => {
+      this.phoneNumberFieldValid = status === 'VALID';
+    });
+
     this.path$.subscribe(data => {
       this.product = this.getProductByPath(data);
     })
@@ -96,7 +118,6 @@ export class ProductCollage implements OnInit, OnDestroy {
 
   initSubscriptions(): void {
     this.isLoggedIn$.subscribe(value => this.isLoggedIn = value);
-
     this.userProfile$.subscribe(val => {
       if (val === null) {
         this.step$$.next('welcome');
@@ -123,16 +144,16 @@ export class ProductCollage implements OnInit, OnDestroy {
       )
       .subscribe(phone => this.updatePhone(String(phone)));
 
-    // toObservable(this.agree)
-    //   .pipe(
-    //     debounceTime(2000),
-    //     skip(1)
-    //   )
-    //   .subscribe(value => {
-    //     value
-    //       ? this.addAgreement()
-    //       : this.removeAgreement()
-    //   });
+    toObservable(this.agree)
+      .pipe(
+        debounceTime(2000),
+        skip(1)
+      )
+      .subscribe(value => {
+        value
+          ? this.addAgreement()
+          : this.removeAgreement()
+      });
   }
 
   getProductByPath(path: string) {
@@ -140,43 +161,104 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    if (this.orderForm.valid) {
+      const { order_details, ...data } = this.orderForm.value;
+      this.updateOrder(data);
+      if (order_details) {
+        this.createOrderDetails();
+      }
+    }
+  }
+
+  createOrderDetails() {
+    const { order_details, ...data } = this.orderForm.value;
+    const orderDetailsDto = {
+      details: order_details,
+      author: data.user_id,
+      order_id: data.id
+    };
+    this._orderDetailsService.createOrderDetails(orderDetailsDto)
+      .subscribe({
+        next: (response) => {
+          const currentOrder = this.orderData$$.value;
+          if (currentOrder?.order_details && currentOrder.order_details.length) {
+            currentOrder.order_details.push(response)
+            this.orderData$$.next(currentOrder)
+          } else {
+            this.orderData$$.next({...currentOrder, order_details: [response]})
+          }
+        },
+        error: (error) => {
+          console.error('Error creating item', error);
+        }
+      });
+  }
+
+  setNextStep() {
+    switch (this.step$$.value) {
+      case 'welcome':
+        this.onSubmitWelcome();
+        break;
+      case 'interacted':
+        this.onSubmit()
+        this.step$$.next('detailing')
+        break
+      case 'detailing':
+        this.orderForm.get('isDraft')?.setValue(false);
+        this.onSubmit()
+    }
+  }
+
+  onSubmitWelcome(): void {
     const dto:IOrder = {};
     const order: IOrder = {};
     if (!this.isLoggedIn) {
-      dto.user_id = this.userProfile$$.getValue()?.sub;
-    }
-
-    // if (this.isLoggedIn && )
-    
-
-    if (!this.isLoggedIn) {
-      this._ordersService.createOrder({})
-        .subscribe({
-          next: (response) => {
-            const { tokens, ...orderData } = response;
-            this.orderData$$.next(orderData);
-            if (tokens) {
-              this._authenticationService.setData(tokens);
-              this.step$$.next('interacted');
-            }
-          },
-          error: (error) => {
-            console.error('Error creating item', error);
-          }
-        });
+      this.createNewOrder();
     } else {
       let user: IProfile | null = this.userProfile$$.getValue();
       let sortedOrders, lastOrder;
       if (user !== null && user.profile && user.profile.orders && user.profile.orders.length) {
-          sortedOrders = [...user.profile.orders].sort((a,b)=><string>a.created_at  < <string>b.created_at ? 1 : -1)
-          
+          sortedOrders = [...user.profile.orders].sort((a,b)=><string>a.created_at < <string>b.created_at ? 1 : -1)
           if (sortedOrders.length) {
             lastOrder = sortedOrders[0];
-            this.orderData$$.next(lastOrder)
+            this.orderData$$.next(lastOrder);
+            this.orderForm.setValue({...lastOrder, order_details: null});
+            if (lastOrder.isDraft === false) {
+              this.step$$.next('detailing');
+            } else {
+              this.step$$.next('interacted');
+            }
+          } else {
+            this.step$$.next('interacted');
           }
       }
-      this.step$$.next('interacted');
     }
+  }
+
+  createNewOrder(user_id?: number) {
+    const payload: IOrder = {};
+    if (user_id) {
+      payload.user_id = user_id
+    }
+    this._ordersService.createOrder(payload)
+      .subscribe({
+        next: (response) => {
+          const { tokens, ...orderData } = response;
+          this.orderData$$.next(orderData);
+          this.orderForm.setValue({...orderData, order_details: null});
+          if (tokens) {
+            this._authenticationService.setData(tokens);
+          }
+          this.step$$.next('interacted');
+        },
+        error: (error) => {
+          console.error('Error creating item', error);
+        }
+      });
+  }
+
+  changeAgreement($event: Event) {
+    this.agree.set(($event.target as HTMLInputElement).checked);
   }
 
   addAgreement() {
@@ -231,25 +313,21 @@ export class ProductCollage implements OnInit, OnDestroy {
     const currentOrderData = this.orderData$$.getValue();
     if (currentOrderData === null) return;
     const { id, name, phone, isDraft } = currentOrderData;
-
-    if ((data.name && data.name === name) 
-          || (data.phone && data.phone === phone)
-          || (data.isDraft && data.isDraft === isDraft)) return;
-
     this._ordersService.updateOrder(String(id), data)
       .subscribe({
         next: (response) => {
           const user = this.userProfile$$.getValue();
           const orders = user?.profile?.orders;
+          if (!orders || !orders.length) return;
 
-          if (orders && orders.length) {
-            let index = orders.findIndex(order => order.id === id);
-            orders.splice(index,1,response);
-            this.userProfile$$.next(user);
+          let index = orders.findIndex(order => order.id === id);
+          const replaceObj = {...response};
+          if (orders[index]?.order_details) {
+            replaceObj.order_details = orders[index].order_details;
           }
-
-          console.warn('Updated order', response);
-          this.orderData$$.next(response);
+          orders.splice(index,1,replaceObj); // есть ли details?
+          this.userProfile$$.next(user);
+          this.orderData$$.next(replaceObj);
         },
         error: (error) => {
           console.error('Error updating order item', error);
@@ -269,7 +347,6 @@ export class ProductCollage implements OnInit, OnDestroy {
         next: (response) => {
           user.profile = response;
           this.userProfile$$.next(user);
-          console.warn('Updated user', response);
         },
         error: (error) => {
           console.error('Error updating user item', error);

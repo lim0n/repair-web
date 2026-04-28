@@ -13,6 +13,7 @@ import { IOrder } from '@interfaces/order.interface';
 import { IUser } from '@interfaces/user.interface';
 import { datetimeTzToDatetimeLocal } from '@pages/crud/users/user/utils/datetimetz-to-datetime-local.function';
 import { BehaviorSubject, catchError, expand, filter, map, Observable, of, switchMap, take } from 'rxjs';
+import { createOrderForm } from './utils/create-orders-form';
 
 @Component({
   selector: 'orders-form',
@@ -53,21 +54,8 @@ export class OrdersForm implements OnInit {
       this.orderid = String(this._route.snapshot.paramMap.get('id'));
     };
 
-    const formOptions: AbstractControlOptions = {
-      updateOn: 'change'
-    };
-
-    this.orderForm = this._fb.group({
-      id: [{value: '', disabled: true}],
-      user_id: '',
-      email: ['', [Validators.email, Validators.maxLength(50)]],
-      name: ['', [Validators.maxLength(90)]],
-      phone: ['', [Validators.maxLength(20)]],
-      details: [null],
-      created_at: [{value: '', disabled: true}],
-      updated_at: [{value: '', disabled: true}],
-      deleted_at: [{value: '', disabled: true}]
-    }, formOptions);
+    this.orderForm = createOrderForm(this._fb);
+    this.orderForm.get('id')?.disable();
 
     this.detailedOrder$$
       .pipe(
@@ -107,7 +95,7 @@ export class OrdersForm implements OnInit {
     if (this.orderForm.valid) {
       const formData = this.orderForm.value;
       if (this.orderid) {        
-        let { details, ...updateData } = formData;
+        let { order_details, ...updateData } = formData;
         this._ordersService.updateOrder(this.orderid, updateData)
           .subscribe({
             next: (response) => {
@@ -125,6 +113,7 @@ export class OrdersForm implements OnInit {
             next: (response) => {
               this._router.navigate(['..', response.id], {relativeTo: this._route});
               if (response.tokens) {
+                console.warn('if response.tokens', response.tokens, !!response.tokens);
                 this._authenticationService.setData(response.tokens);
               }
             },

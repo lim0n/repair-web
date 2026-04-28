@@ -205,7 +205,9 @@ h3, .h3, button {
   font-size: 1.125em;
 }
 
-button, input[type=text] {
+button,
+input[type=text],
+textarea {
   font-family: "Roboto Condensed", sans-serif;
   font-optical-sizing: auto;
   // font-size: clamp(1rem, 2vw, 2rem);
