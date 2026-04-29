@@ -32,87 +32,90 @@
       <div class="product-collage__button-group">
         <button class="product-collage__button" (click)="onSubmitWelcome()">Вызвать мастера</button>
       </div>
+    } @else {
+
+      <div class="product-collage-form"
+        [formGroup]="orderForm"
+        (ngSubmit)="onSubmit()">
+  
+        @if (step === 'interacted') {
+          <input class="product-collage-form__phone"
+            type="text"
+            placeholder="Номер телефона"
+            formControlName="phone" />
+          
+          @if (phoneNumberFieldValid) {
+            <label class="product-collage-agreement">
+              <span class="product-collage-agreement__checkbox">
+                <input type="checkbox" [checked]="agree()" (change)="changeAgreement($event)"  />
+                <!-- [(ngModel)]="agree" -->
+              </span>
+              <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
+            </label>
+  
+            <button
+              type="button"
+              [disabled]="agree() === false || !orderForm.valid"
+              (click)="setNextStep()"
+              >Далее</button>
+          }
+        }
+  
+        @if (step === 'detailing') {
+          @let orderData = orderData$$ | async;
+          <dl>
+            <dt>Телефон</dt>
+            <dd>{{ orderData?.phone }}</dd>
+  
+            @if (orderData?.name) {
+              <dt>Имя</dt>
+              <dd>{{ orderData?.name }}</dd>
+            }
+  
+            @if ((orderData$$ | async)?.order_details && orderData!.order_details?.length) {
+              <dt>{{ orderData!.order_details!.length > 1 ? 'Комментарии' : 'Комментарий' }}</dt>
+              @for (item of orderData!.order_details!; track item) {
+                <dd>{{ item.details }}</dd>
+              }
+            }
+          </dl>
+  
+          @if (!orderData?.name) {
+            <input class="product-collage-form__name"
+              type="text"
+              placeholder="Ваше имя"
+              formControlName="name" />
+          }
+  
+          <textarea placeholder="Комментарий" formControlName="order_details"></textarea>
+  
+          <button
+            type="button"
+            (click)="setNextStep()"
+            [disabled]="!orderForm.value.name && !orderData?.name"
+            >{{ orderData?.isDraft === false && orderData?.name ? 'Добавить комментарий' : 'Отправить заявку' }}</button>
+          
+          <!-- @if (orderData?.isDraft === false) {
+            @let user_id = (userProfile$ | async)?.sub;
+            <button
+              type="button"
+              (click)="createNewOrder(user_id)"
+              >Создать новую заявку</button>
+          } -->
+          
+        }
+      </div>
     }
     
-    <div class="product-collage-form"
-      [formGroup]="orderForm"
-      (ngSubmit)="onSubmit()">
-
-      @if (step === 'interacted') {
-        <input class="product-collage-form__phone"
-          type="text"
-          placeholder="Номер телефона"
-          formControlName="phone" />
-        
-        @if (phoneNumberFieldValid) {
-          <label class="product-collage-agreement">
-            <span class="product-collage-agreement__checkbox">
-              <input type="checkbox" [checked]="agree()" (change)="changeAgreement($event)"  />
-              <!-- [(ngModel)]="agree" -->
-            </span>
-            <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
-          </label>
-
-          <button
-            type="button"
-            [disabled]="agree() === false || !orderForm.valid"
-            (click)="setNextStep()"
-            >Далее</button>
-        }
-      }
-
-      @if (step === 'detailing') {
-        @let orderData = orderData$$ | async;
-        <dl>
-          <dt>Телефон</dt>
-          <dd>{{ orderData?.phone }}</dd>
-
-          @if (orderData?.name) {
-            <dt>Имя</dt>
-            <dd>{{ orderData?.name }}</dd>
-          }
-
-          @if (orderData?.order_details && orderData!.order_details?.length) {
-            <dt>{{ orderData!.order_details!.length > 1 ? 'Комментарии' : 'Комментарий' }}</dt>
-            @for (item of orderData!.order_details!; track item) {
-              <dd>{{ item.details }}</dd>
-            }
-          }
-        </dl>
-
-        @if (!orderData?.name) {
-          <input class="product-collage-form__name"
-            type="text"
-            placeholder="Ваше имя"
-            formControlName="name" />
-        }
-
-        <textarea placeholder="Дополнительная информация" formControlName="order_details"></textarea>
-
-        <button
-          type="button"
-          (click)="setNextStep()"
-          >{{ orderData?.isDraft === false ? 'Добавить комментарий' : 'Отправить заявку' }}</button>
-        
-        @if (orderData?.isDraft === false) {
-          @let user_id = (userProfile$ | async)?.sub;
-          <button
-            type="button"
-            (click)="createNewOrder(user_id)"
-            >Создать новую заявку</button>
-        }
-        
-      }
-    </div>
   }
 
-  <!-- <div>
-    agreed = {{ agree() }}
-    <div><pre>{{ orderForm.value | json }}</pre></div>
+  <div>
+    <!-- agreed = {{ agree() }}
+    <div><pre>{{ orderForm.value | json }}</pre></div> -->
   
-    <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div>
-    <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div>
-  </div> -->
+    <!-- <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div> -->
+    <!-- <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div> -->
+  </div>
 
 </div>
 

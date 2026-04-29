@@ -19,6 +19,7 @@ import { createOrderForm } from '@pages/crud/orders/_common/components/orders-fo
 import { phonePrettier } from './utils/phone-prettier.function';
 import { OrderDetailsService } from '@app/services/order-details.service';
 import { RegexPatterns } from '@app/utils/patterns.const';
+import { IOrderDetails } from '@interfaces/order-details.interface';
 
 @Component({
   selector: 'product-collage',
@@ -52,8 +53,6 @@ export class ProductCollage implements OnInit, OnDestroy {
   step$$ = new BehaviorSubject<'welcome' | 'interacted' | 'detailing'>('welcome');
   stepSignal = toSignal(this.step$$.asObservable())
 
-  nameControl = signal('');
-  phoneControl = signal('');
   agree = signal(false);
 
   phoneNumberFieldValid = false;
@@ -71,25 +70,6 @@ export class ProductCollage implements OnInit, OnDestroy {
   ) {
     if (this._platform.isServer) return;
     this.initSubscriptions();
-
-    effect(() => {
-      const step = this.stepSignal();
-      console.log('Signal value changed:', step);
-
-        if (step === 'interacted') {
-        const currentOrderData = this.orderData$$.getValue();
-
-        // if (currentOrderData !== null) {
-        //   const { name, phone } = currentOrderData;
-  
-        //   untracked(() => {
-        //     if (name) this.nameControl.set(name); 
-        //     if (phone) this.phoneControl.set(phone)
-        //   });
-        // }
-      }
-      
-    });
   }
 
   ngOnInit(): void {
@@ -130,20 +110,6 @@ export class ProductCollage implements OnInit, OnDestroy {
       }
     });
 
-    toObservable(this.nameControl)
-      .pipe(
-        debounceTime(2000),
-        skip(1)
-      )
-      .subscribe(name => this.updateName(name));
-
-    toObservable(this.phoneControl)
-      .pipe(
-        debounceTime(2000),
-        skip(1)
-      )
-      .subscribe(phone => this.updatePhone(String(phone)));
-
     toObservable(this.agree)
       .pipe(
         debounceTime(2000),
@@ -161,22 +127,27 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    const { order_details, ...data } = this.orderForm.value;
     if (this.orderForm.valid) {
-      const { order_details, ...data } = this.orderForm.value;
       this.updateOrder(data);
-      if (order_details) {
-        this.createOrderDetails();
+    }
+    if (order_details) {
+      const dto = { 
+        details: order_details,
+        author: data.user_id,
+        order_id: data.id
       }
+      this.createOrderDetails(dto);
     }
   }
 
-  createOrderDetails() {
-    const { order_details, ...data } = this.orderForm.value;
-    const orderDetailsDto = {
-      details: order_details,
-      author: data.user_id,
-      order_id: data.id
-    };
+  createOrderDetails(orderDetailsDto: IOrderDetails) {
+    // const { order_details, ...data } = this.orderForm.value;
+    // const orderDetailsDto = {
+    //   details: order_details,
+    //   author: data.user_id,
+    //   order_id: data.id
+    // };
     this._orderDetailsService.createOrderDetails(orderDetailsDto)
       .subscribe({
         next: (response) => {
@@ -204,7 +175,9 @@ export class ProductCollage implements OnInit, OnDestroy {
         this.step$$.next('detailing')
         break
       case 'detailing':
-        this.orderForm.get('isDraft')?.setValue(false);
+        if (this.orderForm.value.name) {
+          this.orderForm.get('isDraft')?.setValue(false);
+        }
         this.onSubmit()
     }
   }
@@ -312,7 +285,8 @@ export class ProductCollage implements OnInit, OnDestroy {
   updateOrder(data: Partial<IOrder>): void {
     const currentOrderData = this.orderData$$.getValue();
     if (currentOrderData === null) return;
-    const { id, name, phone, isDraft } = currentOrderData;
+    const isDraft = data.isDraft;
+    const { id } = currentOrderData;
     this._ordersService.updateOrder(String(id), data)
       .subscribe({
         next: (response) => {
@@ -333,6 +307,9 @@ export class ProductCollage implements OnInit, OnDestroy {
           console.error('Error updating order item', error);
         }
       });
+    if (isDraft === false) {
+      this.orderForm.get('order_details')?.reset();
+    }
   }
 
   updateUser(data: Partial<IUser>): void {

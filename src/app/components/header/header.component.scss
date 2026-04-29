@@ -5,6 +5,7 @@
   align-items: center;
   width: 100%;
   grid-auto-flow: column;
+  height: var(--header-height);
 
   .app-logo {
     // font-size: max(1.3vw, 1.3vh);

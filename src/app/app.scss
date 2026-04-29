@@ -51,6 +51,7 @@
   --breakpoint-lg: 75rem; // 1200
   --current-max: var(--breakpoint-sm);
   --max-container: calc(var(--current-max) - 2rem);
+  --header-height: 4em;
 
   --tile-padding: 1em;
   --card-padding: 1.5em;
@@ -72,8 +73,6 @@
   }
   
   @include media-breakpoint-up(xl) {
-    // font-size: 1vw;
-    
     --item-gap: 1.5ex;
     --container-gap: 4em;
   }
