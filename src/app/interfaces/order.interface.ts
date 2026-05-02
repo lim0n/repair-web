@@ -16,6 +16,8 @@ export interface IOrder {
   /** Подробности/комментарии к заказу */
   order_details?: IOrderDetails[];
   isDraft?: boolean;
+  /** Заголовок заявки */
+  order_name?: string;
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

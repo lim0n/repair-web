@@ -13,21 +13,32 @@
       height: calc(100dvh - var(--header-height));
     }
     
-    .product-collage__wrapper {
-      flex: 1;
-    }
-
     what-we-do {
       display: none;
     }
 
     .product-collage__wrapper {
+      flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1lh var(--container-gap);
 
+      .product-collage-form {
+        border: 1px solid #0f0;
+        grid-column-end: span 2;
+        align-self: start;
+      }
+
       @container cell (min-width: 35em) {
         grid-template-columns: 1fr 2fr;
+
+        .product-collage-form {
+          grid-column-end: span 1;
+        }
+
+        button {
+          max-width: 50%;
+        }
       }
     }
 

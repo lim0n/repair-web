@@ -92,10 +92,16 @@ export class UsersForm implements OnInit {
             return of(error);
           })
         )
-        .subscribe(data => {
-          this.user$$.next(data);
-          this.userid = data.id;
+        .subscribe({
+          next: (response) => {
+            this.user$$.next(response);
+            this.userid = response.id;
+          },
+          error: (error) => {
+            console.error('Ошибка при запросе пользователя', error)
+          }
         });
+
     } else if (this.userid) {
       this._usersService.getUserById(String(this.userid))
         .pipe(

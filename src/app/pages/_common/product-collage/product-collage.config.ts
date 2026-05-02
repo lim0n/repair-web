@@ -1,9 +1,11 @@
 import { IEntity } from "@interfaces/entity.interface";
+import { IOrderBanner } from "@interfaces/order-banner.interface";
 
-export const SERVICE_PRODUCTS: IEntity<IEntity[]>[] = [
+export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
   {
     title: 'Стиральные машины',
     longTitle: 'Ремонт стиральных машин всех моделей',
+    orderName: 'Заявка на ремонт стиральной машины',
     icon: {
       title: 'Стиральные машины',
       link: 'icon_washing_machine'

@@ -1,12 +1,8 @@
 
 <div class="product-collage__wrapper">
-  <!-- <pre>{{ product | json }}</pre> -->
-
-  <what-we-do [data]="products"></what-we-do>
-
   @if (product) {
     @let step = step$$ | async;
-    <h1>{{ product.longTitle }}</h1>
+    <h1>{{ (orderData$$ | async)?.order_name || product.longTitle }}</h1>
     <div class="product-collage__kv">
       <svg viewBox="0 0 58.535 61.489" fill="url(#myGradient)">
         <use [attr.href]="'#'+product.icon?.link"></use>
@@ -48,7 +44,6 @@
             <label class="product-collage-agreement">
               <span class="product-collage-agreement__checkbox">
                 <input type="checkbox" [checked]="agree()" (change)="changeAgreement($event)"  />
-                <!-- [(ngModel)]="agree" -->
               </span>
               <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
             </label>
@@ -63,6 +58,9 @@
   
         @if (step === 'detailing') {
           @let orderData = orderData$$ | async;
+
+          <!-- <div><pre>{{ orderData | json }}</pre></div> -->
+
           <dl>
             <dt>Телефон</dt>
             <dd>{{ orderData?.phone }}</dd>
@@ -92,31 +90,15 @@
           <button
             type="button"
             (click)="setNextStep()"
-            [disabled]="!orderForm.value.name && !orderData?.name"
-            >{{ orderData?.isDraft === false && orderData?.name ? 'Добавить комментарий' : 'Отправить заявку' }}</button>
-          
-          <!-- @if (orderData?.isDraft === false) {
-            @let user_id = (userProfile$ | async)?.sub;
-            <button
-              type="button"
-              (click)="createNewOrder(user_id)"
-              >Создать новую заявку</button>
-          } -->
-          
+            [disabled]="!orderForm.value.name && !orderData?.name">
+              {{ orderData?.isDraft === false && orderData?.name ? 'Добавить комментарий' : 'Отправить заявку' }}
+          </button>
         }
       </div>
     }
-    
+  } @else {
+    <what-we-do [data]="products"></what-we-do>
   }
-
-  <div>
-    <!-- agreed = {{ agree() }}
-    <div><pre>{{ orderForm.value | json }}</pre></div> -->
-  
-    <!-- <div>orderData<pre>{{ orderData$$ | async | json }}</pre></div> -->
-    <!-- <div>userProfile<pre>{{userProfile$ | async | json }}</pre></div> -->
-  </div>
-
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg">

@@ -20,16 +20,17 @@ import { phonePrettier } from './utils/phone-prettier.function';
 import { OrderDetailsService } from '@app/services/order-details.service';
 import { RegexPatterns } from '@app/utils/patterns.const';
 import { IOrderDetails } from '@interfaces/order-details.interface';
+import { IOrderBanner } from '@interfaces/order-banner.interface';
 
 @Component({
   selector: 'product-collage',
   imports: [
     WhatWeDo,
-    JsonPipe,
     AsyncPipe,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    JsonPipe,
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
@@ -40,24 +41,13 @@ import { IOrderDetails } from '@interfaces/order-details.interface';
 export class ProductCollage implements OnInit, OnDestroy {
   readonly products = SERVICE_PRODUCTS;
   readonly path$ = new Subject<string>();
-  product: IEntity<IEntity[]> | undefined;
-  isLoggedIn$ = inject(AuthenticationService).isLoggedIn$;
-  isLoggedIn = false;
-  userProfile$ = inject(ProfileService).userProfile$;
+  product: IOrderBanner<IEntity[]> | undefined;
   userProfile$$ = inject(ProfileService).userProfile$$;
   orderData$$ = new BehaviorSubject<IOrder | null>(null);
   orderForm!: FormGroup;
-
-  orderName$$ = new BehaviorSubject<string | null>(null);
-
   step$$ = new BehaviorSubject<'welcome' | 'interacted' | 'detailing'>('welcome');
-  stepSignal = toSignal(this.step$$.asObservable())
-
   agree = signal(false);
-
   phoneNumberFieldValid = false;
-  nameFieldValid = false;
-
 
   constructor(
     private _route: ActivatedRoute,
@@ -74,10 +64,6 @@ export class ProductCollage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.orderForm = createOrderForm(this._fb);
-    const nameField = this.orderForm.get('name');
-    nameField?.statusChanges.subscribe(status => {
-      this.nameFieldValid = status === 'VALID';
-    });
     const phoneField = this.orderForm.get('phone');
     phoneField?.setValidators([Validators.required, Validators.pattern(RegexPatterns.PhoneValidation)]);
     phoneField?.valueChanges.subscribe(value=> {
@@ -97,14 +83,15 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   initSubscriptions(): void {
-    this.isLoggedIn$.subscribe(value => this.isLoggedIn = value);
-    this.userProfile$.subscribe(val => {
+    this.userProfile$$.subscribe(val => {
       if (val === null) {
         this.step$$.next('welcome');
       }
 
-      if (val?.profile.agreements && val?.profile.agreements.length && val.profile?.agreements?.some(profile => profile.name === 'obrabotka_pdn')) {
-        this.agree.set(true)
+      if (val?.profile.agreements 
+        && val.profile.agreements.length 
+        && val.profile.agreements.some(agreement => agreement.name === 'obrabotka_pdn')) {
+          this.agree.set(true)
       } else {
         this.agree.set(false)
       }
@@ -142,12 +129,6 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   createOrderDetails(orderDetailsDto: IOrderDetails) {
-    // const { order_details, ...data } = this.orderForm.value;
-    // const orderDetailsDto = {
-    //   details: order_details,
-    //   author: data.user_id,
-    //   order_id: data.id
-    // };
     this._orderDetailsService.createOrderDetails(orderDetailsDto)
       .subscribe({
         next: (response) => {
@@ -185,7 +166,7 @@ export class ProductCollage implements OnInit, OnDestroy {
   onSubmitWelcome(): void {
     const dto:IOrder = {};
     const order: IOrder = {};
-    if (!this.isLoggedIn) {
+    if (this.userProfile$$.value === null) {
       this.createNewOrder();
     } else {
       let user: IProfile | null = this.userProfile$$.getValue();
@@ -204,6 +185,8 @@ export class ProductCollage implements OnInit, OnDestroy {
           } else {
             this.step$$.next('interacted');
           }
+      } else if ( user !== null) {
+        this.createNewOrder(user.profile.id);
       }
     }
   }
@@ -213,12 +196,16 @@ export class ProductCollage implements OnInit, OnDestroy {
     if (user_id) {
       payload.user_id = user_id
     }
+    if (this.product) {
+      payload.order_name = this.product.orderName
+    }
     this._ordersService.createOrder(payload)
       .subscribe({
         next: (response) => {
           const { tokens, ...orderData } = response;
           this.orderData$$.next(orderData);
           this.orderForm.setValue({...orderData, order_details: null});
+          
           if (tokens) {
             this._authenticationService.setData(tokens);
           }
@@ -268,20 +255,6 @@ export class ProductCollage implements OnInit, OnDestroy {
       });
   }
 
-  updateName(name: string) {
-    if (name) {
-      this.updateOrder({name});
-      this.updateUser({name});
-    }
-  }
-
-  updatePhone(phone: string) {
-    if (phone) {
-      this.updateOrder({phone});
-      this.updateUser({phone});
-    }
-  }
-
   updateOrder(data: Partial<IOrder>): void {
     const currentOrderData = this.orderData$$.getValue();
     if (currentOrderData === null) return;
@@ -310,25 +283,6 @@ export class ProductCollage implements OnInit, OnDestroy {
     if (isDraft === false) {
       this.orderForm.get('order_details')?.reset();
     }
-  }
-
-  updateUser(data: Partial<IUser>): void {
-    const user = this.userProfile$$.getValue();
-    if (!user || !user.profile) return;
-    const { id, name, phone } = user.profile;
-
-    if ((data.name && data.name === name) || (data.phone && data.phone === phone)) return;
-
-    this._usersService.updateUser(String(id), data)
-      .subscribe({
-        next: (response) => {
-          user.profile = response;
-          this.userProfile$$.next(user);
-        },
-        error: (error) => {
-          console.error('Error updating user item', error);
-        }
-      });
   }
 
   ngOnDestroy(): void {

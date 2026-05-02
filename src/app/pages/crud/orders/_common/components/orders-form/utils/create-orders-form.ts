@@ -6,6 +6,7 @@ export const formOptions: AbstractControlOptions = {
 
 export const createOrderForm = (fb: FormBuilder): FormGroup => fb.group({
   id: '',
+  order_name: '',
   user_id: '',
   email: ['', [Validators.email, Validators.maxLength(50)]],
   name: ['', [Validators.maxLength(90)]],

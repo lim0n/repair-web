@@ -51,12 +51,17 @@ export class UsersPage implements OnInit {
       .pipe(
         take(1),
         catchError(error => {
-          console.warn('error', error, this.users$$.getValue());
+          console.warn('error', error);
           return of([]);
         })
       )
-      .subscribe(data => {
-        this.users$$.next(data);
+      .subscribe({
+        next: (response) => {
+          this.users$$.next(response);
+        },
+        error: (error) => {
+          console.error('Ошибка при запросе пользователей', error)
+        }
       });
   }
 
