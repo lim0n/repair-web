@@ -2,11 +2,12 @@
 <div class="product-collage__wrapper">
   @if (product) {
     @let step = step$$ | async;
-    <h1>{{ (orderData$$ | async)?.order_name || product.longTitle }}</h1>
+    <h1 class="product-collage__title">{{ (orderData$$ | async)?.order_name || product.longTitle }} {{ (orderData$$ | async)?.id ? `№${(orderData$$ | async)?.id}` : '' }}</h1>
     <div class="product-collage__kv">
-      <svg viewBox="0 0 58.535 61.489" fill="url(#myGradient)">
+      1
+      <!-- <svg viewBox="0 0 58.535 61.489" fill="url(#myGradient)">
         <use [attr.href]="'#'+product.icon?.link"></use>
-      </svg>
+      </svg> -->
     </div>
 
     @if (step === 'welcome') {
@@ -45,10 +46,11 @@
               <span class="product-collage-agreement__checkbox">
                 <input type="checkbox" [checked]="agree()" (change)="changeAgreement($event)"  />
               </span>
-              <span class="product-collage-agreement__text">Даю согласие на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
+              <span class="product-collage-agreement__text">Даю <a routerLink="/soglasie" target="_blank">согласие</a> на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
             </label>
   
             <button
+              class="product-collage__button"
               type="button"
               [disabled]="agree() === false || !orderForm.valid"
               (click)="setNextStep()"
@@ -59,7 +61,6 @@
         @if (step === 'detailing') {
           @let orderData = orderData$$ | async;
 
-          <!-- <div><pre>{{ orderData | json }}</pre></div> -->
 
           <dl>
             <dt>Телефон</dt>
@@ -69,10 +70,10 @@
               <dt>Имя</dt>
               <dd>{{ orderData?.name }}</dd>
             }
-  
-            @if ((orderData$$ | async)?.order_details && orderData!.order_details?.length) {
-              <dt>{{ orderData!.order_details!.length > 1 ? 'Комментарии' : 'Комментарий' }}</dt>
-              @for (item of orderData!.order_details!; track item) {
+
+            @if ((orderDetails$$ | async)?.length) {
+              <dt>{{ (orderDetails$$ | async)!.length > 1 ? 'Комментарии' : 'Комментарий' }}</dt>
+              @for (item of (orderDetails$$ | async); track item) {
                 <dd>{{ item.details }}</dd>
               }
             }
@@ -85,13 +86,16 @@
               formControlName="name" />
           }
   
-          <textarea placeholder="Комментарий" formControlName="order_details"></textarea>
+          <textarea class="product-collage-form__details" placeholder="Комментарий" formControlName="order_details"></textarea>
   
           <button
             type="button"
+            class="product-collage__button"
             (click)="setNextStep()"
-            [disabled]="!orderForm.value.name && !orderData?.name">
-              {{ orderData?.isDraft === false && orderData?.name ? 'Добавить комментарий' : 'Отправить заявку' }}
+            [disabled]="!orderForm.value.name && !orderData?.name || !orderForm.value.order_details && orderData?.order_details?.length"
+          >
+             
+            {{ orderData?.isDraft === false && orderData?.name ? 'Добавить комментарий' : 'Отправить заявку' }}
           </button>
         }
       </div>

@@ -29,8 +29,7 @@ import { IOrderBanner } from '@interfaces/order-banner.interface';
     AsyncPipe,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink,
-    JsonPipe,
+    RouterLink
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
@@ -43,7 +42,8 @@ export class ProductCollage implements OnInit, OnDestroy {
   readonly path$ = new Subject<string>();
   product: IOrderBanner<IEntity[]> | undefined;
   userProfile$$ = inject(ProfileService).userProfile$$;
-  orderData$$ = new BehaviorSubject<IOrder | null>(null);
+  orderData$$ = new BehaviorSubject<IOrder & {order_details?: Partial<IOrderDetails>} | null>(null);
+  orderDetails$$ = new BehaviorSubject<IOrderDetails[]>([]);
   orderForm!: FormGroup;
   step$$ = new BehaviorSubject<'welcome' | 'interacted' | 'detailing'>('welcome');
   agree = signal(false);
@@ -86,6 +86,8 @@ export class ProductCollage implements OnInit, OnDestroy {
     this.userProfile$$.subscribe(val => {
       if (val === null) {
         this.step$$.next('welcome');
+        this.orderDetails$$.next([]);
+        this.orderData$$.next(null);
       }
 
       if (val?.profile.agreements 
@@ -132,13 +134,9 @@ export class ProductCollage implements OnInit, OnDestroy {
     this._orderDetailsService.createOrderDetails(orderDetailsDto)
       .subscribe({
         next: (response) => {
-          const currentOrder = this.orderData$$.value;
-          if (currentOrder?.order_details && currentOrder.order_details.length) {
-            currentOrder.order_details.push(response)
-            this.orderData$$.next(currentOrder)
-          } else {
-            this.orderData$$.next({...currentOrder, order_details: [response]})
-          }
+          const details = this.orderDetails$$.value;
+          details.push(response);
+          this.orderDetails$$.next(details)
         },
         error: (error) => {
           console.error('Error creating item', error);
@@ -177,6 +175,9 @@ export class ProductCollage implements OnInit, OnDestroy {
             lastOrder = sortedOrders[0];
             this.orderData$$.next(lastOrder);
             this.orderForm.setValue({...lastOrder, order_details: null});
+            if (lastOrder.order_details && lastOrder.order_details.length) {
+              this.orderDetails$$.next(lastOrder.order_details)
+            }
             if (lastOrder.isDraft === false) {
               this.step$$.next('detailing');
             } else {
@@ -210,6 +211,7 @@ export class ProductCollage implements OnInit, OnDestroy {
             this._authenticationService.setData(tokens);
           }
           this.step$$.next('interacted');
+          this.orderForm.markAsPristine();
         },
         error: (error) => {
           console.error('Error creating item', error);
@@ -218,6 +220,7 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   changeAgreement($event: Event) {
+
     this.agree.set(($event.target as HTMLInputElement).checked);
   }
 

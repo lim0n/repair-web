@@ -1,5 +1,10 @@
 @use "styles/tools" as *;
 
+@font-face {
+  font-family: "Products4";
+  src: url("/Products4.ttf") format("truetype");
+}
+
 .app-root {
   display: block;
 }

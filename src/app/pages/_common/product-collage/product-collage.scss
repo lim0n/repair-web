@@ -24,7 +24,7 @@
       gap: 1lh var(--container-gap);
 
       .product-collage-form {
-        border: 1px solid #0f0;
+        // border: 1px solid #0f0;
         grid-column-end: span 2;
         align-self: start;
       }
@@ -58,12 +58,22 @@
       }
     }
 
+    .product-collage__title {
+      align-self: center;
+    }
+
     .product-collage__kv {
       grid-row: 1 / 2;
-      align-self: start;
-
+      align-self: center;
+      font-family: "Products4";
+      font-size: 40cqw;
+      background-image: linear-gradient(to right, #ff850a, #ffc800);
+      background-clip: text;
+      color: transparent;
+      
       @container cell (min-width: 35em) {
         grid-row: 1 / -4;
+        align-self: start;
       }
 
       svg {
@@ -108,7 +118,7 @@
       // background: #ff850a;
       background-image: linear-gradient(to right, #ff850a, #ffc800);
       position: relative;
-      margin: 1ex;
+      margin: .5ex;
 
       &:after {
         // background-image: conic-gradient(from .64turn at 50% 50%,red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
@@ -170,9 +180,44 @@
   &-form {
     display: grid;
     gap: 1em;
+  }
 
-    // &__phone.ng-invalid + &__name {
-    //   display: none;
-    // }
+  &-form__phone,
+  &-form__name,
+  &-form__name~textarea,
+  &-form__name~button,
+  &-form__details,
+  &__kv,
+  &__title,
+  &__list,
+  &__button-group,
+  &-agreement,
+  &-agreement ~ button {
+
+    &, &~button, &~textarea {
+      animation-name: fade-in;
+      animation-duration: .5s;
+      opacity: 1;
+      transition: all .5s;
+      transform: translateY(0);
+    }
+
+    @starting-style {
+      & {
+        opacity: 0;
+        transform: translateY(3lh);
+      }
+    }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity:0;
+    transform: translateY(3lh);
+  }
+  to {
+    opacity:1;
+    transform: translateY(0);
   }
 }
