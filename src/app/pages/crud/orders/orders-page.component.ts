@@ -51,8 +51,8 @@ export class OrdersPageComponent {
     this._ordersService.getOrdersList(this.getListWithDeleted)
       .pipe(
         take(1),
-        catchError(error => {
-          return of(error);
+        catchError(() => {
+          return of([]);
         })
       ).subscribe(data => {
         this.orders$$.next(data);

@@ -23,7 +23,7 @@ export class OrderDetailsService {
     return this._api.get(String(url));
   }
 
-  getOrderDetailsByOrderId(order_id: string): Observable<IOrderDetails[]> {
+  getOrderDetailsByOrderId(order_id: number): Observable<IOrderDetails[]> {
     const url = new URL(`/order-details/order/${order_id}`, environment.apiUrl);
     return this._api.get<IOrderDetails[]>(String(url));
   }

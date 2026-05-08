@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, OnDestroy, OnInit, signal, untracked, ViewEncapsulation } from '@angular/core';
 import { SERVICE_PRODUCTS } from './product-collage.config';
-import { BehaviorSubject, debounceTime, Observable, skip, Subject, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, filter, Observable, skip, Subject, tap } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IEntity } from '@interfaces/entity.interface';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
@@ -13,8 +13,7 @@ import { IOrder } from '@interfaces/order.interface';
 import { UsersService } from '@app/services/users.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IProfile } from '@interfaces/profile.interface';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { IUser } from '@interfaces/user.interface';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { createOrderForm } from '@pages/crud/orders/_common/components/orders-form/utils/create-orders-form';
 import { phonePrettier } from './utils/phone-prettier.function';
 import { OrderDetailsService } from '@app/services/order-details.service';
@@ -29,7 +28,7 @@ import { IOrderBanner } from '@interfaces/order-banner.interface';
     AsyncPipe,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
@@ -99,6 +98,14 @@ export class ProductCollage implements OnInit, OnDestroy {
       }
     });
 
+    this.orderData$$.pipe(
+      filter(Boolean)
+    ).subscribe((data) => {
+      if (data.id) {
+        this.getOrderDetails(data.id);
+      }
+    });
+
     toObservable(this.agree)
       .pipe(
         debounceTime(2000),
@@ -128,6 +135,18 @@ export class ProductCollage implements OnInit, OnDestroy {
       }
       this.createOrderDetails(dto);
     }
+  }
+
+  getOrderDetails(orderId: number): void {
+    this._orderDetailsService.getOrderDetailsByOrderId(orderId)
+      .subscribe({
+        next: (response) => {
+          this.orderDetails$$.next(response)
+        },
+        error: (error) => {
+          console.error('Error creating item', error);
+        }
+      })
   }
 
   createOrderDetails(orderDetailsDto: IOrderDetails) {
@@ -162,8 +181,6 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   onSubmitWelcome(): void {
-    const dto:IOrder = {};
-    const order: IOrder = {};
     if (this.userProfile$$.value === null) {
       this.createNewOrder();
     } else {
@@ -193,14 +210,14 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   createNewOrder(user_id?: number) {
-    const payload: IOrder = {};
+    const payload: Partial<IOrder> = {};
     if (user_id) {
       payload.user_id = user_id
     }
     if (this.product) {
       payload.order_name = this.product.orderName
     }
-    this._ordersService.createOrder(payload)
+    this._ordersService.createOrder(payload as IOrder)
       .subscribe({
         next: (response) => {
           const { tokens, ...orderData } = response;
@@ -263,7 +280,7 @@ export class ProductCollage implements OnInit, OnDestroy {
     if (currentOrderData === null) return;
     const isDraft = data.isDraft;
     const { id } = currentOrderData;
-    this._ordersService.updateOrder(String(id), data)
+    this._ordersService.updateOrder(String(id), data as IOrder)
       .subscribe({
         next: (response) => {
           const user = this.userProfile$$.getValue();

@@ -73,7 +73,7 @@
 
             @if ((orderDetails$$ | async)?.length) {
               <dt>{{ (orderDetails$$ | async)!.length > 1 ? 'Комментарии' : 'Комментарий' }}</dt>
-              @for (item of (orderDetails$$ | async); track item) {
+              @for (item of (orderDetails$$ | async); track item.id) {
                 <dd>{{ item.details }}</dd>
               }
             }

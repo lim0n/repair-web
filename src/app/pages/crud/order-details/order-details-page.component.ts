@@ -38,8 +38,8 @@ export class OrderDetailsPage {
     this._orderDetailsService.getOrderDetailsList(this.getListWithDeleted)
       .pipe(
         take(1),
-        catchError(error => {
-          return of(error);
+        catchError(() => {
+          return of([]);
         })
       ).subscribe(data => {
         this.orderDetails$$.next(data);

@@ -50,18 +50,12 @@ export class UsersPage implements OnInit {
     this._usersService.getUsersList(this.getListWithDeleted)
       .pipe(
         take(1),
-        catchError(error => {
-          console.warn('error', error);
+        catchError(() => {
           return of([]);
         })
       )
-      .subscribe({
-        next: (response) => {
-          this.users$$.next(response);
-        },
-        error: (error) => {
-          console.error('Ошибка при запросе пользователей', error)
-        }
+      .subscribe((response) => {
+        this.users$$.next(response);
       });
   }
 

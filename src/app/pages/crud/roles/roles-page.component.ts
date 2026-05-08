@@ -37,8 +37,8 @@ export class RolesPageComponent implements OnInit {
     this._rolesService.getRolesList()
       .pipe(
         take(1),
-        catchError(error => {
-          return of(error);
+        catchError(() => {
+          return of([]);
         })
       )
       .subscribe(data => {

@@ -24,7 +24,7 @@ export class OrdersService {
 
   getOrderById(id: string): Observable<IOrder> {
     const url = new URL(`/orders/${id}`, environment.apiUrl);
-    return this._api.get(String(url));
+    return this._api.get<IOrder>(String(url));
   }
 
   getDetailedOrderById(id: string): Observable<IOrder> {
