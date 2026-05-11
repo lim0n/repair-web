@@ -1,17 +1,37 @@
-import { ChangeDetectionStrategy, Component, effect, inject, OnDestroy, OnInit, signal, untracked, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
 import { SERVICE_PRODUCTS } from './product-collage.config';
-import { BehaviorSubject, debounceTime, filter, Observable, skip, Subject, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  filter,
+  skip,
+  Subject,
+} from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IEntity } from '@interfaces/entity.interface';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { PlatformService } from '@app/services/platform.service';
 import { OrdersService } from '@app/services/orders.service';
 import { ProfileService } from '@app/services/profile.service';
 import { IOrder } from '@interfaces/order.interface';
 import { UsersService } from '@app/services/users.service';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { IProfile } from '@interfaces/profile.interface';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { createOrderForm } from '@pages/crud/orders/_common/components/orders-form/utils/create-orders-form';
@@ -21,7 +41,6 @@ import { RegexPatterns } from '@app/utils/patterns.const';
 import { IOrderDetails } from '@interfaces/order-details.interface';
 import { IOrderBanner } from '@interfaces/order-banner.interface';
 import { SpinnerCircle } from '@components/spinner-circle/spinner-circle';
-import { form } from '@angular/forms/signals';
 
 @Component({
   selector: 'product-collage',
@@ -51,21 +70,6 @@ export class ProductCollage implements OnInit, OnDestroy {
   status$$ = new BehaviorSubject<'await' | 'process'>('await');
   agree = signal(false);
   phoneNumberFieldValid = false;
-
-
-  signalOrder = signal<IOrder & { pdnAgreement: boolean } >({
-    phone: '',
-    email: '',
-    name: '',
-    isDraft: true,
-    order_name: '',
-    new_order_details: '',
-    pdnAgreement: false
-  });
-
-  signalOrderForm = form(this.signalOrder)
-
-
 
   constructor(
     private _route: ActivatedRoute,
