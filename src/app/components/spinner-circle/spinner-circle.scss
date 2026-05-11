@@ -1,0 +1,38 @@
+.spinner-circle {
+
+  svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  circle {
+    // stroke: var(--text-main);
+    stroke-width: 10%;
+    stroke-linecap: round;
+
+    /* Circumference = 2 * PI * r = 2 * 3.14159 * 45 ≈ 282.7 */
+    stroke-dasharray: 282.7;
+    stroke-dashoffset: 282.7;
+    
+    /* Rotate 90 deg counter-clockwise so 0% starts at top (12 o'clock) */
+    transform: rotate(-90deg);
+    transform-origin: center;
+    
+    /* Animation: name duration timing-function iteration-count */
+    animation: drawCircle 2s linear infinite;
+  }
+
+  @keyframes drawCircle {
+    0% {
+      stroke-dashoffset: 282.7; /* Disappeared */
+    }
+    50% {
+      stroke-dashoffset: 0; /* Fully appeared */
+    }
+    100% {
+      stroke-dashoffset: -282.7; /* Disappeared again */
+    }
+  }
+}

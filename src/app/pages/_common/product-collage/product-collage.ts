@@ -20,6 +20,7 @@ import { OrderDetailsService } from '@app/services/order-details.service';
 import { RegexPatterns } from '@app/utils/patterns.const';
 import { IOrderDetails } from '@interfaces/order-details.interface';
 import { IOrderBanner } from '@interfaces/order-banner.interface';
+import { SpinnerCircle } from '@components/spinner-circle/spinner-circle';
 
 @Component({
   selector: 'product-collage',
@@ -29,6 +30,7 @@ import { IOrderBanner } from '@interfaces/order-banner.interface';
     ReactiveFormsModule,
     FormsModule,
     RouterLink,
+    SpinnerCircle,
   ],
   templateUrl: './product-collage.html',
   styleUrl: './product-collage.scss',
@@ -45,6 +47,7 @@ export class ProductCollage implements OnInit, OnDestroy {
   orderDetails$$ = new BehaviorSubject<IOrderDetails[]>([]);
   orderForm!: FormGroup;
   step$$ = new BehaviorSubject<'welcome' | 'interacted' | 'detailing'>('welcome');
+  status$$ = new BehaviorSubject<'await' | 'process'>('await');
   agree = signal(false);
   phoneNumberFieldValid = false;
 
@@ -217,6 +220,7 @@ export class ProductCollage implements OnInit, OnDestroy {
     if (this.product) {
       payload.order_name = this.product.orderName
     }
+    this.status$$.next('process');
     this._ordersService.createOrder(payload as IOrder)
       .subscribe({
         next: (response) => {
@@ -232,6 +236,9 @@ export class ProductCollage implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error creating item', error);
+        },
+        complete: () => {
+          this.status$$.next('await');
         }
       });
   }
@@ -280,6 +287,7 @@ export class ProductCollage implements OnInit, OnDestroy {
     if (currentOrderData === null) return;
     const isDraft = data.isDraft;
     const { id } = currentOrderData;
+    this.status$$.next('process');
     this._ordersService.updateOrder(String(id), data as IOrder)
       .subscribe({
         next: (response) => {
@@ -298,6 +306,9 @@ export class ProductCollage implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error updating order item', error);
+        },
+        complete: () => {
+          this.status$$.next('await');
         }
       });
     if (isDraft === false) {

@@ -13,7 +13,7 @@ import { ProductCollage } from '@pages/_common/product-collage/product-collage';
   imports: [
     HowWeWorks,
     Advantages,
-    ProductCollage
+    ProductCollage,
   ]
 })
 export class Home {

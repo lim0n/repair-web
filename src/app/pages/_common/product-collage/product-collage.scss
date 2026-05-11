@@ -3,6 +3,7 @@
 .product-collage {
   display: block;
   container: cell/inline-size;
+  position: relative;
 
   @at-root [class*=washing-machine-page] {
 
@@ -207,6 +208,20 @@
         opacity: 0;
         transform: translateY(3lh);
       }
+    }
+  }
+
+  &__spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, var(--surface-main), transparent);
+    color: #ff850a;
+
+    spinner-circle {
+      flex-basis: 5%;
     }
   }
 }
