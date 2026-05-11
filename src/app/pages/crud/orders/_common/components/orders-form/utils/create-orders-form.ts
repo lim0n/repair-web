@@ -11,7 +11,7 @@ export const createOrderForm = (fb: FormBuilder): FormGroup => fb.group({
   email: ['', [Validators.email, Validators.maxLength(50)]],
   name: ['', [Validators.maxLength(90)]],
   phone: ['', [Validators.maxLength(20)]],
-  order_details: [null],
+  new_order_details: [null],
   isDraft: null,
   created_at: [{value: '', disabled: true}],
   updated_at: [{value: '', disabled: true}],

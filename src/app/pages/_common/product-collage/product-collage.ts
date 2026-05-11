@@ -21,6 +21,7 @@ import { RegexPatterns } from '@app/utils/patterns.const';
 import { IOrderDetails } from '@interfaces/order-details.interface';
 import { IOrderBanner } from '@interfaces/order-banner.interface';
 import { SpinnerCircle } from '@components/spinner-circle/spinner-circle';
+import { form } from '@angular/forms/signals';
 
 @Component({
   selector: 'product-collage',
@@ -50,6 +51,21 @@ export class ProductCollage implements OnInit, OnDestroy {
   status$$ = new BehaviorSubject<'await' | 'process'>('await');
   agree = signal(false);
   phoneNumberFieldValid = false;
+
+
+  signalOrder = signal<IOrder & { pdnAgreement: boolean } >({
+    phone: '',
+    email: '',
+    name: '',
+    isDraft: true,
+    order_name: '',
+    new_order_details: '',
+    pdnAgreement: false
+  });
+
+  signalOrderForm = form(this.signalOrder)
+
+
 
   constructor(
     private _route: ActivatedRoute,
@@ -126,13 +142,13 @@ export class ProductCollage implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const { order_details, ...data } = this.orderForm.value;
+    const { new_order_details, ...data } = this.orderForm.value;
     if (this.orderForm.valid) {
       this.updateOrder(data);
     }
-    if (order_details) {
+    if (new_order_details) {
       const dto = { 
-        details: order_details,
+        details: new_order_details,
         author: data.user_id,
         order_id: data.id
       }
@@ -192,11 +208,11 @@ export class ProductCollage implements OnInit, OnDestroy {
       if (user !== null && user.profile && user.profile.orders && user.profile.orders.length) {
           sortedOrders = [...user.profile.orders].sort((a,b)=><string>a.created_at < <string>b.created_at ? 1 : -1)
           if (sortedOrders.length) {
-            lastOrder = sortedOrders[0];
+            const { order_details: lastOrderDetails, ...lastOrder } = sortedOrders[0];
             this.orderData$$.next(lastOrder);
-            this.orderForm.setValue({...lastOrder, order_details: null});
-            if (lastOrder.order_details && lastOrder.order_details.length) {
-              this.orderDetails$$.next(lastOrder.order_details)
+            this.orderForm.setValue({...lastOrder, new_order_details: null});
+            if (lastOrderDetails && lastOrderDetails.length) {
+              this.orderDetails$$.next(lastOrderDetails)
             }
             if (lastOrder.isDraft === false) {
               this.step$$.next('detailing');
@@ -207,7 +223,7 @@ export class ProductCollage implements OnInit, OnDestroy {
             this.step$$.next('interacted');
           }
       } else if ( user !== null) {
-        this.createNewOrder(user.profile.id);
+        this.createNewOrder(user?.profile?.id);
       }
     }
   }
@@ -221,12 +237,13 @@ export class ProductCollage implements OnInit, OnDestroy {
       payload.order_name = this.product.orderName
     }
     this.status$$.next('process');
-    this._ordersService.createOrder(payload as IOrder)
+    
+    this._ordersService.createOrder(payload as Partial<IOrder>)
       .subscribe({
         next: (response) => {
           const { tokens, ...orderData } = response;
           this.orderData$$.next(orderData);
-          this.orderForm.setValue({...orderData, order_details: null});
+          this.orderForm.setValue({...orderData, new_order_details: null});
           
           if (tokens) {
             this._authenticationService.setData(tokens);
@@ -312,7 +329,7 @@ export class ProductCollage implements OnInit, OnDestroy {
         }
       });
     if (isDraft === false) {
-      this.orderForm.get('order_details')?.reset();
+      this.orderForm.get('new_order_details')?.reset();
     }
   }
 

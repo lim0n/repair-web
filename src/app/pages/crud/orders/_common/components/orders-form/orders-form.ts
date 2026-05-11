@@ -95,7 +95,7 @@ export class OrdersForm implements OnInit {
     if (this.orderForm.valid) {
       const formData = this.orderForm.value;
       if (this.orderid) {        
-        let { order_details, ...updateData } = formData;
+        let { new_order_details, ...updateData } = formData;
         this._ordersService.updateOrder(this.orderid, updateData)
           .subscribe({
             next: (response) => {
