@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Products4";
-  src: url("/Products4.ttf") format("truetype");
+  src: url("/icons4.ttf") format("truetype");
 }
 
 .app-root {
@@ -56,7 +56,7 @@
   --breakpoint-lg: 75rem; // 1200
   --current-max: var(--breakpoint-sm);
   --max-container: calc(var(--current-max) - 2rem);
-  --header-height: 4em;
+  --header-height: 6em;
 
   --tile-padding: 1em;
   --card-padding: 1.5em;

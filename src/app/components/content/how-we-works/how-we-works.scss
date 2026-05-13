@@ -14,9 +14,18 @@
 
   &-tile {
     display: grid;
-    grid-template-columns: 4em 1fr;
+    grid-template-columns: min(12vw, 6em) 1fr;
     align-items: center;
     background: var(--surface-accented);
+
+    &__icon {
+      font-family: "Products4";
+      font-size: min(8vw, 4em);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .25ex;
+    }
   }
   
 }

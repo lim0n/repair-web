@@ -8,24 +8,30 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     orderName: 'Заявка на ремонт стиральной машины',
     icon: {
       title: 'Стиральные машины',
-      link: 'icon_washing_machine'
+      character: '1',
     },
     route: 'washing-machine',
     content: [
       { 
         title: 'Фронтальные',
         description: 'Прозрачное окно-дверца для загрузки белья',
-        icon: 'icon_front_load'
+        icon: {
+          character: 'a'
+        }
       },
       { 
         title: 'Вертикальные',
         description: 'Стиральные машины с загрузкой белья сверху',
-        icon: 'icon_top_load'
+        icon: {
+          character: 'b'
+        }
       },
       { 
         title: 'Встраиваемые',
         description: 'Конструкция предполагает наличие дополнительных крепежей',
-        icon: 'icon_built_in'
+        icon: {
+          character: 'c'
+        }
       }
     ]
   },
@@ -34,39 +40,94 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     longTitle: 'Ремонт посудомоечных машин',
     icon: {
       title: 'Посудомоечные машины',
-      link: 'icon_dishwasher'
+      character: '2',
     },
+    content: [
+      { 
+        title: 'Обслуживание',
+      },
+      { 
+        title: 'Диагностика',
+      },
+      {
+        title: 'Ремонт'
+      },
+    ]
   },
   {
     title: 'Сушильные машины',
     longTitle: 'Ремонт сушильных машин',
     icon: {
       title: 'Сушильные машины',
-      link: 'icon_dryer'
+      character: '3',
     },
+    content: [
+      { 
+        title: 'Обслуживание',
+      },
+      { 
+        title: 'Диагностика',
+      },
+      {
+        title: 'Ремонт'
+      },
+    ]
   },
   {
     title: 'Электрические кухонные плиты',
     longTitle: 'Ремонт электрических кухонных плит',
     icon: {
       title: 'Электрические кухонные плиты',
-      link: 'icon_stove'
+      character: '4',
     },
+    content: [
+      { 
+        title: 'Обслуживание',
+      },
+      { 
+        title: 'Диагностика',
+      },
+      {
+        title: 'Ремонт'
+      },
+    ]
   },
   {
     title: 'Духовки',
     longTitle: 'Ремонт духовок',
     icon: {
       title: 'Духовки',
-      link: 'icon_oven'
+      character: '5',
     },
+    content: [
+      { 
+        title: 'Обслуживание',
+      },
+      { 
+        title: 'Диагностика',
+      },
+      {
+        title: 'Ремонт'
+      },
+    ]
   },
   {
     title: 'Холодильники',
     longTitle: 'Ремонт холодильников',
     icon: {
       title: 'Холодильники',
-      link: 'icon_refrigerator'
+      character: '6',
     },
+    content: [
+      { 
+        title: 'Обслуживание',
+      },
+      { 
+        title: 'Диагностика',
+      },
+      {
+        title: 'Ремонт'
+      },
+    ]
   }
 ];

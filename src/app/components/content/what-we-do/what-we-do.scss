@@ -2,8 +2,6 @@
   display: block;
   container: cell/inline-size;
   
-  &__wrapper {}
-  
   &__grid {
     --columns: 2;
     display: grid;
@@ -18,9 +16,19 @@
     align-items: center;
     background: var(--surface-accented);
     
+    
     &[href] {
       color: inherit;
       text-decoration: none;
+    }
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7cqw;
+      line-height: 1;
+      font-family: "Products4";
     }
   }
 
