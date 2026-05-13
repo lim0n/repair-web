@@ -56,7 +56,7 @@
               <span class="product-collage-agreement__checkbox">
                 <input type="checkbox" [checked]="agree()" (change)="changeAgreement($event)"  />
               </span>
-              <span class="product-collage-agreement__text">Даю <a routerLink="/soglasie" target="_blank">согласие</a> на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
+              <span class="product-collage-agreement__text">Даю <a routerLink="/soglasie" (click)="viewSoglasie(); $event.preventDefault()" target="_blank">согласие</a> на обработку персональных данных, ознакомлен с <a routerLink="/privacy-policy" target="_blank">Политикой</a> обработки персональных данных.</span>
             </label>
   
             <button

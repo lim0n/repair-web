@@ -1,7 +1,9 @@
-<fieldset>
-  <legend>{{ message || 'popup-component works!' }}</legend>
+<fieldset class="popup-component__window" (click)="$event.stopPropagation()">
+  @if (message) {
+    <legend>{{ message }}</legend>
+  }
 
   <ng-container *ngComponentOutlet="component"></ng-container>
 
-  <button (click)="close()">close</button>
+  <button class="popup-component__close" (click)="close()">></button>
 </fieldset>

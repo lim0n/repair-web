@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output, Type, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'popup-component',
@@ -14,6 +14,16 @@ export class PopupComponent {
   @Output() closed = new EventEmitter();
   @Input() message!: string;
   @Input() component!: Type<any>;
+
+  @HostListener('click')
+  onClick() {
+    this.close();
+  }
+
+  @HostListener('window:keydown.escape')
+  onEscapePressed() {
+    this.close();
+  }
 
   close() {
     this.closed.emit();

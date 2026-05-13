@@ -17,7 +17,7 @@ export class PopupService {
   private readonly injector = inject(EnvironmentInjector);
   private readonly appRef = inject(ApplicationRef);
 
-  show(message: string, component: Type<any>) {
+  show(component: Type<any>, message?: string,) {
     // Create a host element for the popup
     const host = document.createElement('popup-host');
     // Create the component and bind in one call

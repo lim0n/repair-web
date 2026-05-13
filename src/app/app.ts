@@ -24,7 +24,7 @@ export class App {
   ) {}
 
   open() {
-    this._popup.show('message', ModalComponent);
+    this._popup.show(ModalComponent, 'message');
   }
 
   logout() {

@@ -41,6 +41,8 @@ import { RegexPatterns } from '@app/utils/patterns.const';
 import { IOrderDetails } from '@interfaces/order-details.interface';
 import { IOrderBanner } from '@interfaces/order-banner.interface';
 import { SpinnerCircle } from '@components/spinner-circle/spinner-circle';
+import { PopupService } from '@app/services/popup.service';
+import { Soglasie } from '@components/content/soglasie/soglasie';
 
 @Component({
   selector: 'product-collage',
@@ -78,7 +80,8 @@ export class ProductCollage implements OnInit, OnDestroy {
     private _authenticationService: AuthenticationService,
     private _usersService: UsersService,
     private _fb: FormBuilder,
-    private _orderDetailsService: OrderDetailsService
+    private _orderDetailsService: OrderDetailsService,
+    private _popupService: PopupService,
   ) {
     if (this._platform.isServer) return;
     this.initSubscriptions();
@@ -335,6 +338,10 @@ export class ProductCollage implements OnInit, OnDestroy {
     if (isDraft === false) {
       this.orderForm.get('new_order_details')?.reset();
     }
+  }
+
+  viewSoglasie(): void {
+    this._popupService.show(Soglasie);
   }
 
   ngOnDestroy(): void {
