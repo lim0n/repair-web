@@ -30,6 +30,42 @@
       line-height: 1;
       font-family: "Products4";
     }
+
+    &:nth-child(1) {
+      color: oklch(var(--scheme-1-lch));
+      background-color: oklch(var(--scheme-1-lch) / 10%);
+      background-image: linear-gradient(in oklch 180deg, oklch(var(--scheme-1-lch) / 10%) 0.0%, oklch(var(--scheme-1-lch-dark) / 10%) 100.0%);
+    }
+
+    &:nth-child(2) {
+      color: oklch(var(--scheme-2-lch));
+      background-color: oklch(var(--scheme-2-lch) / 10%);
+      background-image: linear-gradient(in oklch 180deg, oklch(var(--scheme-2-lch) / 10%) 0.0%, oklch(var(--scheme-2-lch-dark) / 10%) 100.0%);
+    }
+
+    &:nth-child(3) {
+      color: oklch(var(--scheme-3-lch));
+      background-color: oklch(var(--scheme-3-lch) / 10%);
+      background-image: linear-gradient(in oklch 180deg, oklch(var(--scheme-3-lch) / 10%) 0.0%, oklch(var(--scheme-3-lch-dark) / 10%) 100.0%);
+    }
+
+    &:nth-child(4) {
+      color: oklch(var(--scheme-4-lch));
+      background-color: oklch(var(--scheme-4-lch) / 10%);
+      background-image: linear-gradient(in oklch 180deg, oklch(var(--scheme-4-lch) / 10%) 0.0%, oklch(var(--scheme-4-lch-dark) / 10%) 100.0%);
+    }
+
+    &:nth-child(5) {
+      color: oklch(var(--scheme-5-lch));
+      background-color: oklch(var(--scheme-5-lch) / 10%);
+      background-image: linear-gradient(in oklch 180deg, oklch(var(--scheme-5-lch) / 10%) 0.0%, oklch(var(--scheme-5-lch-dark) / 10%) 100.0%);
+    }
+
+    &:nth-child(6) {
+      color: oklch(var(--scheme-6-lch));
+      background-color: oklch(var(--scheme-6-lch) / 10%);
+      background-image: linear-gradient(in oklch 180deg, oklch(var(--scheme-6-lch) / 10%) 0.0%, oklch(var(--scheme-6-lch-dark) / 10%) 100.0%);
+    }
   }
 
   svg {
@@ -37,11 +73,6 @@
   }
 
   @supports (container: cell/inline-size) {
-    @container cell (min-height: 3em) {
-      &__grid {
-        border: 1px solid #ff0;
-      }
-    }
 
     @container cell (min-width: 37.5rem) {
       &__grid {
@@ -57,6 +88,14 @@
           text-align: center;
           padding: 0 1ex 1ex 1ex;
         }
+
+        
+
+        // &:nth-child(2) { color: oklch(var(--scheme-2-lch)) }
+        // &:nth-child(3) { color: oklch(var(--scheme-3-lch)) }
+        // &:nth-child(4) { color: oklch(var(--scheme-4-lch)) }
+        // &:nth-child(5) { color: oklch(var(--scheme-5-lch)) }
+        // &:nth-child(6) { color: oklch(var(--scheme-6-lch)) }
       }
     }
 

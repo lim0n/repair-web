@@ -1,153 +1,163 @@
 @use "../../../styles/tools" as *;
 
 .product-collage {
-  display: block;
   container: cell/inline-size;
   position: relative;
+  display: flex;
+  min-height: calc(100dvh - var(--header-height));
 
-  @at-root [class*=washing-machine-page] {
+  --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-1-lch)) 0.0%, oklch(var(--scheme-1-lch-dark)) 100.0%);
+  @at-root .dishwasher-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-2-lch)) 0.0%, oklch(var(--scheme-2-lch-dark)) 100.0%); }
+  @at-root .dryer-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-3-lch)) 0.0%, oklch(var(--scheme-3-lch-dark)) 100.0%); }
+  @at-root .stove-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-4-lch)) 0.0%, oklch(var(--scheme-4-lch-dark)) 100.0%); }
+  @at-root .oven-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-5-lch)) 0.0%, oklch(var(--scheme-5-lch-dark)) 100.0%); }
+  @at-root .refrigerator-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-6-lch)) 0.0%, oklch(var(--scheme-6-lch-dark)) 100.0%); }
 
-    & > .product-collage__wrapper {}
+  @at-root :root:has(&) .breadcrumbs {
+    display: none;
+  }
+  
+  &__wrapper {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1lh var(--container-gap);
+  }
 
-    .product-collage {
-      display: flex;
-      min-height: calc(100dvh - var(--header-height));
+  &-form {
+    grid-column-end: span 2;
+    align-self: start;
+  }
+
+  @container cell (min-width: 35em) {
+
+    &__wrapper {
+      grid-template-columns: 1fr 2fr;
     }
+
+    &-form {
+      grid-column-end: span 1;
+
+      button {
+        max-width: 50%;
+      }
+    }
+  }
+
+  &__title {
+    // background-image: conic-gradient(red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
+    // background-image: linear-gradient(to right, var(--scheme-1-hash), var(--scheme-1-hash-dark));
+    // background: linear-gradient(in oklch 90deg, oklch(0.787 0.167 71) 0.0%, oklch(0.587 0.167 71) 100.0%);
+    background: var(--linear-gradient);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent; 
+    -webkit-text-stroke: .0675ex transparent;
+    text-shadow: -.125ex -.125ex color-mix(in srgb, var(--text-main) 0%, transparent);
+    justify-self: start;
+    // align-self: start;
+
+    // @container cell (min-width: 35em) {
+    //   align-self: end;
+    // }
+  }
+
+  &__title {
+    align-self: center;
+  }
+
+  &__kv {
+    grid-row: 1 / 2;
+    align-self: center;
+    font-family: "Products4";
+    font-size: 40cqw;
     
-    what-we-do {
-      display: none;
-    }
+    background: var(--linear-gradient);
+    
+    background-clip: text;
+    color: transparent;
+    
+    // --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-1-lch)) 0.0%, oklch(var(--scheme-1-lch-dark)) 100.0%);
+    // @at-root .dishwasher-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-2-lch)) 0.0%, oklch(var(--scheme-2-lch-dark)) 100.0%); }
+    // @at-root .dryer-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-3-lch)) 0.0%, oklch(var(--scheme-3-lch-dark)) 100.0%); }
+    // @at-root .stove-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-4-lch)) 0.0%, oklch(var(--scheme-4-lch-dark)) 100.0%); }
+    // @at-root .oven-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-5-lch)) 0.0%, oklch(var(--scheme-5-lch-dark)) 100.0%); }
+    // @at-root .refrigerator-page & { --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme-6-lch)) 0.0%, oklch(var(--scheme-6-lch-dark)) 100.0%); }
 
-    .product-collage__wrapper {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1lh var(--container-gap);
-
-      .product-collage-form {
-        // border: 1px solid #0f0;
-        grid-column-end: span 2;
-        align-self: start;
-      }
-
-      @container cell (min-width: 35em) {
-        grid-template-columns: 1fr 2fr;
-
-        .product-collage-form {
-          grid-column-end: span 1;
-        }
-
-        button {
-          max-width: 50%;
-        }
-      }
-    }
-
-    h1 {
-      // background-image: conic-gradient(red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
-      background-image: linear-gradient(to right, #ff850a, #ffc800);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent; 
-      -webkit-text-stroke: .0675ex transparent;
-      text-shadow: -.125ex -.125ex color-mix(in srgb, var(--text-main) 0%, transparent);
+    
+    @container cell (min-width: 35em) {
+      grid-row: 1 / -4;
       align-self: start;
-
-      @container cell (min-width: 35em) {
-        align-self: end;
-      }
     }
+  }
 
-    .product-collage__title {
-      align-self: center;
+  &__list {
+    display: grid;
+    align-content: start;
+    gap: 1em var(--item-gap);
+    grid-column: 1 / 3;
+
+    @container cell (min-width: 35rem) {
+      grid-column: 2 / 3;
     }
+  }
 
-    .product-collage__kv {
-      grid-row: 1 / 2;
-      align-self: center;
+  &__list-item {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: var(--item-gap) 1em;
+
+    &-icon {
+      grid-row-end: span 2;
+      align-self: start;
       font-family: "Products4";
-      font-size: 40cqw;
-      background-image: linear-gradient(to right, #ff850a, #ffc800);
-      background-clip: text;
-      color: transparent;
-      
-      @container cell (min-width: 35em) {
-        grid-row: 1 / -4;
-        align-self: start;
-      }
-
-      svg {
-        fill: #ff850a;
-      }
+      font-size: min(5vw, 2em);
     }
 
-    .product-collage__list {
-      display: grid;
-      align-content: start;
-      gap: 1em var(--item-gap);
+    &-title {
+      font-family: "Roboto Condensed", sans-serif;
+    }
+  }
+
+  &__button {
+    width: calc(100% - 1em);
+    
+    border: none;
+    // background: #ff850a;
+    background-image: linear-gradient(to right, #ff850a, #ffc800);
+    position: relative;
+    margin: .5ex;
+
+    &:after {
+      // background-image: conic-gradient(from .64turn at 50% 50%,red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
+      // @include offset-gradient(15%);
+      background-image: linear-gradient(to left, #ff850a, #ffc800);
+      content: "";
+      display: block;
+      position: absolute;
+      inset: -0.5ex;
+      z-index: -1;
+    }
+
+    
+
+
+    &-group {
       grid-column: 1 / 3;
+      align-self: end;
+      padding-bottom: 1em;
 
-      @container cell (min-width: 35rem) {
-        grid-column: 2 / 3;
-      }
-    }
-
-    .product-collage__list-item {
-      display: grid;
-      grid-template-columns: 2rem 1fr;
-      gap: var(--item-gap) 1em;
-
-      &-icon {
-        grid-row-end: span 2;
+      @container cell (min-width: 35em) {
         align-self: start;
-        font-family: "Products4";
-        font-size: min(5vw, 2em);
-      }
-
-      &-title {
-        font-family: "Roboto Condensed", sans-serif;
       }
     }
 
-    .product-collage__button {
-      width: calc(100% - 1em);
+    @container cell (min-width: 35rem) {
       
-      border: none;
-      // background: #ff850a;
-      background-image: linear-gradient(to right, #ff850a, #ffc800);
-      position: relative;
-      margin: .5ex;
-
-      &:after {
-        // background-image: conic-gradient(from .64turn at 50% 50%,red,#ff850a,#ffc800,#c3eb00,#0f0,#00e9e8,#00baff,#007fff,#33f,#d300b7,#fa0080,#ff004d,red);
-        // @include offset-gradient(15%);
-        background-image: linear-gradient(to left, #ff850a, #ffc800);
-        content: "";
-        display: block;
-        position: absolute;
-        inset: -0.5ex;
-        z-index: -1;
-      }
-
-      
-
-
       &-group {
-        grid-column: 1 / 3;
-        align-self: end;
-        padding-bottom: 1em;
-
-        @container cell (min-width: 35em) {
-          align-self: start;
-        }
-      }
-
-      @container cell (min-width: 35rem) {
-        
-        &-group {
-          grid-column: auto;
-        }
+        grid-column: auto;
       }
     }
   }

@@ -2,7 +2,7 @@
 
   &__window {
     position: relative;
-    transition: all .5s;
+    transition: transform .5s cubic-bezier(0, 0, 0.58, 1);
     transform: translateY(0);
     background: var(--surface-main);
     border: none;
@@ -10,7 +10,7 @@
 
     @starting-style {
       & {
-        transform: translateY(3lh);
+        transform: translateY(5lh);
       }
     }
   }

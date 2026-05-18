@@ -1,8 +1,1 @@
-.washing-machine-page {
-  display: block;
-  width: 100%;
-
-  @at-root app-header:has(~ washing-machine-page) .breadcrumbs {
-    display: none;
-  }
-}
+.washing-machine-page {}

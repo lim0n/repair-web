@@ -17,7 +17,6 @@ import {
 } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IEntity } from '@interfaces/entity.interface';
-import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
 import { AsyncPipe } from '@angular/common';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { PlatformService } from '@app/services/platform.service';
@@ -47,7 +46,6 @@ import { Soglasie } from '@components/content/soglasie/soglasie';
 @Component({
   selector: 'product-collage',
   imports: [
-    WhatWeDo,
     AsyncPipe,
     ReactiveFormsModule,
     FormsModule,
@@ -192,7 +190,6 @@ export class ProductCollage implements OnInit, OnDestroy {
   setNextStep() {
     switch (this.step$$.value) {
       case 'welcome':
-        this.onSubmitWelcome();
         break;
       case 'interacted':
         this.onSubmit()
@@ -202,7 +199,8 @@ export class ProductCollage implements OnInit, OnDestroy {
         if (this.orderForm.value.name) {
           this.orderForm.get('isDraft')?.setValue(false);
         }
-        this.onSubmit()
+        this.onSubmit();
+        break
     }
   }
 
@@ -214,7 +212,12 @@ export class ProductCollage implements OnInit, OnDestroy {
       let sortedOrders, lastOrder;
       if (user !== null && user.profile && user.profile.orders && user.profile.orders.length) {
           sortedOrders = [...user.profile.orders].sort((a,b)=><string>a.created_at < <string>b.created_at ? 1 : -1)
-          if (sortedOrders.length) {
+
+          if (
+            sortedOrders.length 
+            
+            && sortedOrders[0]?.order_name === this.product?.orderName
+          ) {
             const { order_details: lastOrderDetails, ...lastOrder } = sortedOrders[0];
             this.orderData$$.next(lastOrder);
             this.orderForm.setValue({...lastOrder, new_order_details: null});
@@ -227,7 +230,8 @@ export class ProductCollage implements OnInit, OnDestroy {
               this.step$$.next('interacted');
             }
           } else {
-            this.step$$.next('interacted');
+            // this.step$$.next('interacted');
+            this.createNewOrder(user?.profile?.id);
           }
       } else if ( user !== null) {
         this.createNewOrder(user?.profile?.id);

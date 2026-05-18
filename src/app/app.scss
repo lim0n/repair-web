@@ -33,6 +33,28 @@
   // --text-secondary-light: 17, 17, 17;       // #111111
   // --text-main-dark: 248, 248, 248;          // #f8f8f8
   // --text-secondary-dark: 238, 238, 238;     // #eeeeee;
+  --scheme-1-lch: 0.787 0.167 71;
+  --scheme-1-lch-dark: 0.587 0.167 71;
+  --scheme-1-hash: #fba40e;
+  --scheme-1-hash-dark: #fba40f;
+
+  --scheme-2-lch: 0.65 0.22 155;
+  --scheme-2-lch-dark: 0.5 0.2 140;
+  --scheme-2-hash: #c0fa15;
+  --scheme-2-hash-dark: #c0fa15;
+  --scheme-3-lch: 0.6 0.16 238;
+  --scheme-3-lch-dark: 0.4 0.15 220;
+  --scheme-3-hash: #1ffdea;
+  --scheme-4-lch: 0.4 0.14 265;
+  --scheme-4-lch-dark: 0.25 0.08 250;
+  --scheme-4-hash: #20c2ff;
+  --scheme-5-lch: 0.427 0.151 295;
+  --scheme-5-lch-dark: 0.283 0.127 295;
+  --scheme-5-hash: #d410fc;
+  --scheme-6-lch: 0.6 0.22 40;
+  --scheme-6-lch-dark: 0.3 0.15 25;
+  --scheme-6-hash: #fd193f;
+
 
   --surface-main: var(--surface-light);
   --surface-accented: var(--surface-accented-light);

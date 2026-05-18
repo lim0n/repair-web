@@ -24,6 +24,31 @@ export const SITE_ROUTES: Routes = [
         loadComponent: () => import('@pages/washing-machine/washing-machine-page-component').then(m => m.WashingMachinePageComponent),
         title: 'Ремонт стиральных машин'
       },
+      { 
+        path: 'dishwasher',
+        loadComponent: () => import('@pages/dishwasher/dishwasher-page.component').then(m => m.DishwasherPageComponent),
+        title: 'Ремонт посудомоечных машин'
+      },
+      {
+        path: 'dryer',
+        loadComponent: () => import('@pages/dryer/dryer-page.component').then(m => m.DryerPageComponent),
+        title: 'Ремонт сушильных машин'
+      },
+      {
+        path: 'stove',
+        loadComponent: () => import('@pages/stove/stove-page.component').then(m => m.StovePageComponent),
+        title: 'Ремонт электрических кухонных плит'
+      },
+      {
+        path: 'oven',
+        loadComponent: () => import('@pages/oven/oven-page.component').then(m => m.OvenPageComponent),
+        title: 'Ремонт духовок'
+      },
+      {
+        path: 'refrigerator',
+        loadComponent: () => import('@pages/refrigerator/refrigerator-page.component').then(m => m.RefrigeratorPageComponent),
+        title: 'Ремонт холодильников'
+      },
     ]
   }
 ];

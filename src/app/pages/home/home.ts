@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { HowWeWorks } from "@components/content/how-we-works/how-we-works";
 import { Advantages } from '@components/content/advantages/advantages';
-import { ProductCollage } from '@pages/_common/product-collage/product-collage';
+import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
+import { SERVICE_PRODUCTS } from '@pages/_common/product-collage/product-collage.config';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,9 @@ import { ProductCollage } from '@pages/_common/product-collage/product-collage';
   imports: [
     HowWeWorks,
     Advantages,
-    ProductCollage,
+    WhatWeDo
   ]
 })
 export class Home {
-
+  readonly products = SERVICE_PRODUCTS;
 }
