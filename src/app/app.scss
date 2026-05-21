@@ -33,6 +33,9 @@
   // --text-secondary-light: 17, 17, 17;       // #111111
   // --text-main-dark: 248, 248, 248;          // #f8f8f8
   // --text-secondary-dark: 238, 238, 238;     // #eeeeee;
+  --current-scheme-lch: var(--scheme-1-lch);
+  --current-scheme-lch-dark: var(--scheme-1-lch-dark);
+  
   --scheme-1-lch: 0.787 0.167 71;
   --scheme-1-lch-dark: 0.587 0.167 71;
   --scheme-1-hash: #fba40e;
@@ -87,13 +90,13 @@
   --tile-gap: min(2vw, 1em);
   --item-gap: .5ex;
   --card-gap: .5em 1em;
-  --container-gap: 1.5em;
+  --container-gap: 3em;
 
   @include media-breakpoint-up(md) {
     --current-max: var(--breakpoint-md);
     --max-popup-width: var(--breakpoint-sm);
     --item-gap: 1ex;
-    --container-gap: 2em;
+    --container-gap: 4em;
   }
 
   @include media-breakpoint-up(lg) {
@@ -104,7 +107,7 @@
   
   @include media-breakpoint-up(xl) {
     --item-gap: 1.5ex;
-    --container-gap: 4em;
+    --container-gap: 8em;
   }
 
   font-size: clamp(.75rem, 1vw, 1.25rem);

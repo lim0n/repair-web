@@ -1,3 +1,23 @@
+@use "../../styles/tools" as *;
+
+// https://vkvideo.ru/video-230563237_456239145
+// https://vkvideo.ru/video-190971162_456239032
+// https://vkvideo.ru/video-230563237_456239145
+
 .home-page {
   display: block;
+
+  > *:not(:first-child) {
+    margin-top: var(--container-gap);
+  }
+
+  .product-collage {
+
+
+    // min-height: calc(100dvh - var(--header-height));
+
+    @include media-breakpoint-up(md) {
+      min-height: calc(50dvh - var(--header-height));
+    }
+  }
 }

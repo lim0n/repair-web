@@ -14,7 +14,7 @@
     <div class="product-collage__kv">
       @if (typeof product.icon !== 'string') {
         @if (product.icon?.character) {
-          <span class="what-we-do-tile__icon">{{ product.icon?.character }}</span>
+          <span class="product-collage__icon">{{ product.icon?.character }}</span>
         }
         @else if (product.icon?.link) {
           <svg viewBox="0 0 44.4 44.4">

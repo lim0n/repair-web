@@ -101,7 +101,7 @@ export class ProductCollage implements OnInit, OnDestroy {
     })
 
     this._route.url.subscribe((data) => {
-      this.path$.next(data.length ? data[0].path : '');
+      this.path$.next(data.length ? data[0].path : 'washing-machine');
     });
   }
 

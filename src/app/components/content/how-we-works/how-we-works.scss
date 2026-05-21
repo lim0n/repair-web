@@ -1,3 +1,5 @@
+// @use "../../../styles/tools" as *;
+
 .how-we-works {
   display: block;
   container: cell/inline-size;
@@ -25,7 +27,12 @@
       align-items: center;
       justify-content: center;
       padding: .25ex;
+
+      // @include offset-gradient(10%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
     }
   }
-  
 }

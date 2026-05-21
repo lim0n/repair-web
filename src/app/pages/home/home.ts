@@ -3,6 +3,7 @@ import { HowWeWorks } from "@components/content/how-we-works/how-we-works";
 import { Advantages } from '@components/content/advantages/advantages';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
 import { SERVICE_PRODUCTS } from '@pages/_common/product-collage/product-collage.config';
+import { ProductCollage } from '@pages/_common/product-collage/product-collage';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ import { SERVICE_PRODUCTS } from '@pages/_common/product-collage/product-collage
   imports: [
     HowWeWorks,
     Advantages,
-    WhatWeDo
+    WhatWeDo,
+    ProductCollage
   ]
 })
 export class Home {
