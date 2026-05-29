@@ -12,9 +12,12 @@ RUN npm run build --configuration=production
 
 # Stage 2: Serve the application using Nginx
 FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Copy the built files from the 'build' stage to Nginx's public folder
 # Note: Replace 'your-app-name' with your actual project name found in angular.json
-COPY --from=build /app/dist/web-app /usr/share/nginx/html
+COPY --from=build /app/dist/web-app/server /usr/share/nginx/html
 
 # Expose port 80 and start Nginx
 EXPOSE 80
