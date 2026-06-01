@@ -20,7 +20,9 @@ RUN npm install --only=production
 COPY . .
 # Copy the built files from the 'build' stage to Nginx's public folder
 # Note: Replace 'your-app-name' with your actual project name found in angular.json
-COPY --from=build /app/dist/web-app/server .
+# COPY --from=build /app/dist/web-app/server .
+COPY --from=build /app/dist/web-app ./
+# COPY --from=build /app/dist/web-app/browser ./dist/web-app/browser
 
 EXPOSE 4000
-CMD ["node", "server.mjs"]
+CMD ["node", "server/server.mjs"]
