@@ -25,4 +25,8 @@ COPY --from=build /app/dist/web-app ./
 # COPY --from=build /app/dist/web-app/browser ./dist/web-app/browser
 
 EXPOSE 4000
+
+ENV PORT=4000
+ENV HOST=0.0.0.0
+
 CMD ["node", "server/server.mjs"]
