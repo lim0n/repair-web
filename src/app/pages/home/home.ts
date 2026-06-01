@@ -4,6 +4,7 @@ import { Advantages } from '@components/content/advantages/advantages';
 import { WhatWeDo } from '@components/content/what-we-do/what-we-do';
 import { SERVICE_PRODUCTS } from '@pages/_common/product-collage/product-collage.config';
 import { ProductCollage } from '@pages/_common/product-collage/product-collage';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -21,4 +22,5 @@ import { ProductCollage } from '@pages/_common/product-collage/product-collage';
 })
 export class Home {
   readonly products = SERVICE_PRODUCTS;
+  apiUrl = environment.apiUrl;
 }
