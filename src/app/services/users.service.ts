@@ -14,48 +14,48 @@ export class UsersService {
   ) { }
 
   getUsersList(withDeleted?: boolean): Observable<any> {
-    const url = new URL(`/users`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users`, environment.apiUrl);
     const params = new HttpParams().set('withDeleted', String(Boolean(withDeleted)));
     return this._api.get(String(url), { params });
   }
 
   getUserByUserName(username: string): Observable<any> {
-    const url = new URL(`/users/${username}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/${username}`, environment.apiUrl);
     return this._api.get(String(url));
   }
 
   getUserById(id: string): Observable<any> {
-    const url = new URL(`/users/id/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/id/${id}`, environment.apiUrl);
     return this._api.get(String(url));
   }
 
   updateUser(id: string, item: IUser): Observable<any> {
-    const url = new URL(`/users/id/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/id/${id}`, environment.apiUrl);
     return this._api.patch<any>(String(url), item);
   }
 
   deleteUser(id: string) {
-    const url = new URL(`/users/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
   }
 
   deleteUserHard(id: string) {
-    const url = new URL(`/users/hard/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/hard/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
   }
 
   createUser(item: IUser): Observable<any> {
-    const url = new URL(`/users`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users`, environment.apiUrl);
     return this._api.post<any>(String(url), item);
   }
 
   addAgreement(item: IAgreement): Observable<any> {
-    const url = new URL(`/users/add-agreement`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/add-agreement`, environment.apiUrl);
     return this._api.post<any>(String(url), item);
   }
 
   removeAgreement(item: IAgreement): Observable<any> {
-    const url = new URL(`/users/remove-agreement`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/users/remove-agreement`, environment.apiUrl);
     return this._api.post<any>(String(url), item);
   }
   

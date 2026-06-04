@@ -13,33 +13,33 @@ export class AgreementsService {
   ) { }
 
   getAgreementsList(withDeleted?: boolean): Observable<any> {
-    const url = new URL(`/agreements`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/agreements`, environment.apiUrl);
     const params = new HttpParams().set('withDeleted', String(Boolean(withDeleted)));
     return this._api.get(String(url), { params });
   }
 
   getAgreementByName(username: string): Observable<any> {
-    const url = new URL(`/agreements/${username}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/agreements/${username}`, environment.apiUrl);
     return this._api.get(String(url));
   }
 
   getAgreementById(id: string): Observable<any> {
-    const url = new URL(`/agreements/id/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/agreements/id/${id}`, environment.apiUrl);
     return this._api.get(String(url));
   }
 
   updateAgreement(id: string, item: IAgreement): Observable<any> {
-    const url = new URL(`/agreements/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/agreements/${id}`, environment.apiUrl);
     return this._api.patch<any>(String(url), item);
   }
 
   deleteAgreementHard(id: string) {
-    const url = new URL(`/agreements/hard/${id}`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/agreements/hard/${id}`, environment.apiUrl);
     return this._api.delete<void>(String(url));
   }
 
   createAgreement(item: IAgreement): Observable<any> {
-    const url = new URL(`/agreements`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/agreements`, environment.apiUrl);
     return this._api.post<any>(String(url), item);
   }
   
