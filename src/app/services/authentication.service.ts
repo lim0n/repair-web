@@ -13,6 +13,9 @@ export class AuthenticationService {
     private localStorage: Storage | undefined;
     userData$ = this.userData$$.asObservable();
     isLoggedIn$ = this.userData$.pipe(map(data => !!data));
+    apiWithPrefix = environment.apiPathPrefix 
+        ? `${environment.apiUrl}/${environment.apiPathPrefix}` 
+        : `${environment.apiUrl}`;
 
     constructor(
         private http: HttpClient,
@@ -38,7 +41,7 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<IJwt>(`${environment.apiUrl}/${environment.apiPathPrefix}/auth/login`,
+        return this.http.post<IJwt>(`${this.apiWithPrefix}/auth/login`,
             { username, password })
             .pipe(
                 tap(data => {
@@ -62,6 +65,6 @@ export class AuthenticationService {
 
     getAccessTokenByRefreshToken() {
         const refreshToken = this.currentUserValue?.refresh_token;
-        return this.http.post<Partial<IJwt>>(`${environment.apiUrl}/${environment.apiPathPrefix}/auth/refresh-access-token`, { refreshToken })
+        return this.http.post<Partial<IJwt>>(`${this.apiWithPrefix}/auth/refresh-access-token`, { refreshToken })
     }
 }
