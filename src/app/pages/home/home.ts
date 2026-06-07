@@ -23,4 +23,5 @@ import { environment } from '@src/environments/environment';
 export class Home {
   readonly products = SERVICE_PRODUCTS;
   apiUrl = environment.apiUrl;
+  apiPathPrefix = environment.apiPathPrefix;
 }
