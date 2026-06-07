@@ -32,7 +32,7 @@ export class ProfileService {
   }
 
   getProfile(): Observable<any> {
-    const url = new URL(`/auth/profile`, environment.apiUrl);
+    const url = new URL(`/${environment.apiPathPrefix}/auth/profile`, environment.apiUrl);
     return this._api.get(String(url));
   }
 }
