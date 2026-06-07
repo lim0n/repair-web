@@ -14,6 +14,7 @@ export class ProfileService {
   userProfile$ = this.userProfile$$.asObservable();
   isLoggedIn$ = inject(AuthenticationService).isLoggedIn$;
   userData$$ = inject(AuthenticationService).userData$$;
+  apiPathPrefix = environment.apiPathPrefix ? `/${environment.apiPathPrefix}` : '';
 
   constructor(
     private _api: HttpClient,
@@ -32,7 +33,7 @@ export class ProfileService {
   }
 
   getProfile(): Observable<any> {
-    const url = new URL(`/${environment.apiPathPrefix}/auth/profile`, environment.apiUrl);
+    const url = new URL(`${this.apiPathPrefix}/auth/profile`, environment.apiUrl);
     return this._api.get(String(url));
   }
 }
