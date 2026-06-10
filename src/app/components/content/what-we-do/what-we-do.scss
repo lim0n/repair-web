@@ -15,6 +15,7 @@
     grid-template-columns: 4em 1fr;
     align-items: center;
     background: var(--surface-accented);
+    min-height: 7em;
     
     
     &[href] {

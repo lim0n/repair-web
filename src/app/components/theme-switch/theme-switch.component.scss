@@ -1,4 +1,7 @@
 .theme-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @mixin day {
     .theme-switch__sun {
@@ -25,6 +28,7 @@
     height: 2em;
     overflow: hidden;
     cursor: pointer;
+    transform: scale(2);
   }
 
   &__circle {
@@ -63,6 +67,10 @@
   &__sun {
     transform-origin: 100% 100%;
     transition: transform .5s;
+
+    svg {
+      fill: oklch(var(--current-scheme-lch)) !important;
+    }
   }
 
   &__moon {

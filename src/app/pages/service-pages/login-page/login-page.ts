@@ -1,5 +1,5 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
@@ -9,33 +9,29 @@ import { first, take } from 'rxjs/operators';
   selector: 'app-login-page',
   imports: [ 
     ReactiveFormsModule,
-    NgIf,
     NgClass,
     RouterLink
    ],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.scss'
+  styleUrl: './login-page.scss',
+  host: { class: 'login-page' },
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
-  // returnUrl!: string;
   error = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    // private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
-    // redirect to home if already logged in
-    
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
-
-
   }
 
   ngOnInit() {
@@ -43,26 +39,10 @@ export class LoginPage implements OnInit {
       username: ['', Validators.required],
       password: ['']
     });
-
-    // this.authenticationService.getTokens
-    //   .pipe(take(1))
-    //   .subscribe(tokens => {
-    //     if (tokens !== null) {
-    //       this.router.navigate(['/']);
-    //     }
-    //   })
-
-    // get return url from route parameters or default to '/'
-    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
-
-  // convenience getter for easy access to form fields
-  // get f() { return this.loginForm.controls; }
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
@@ -71,8 +51,7 @@ export class LoginPage implements OnInit {
     this.authenticationService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
       .pipe(first())
       .subscribe({
-        next: (data) => {
-          console.warn('success login data', data);
+        next: () => {
           this.loading = false;
           // this.router.navigate([this.returnUrl]);
         },

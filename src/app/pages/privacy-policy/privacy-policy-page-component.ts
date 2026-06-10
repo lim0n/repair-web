@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, DOCUMENT, Inject, ViewEncapsulation } from '@angular/core';
+import { Credentials } from '@app/credentials.enum';
+import { PlatformService } from '@app/services/platform.service';
 
 @Component({
   selector: 'app-privacy-policy-page-component',
@@ -9,5 +11,14 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class PrivacyPolicyPageComponent {
+  domain!: string;
+  readonly credentials = Credentials;
 
+  constructor(
+    private _platform: PlatformService,
+    @Inject(DOCUMENT) private _document: Document
+  ){
+    if (this._platform.isServer) return;
+    this.domain = this._document.location.origin;
+  }
 }

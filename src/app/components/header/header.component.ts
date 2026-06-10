@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { RouterLink } from '@angular/router';
 import { BreadcrumbsComponent } from '@components/breadcrumbs/breadcrumbs.component';
 import { Logo } from '@components/logo/logo';
-import { ThemeSwitch } from '@components/theme-switch/theme-switch.component';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +16,4 @@ import { ThemeSwitch } from '@components/theme-switch/theme-switch.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent {
-
-}
+export class HeaderComponent { }

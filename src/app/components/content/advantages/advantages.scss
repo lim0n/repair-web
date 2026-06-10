@@ -1,11 +1,15 @@
 .app-advantages {
   display: block;
   container: cell/inline-size;
+
+  --scheme: var(--scheme-1-lch-middle);
+  --scheme-dark: var(--scheme-1-lch-dark);
+  --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme) / 100%) 0.0%, oklch(var(--scheme-dark) / 100%) 100.0%);
+  --linear-gradient-reverse: linear-gradient(in oklch 270deg, oklch(var(--scheme) / 100%) 0.0%, oklch(var(--scheme-dark) / 100%) 100.0%);
   
   &__wrapper {
-    background-color: var(--surface-inverted);
+    background: var(--linear-gradient);
     color: var(--text-inverted);
-
     display: grid;
     grid-template-columns: 1fr 5em;
     grid-template-rows: auto 1fr;

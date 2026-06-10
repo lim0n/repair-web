@@ -7,6 +7,14 @@
   grid-auto-flow: column;
   height: var(--header-height);
 
+  .login-cell {
+    font-family: "Roboto Condensed", sans-serif;
+    justify-self: end;
+    background-color: oklch(var(--scheme-1-lch) / 10%);
+    text-decoration: none;
+    padding: 1em;
+  }
+
   .app-logo {
     // font-size: max(1.3vw, 1.3vh);
   }

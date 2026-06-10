@@ -3,8 +3,9 @@
   
   div {
     flex: 1;
-    display: flex;
-    background: var(--surface-accented);
+    display: grid;
+    grid-template-columns: 1fr 12em;
+    
 
     > * {
       padding: var(--container-padding);
@@ -17,7 +18,12 @@
   }
 
   span {
-    align-self: center;
+    // justify-self: end;
+    // text-align: right;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background: var(--surface-accented);
   }
 
   &:empty {

@@ -3,6 +3,11 @@
 .how-we-works {
   display: block;
   container: cell/inline-size;
+
+  --scheme: var(--scheme-1-lch);
+  --scheme-dark: var(--scheme-1-lch-dark);
+  --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
+  --linear-gradient-reverse: linear-gradient(in oklch 270deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
   
   &__wrapper {}
   
@@ -19,6 +24,7 @@
     grid-template-columns: min(12vw, 6em) 1fr;
     align-items: center;
     background: var(--surface-accented);
+    min-height: 7em;
 
     &__icon {
       font-family: "Products4";
@@ -28,7 +34,7 @@
       justify-content: center;
       padding: .25ex;
 
-      // @include offset-gradient(10%);
+      background: var(--linear-gradient);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;

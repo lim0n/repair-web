@@ -37,6 +37,7 @@
   --current-scheme-lch-dark: var(--scheme-1-lch-dark);
   
   --scheme-1-lch: 0.787 0.167 71;
+  --scheme-1-lch-middle: 0.687 0.167 71;
   --scheme-1-lch-dark: 0.587 0.167 71;
   --scheme-1-hash: #fba40e;
   --scheme-1-hash-dark: #fba40f;
@@ -132,6 +133,8 @@ body {
 
 button {
   cursor: pointer;
+  border: none;
+  background-color: oklch(var(--scheme-1-lch) / 10%);
 }
 
 .container {

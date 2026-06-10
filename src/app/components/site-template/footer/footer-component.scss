@@ -8,7 +8,7 @@
   &__wrapper {
     display: grid;
     gap: var(--card-gap);
-    grid-template-columns: 10rem 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   app-logo {
@@ -22,34 +22,41 @@
     text-decoration: none;
   }
 
-  app-ids, cookie-accept {
-    grid-column-end: span 2;
+  theme-switch {
+    grid-column-end: span 1;
+    min-height: 5rlh;
   }
 
-  login-cell {
-    grid-column-end: -1;
+  app-ids, cookie-accept {
+    grid-column-end: span 2;
   }
 
   @container cell (min-width: 35.5rem) {
 
     &__wrapper {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 12rem;
     }
 
     &__phone {
       font-size: 1.5em;
+      justify-self: center;
     }
 
     app-logo {
       font-size: .75em;
     }
 
-    cookie-accept, app-ids {
+    app-ids {
+      grid-column-end: span 1;
+      grid-row-end: span 2;
+    }
+
+    theme-switch {
       grid-column-end: span 1;
     }
 
-    cookie-accept:not(:empty) + login-cell {
-      grid-column-start: -2;
-    }
+    // cookie-accept:not(:empty) + login-cell {
+    //   grid-column-start: -2;
+    // }
   }
 }

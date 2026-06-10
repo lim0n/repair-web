@@ -46,6 +46,12 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     route: 'dishwasher',
     content: [
       { 
+        title: 'Промышленные',
+      },
+      { 
+        title: 'Бытовые',
+      },
+      { 
         title: 'Обслуживание',
       },
       { 
