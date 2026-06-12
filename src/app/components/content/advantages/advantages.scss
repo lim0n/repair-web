@@ -1,3 +1,5 @@
+@use "../../../styles/tools" as *;
+
 .app-advantages {
   display: block;
   container: cell/inline-size;
@@ -11,7 +13,7 @@
     background: var(--linear-gradient);
     color: var(--text-inverted);
     display: grid;
-    grid-template-columns: 1fr 5em;
+    grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr;
     padding: var(--container-padding);
     padding-top: calc(var(--container-padding) / 2);
@@ -24,6 +26,11 @@
     font-family: "Products4";
     font-size: 14cqw;
     text-align: center;
+
+    @include font-icon-mobile-fix();
+    justify-content: center;
+    aspect-ratio: 2/3;
+    align-items: center;
   }
 
   &__grid {

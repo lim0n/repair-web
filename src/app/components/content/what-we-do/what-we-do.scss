@@ -77,34 +77,25 @@
     padding: .75em;
   }
 
-  @supports (container: cell/inline-size) {
+  @container cell (min-width: 37.5rem) {
+    &__grid {
+      --columns: 3;
+    }
 
-    @container cell (min-width: 37.5rem) {
-      &__grid {
-        --columns: 3;
+    &-tile {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      
+      &__title {
+        justify-self: center;
+        text-align: center;
+        padding: 0 1ex 1ex 1ex;
       }
 
-      &-tile {
-        grid-template-columns: 1fr;
-        grid-template-rows: 6em auto;
-        
-        &__title {
-          justify-self: center;
-          text-align: center;
-          padding: 0 1ex 1ex 1ex;
-        }
-
-        &__icon {
-          width: 1em;
-          justify-self: center;
-          padding-bottom: 0;
-        }
-
-        // &:nth-child(2) { color: oklch(var(--scheme-2-lch)) }
-        // &:nth-child(3) { color: oklch(var(--scheme-3-lch)) }
-        // &:nth-child(4) { color: oklch(var(--scheme-4-lch)) }
-        // &:nth-child(5) { color: oklch(var(--scheme-5-lch)) }
-        // &:nth-child(6) { color: oklch(var(--scheme-6-lch)) }
+      &__icon {
+        width: 1em;
+        justify-self: center;
+        padding-bottom: 0;
       }
     }
 
