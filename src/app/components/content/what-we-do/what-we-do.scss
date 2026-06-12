@@ -1,3 +1,5 @@
+@use "../../../styles/tools" as *;
+
 .what-we-do {
   display: block;
   container: cell/inline-size;
@@ -30,6 +32,8 @@
       font-size: 7cqw;
       line-height: 1;
       font-family: "Products4";
+
+      @include font-icon-mobile-fix();
     }
 
     &:nth-child(1) {
@@ -82,7 +86,7 @@
 
       &-tile {
         grid-template-columns: 1fr;
-        grid-template-rows: 4em auto;
+        grid-template-rows: 6em auto;
         
         &__title {
           justify-self: center;
@@ -90,7 +94,11 @@
           padding: 0 1ex 1ex 1ex;
         }
 
-        
+        &__icon {
+          width: 1em;
+          justify-self: center;
+          padding-bottom: 0;
+        }
 
         // &:nth-child(2) { color: oklch(var(--scheme-2-lch)) }
         // &:nth-child(3) { color: oklch(var(--scheme-3-lch)) }

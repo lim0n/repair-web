@@ -1,4 +1,4 @@
-// @use "../../../styles/tools" as *;
+@use "../../../styles/tools" as *;
 
 .how-we-works {
   display: block;
@@ -12,11 +12,17 @@
   &__wrapper {}
   
   &__grid {
-    --columns: 2;
+    --columns: 1;
     display: grid;
     gap: var(--tile-gap);
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-auto-rows: 1fr;
+  }
+
+  @container cell (min-width: 35.5rem) {
+    &__grid {
+      --columns: 2;
+    }
   }
 
   &-tile {
@@ -25,6 +31,7 @@
     align-items: center;
     background: var(--surface-accented);
     min-height: 7em;
+    gap: 1ex;
 
     &__icon {
       font-family: "Products4";
@@ -39,6 +46,11 @@
       background-clip: text;
       color: transparent;
 
+      @include font-icon-mobile-fix();
+
+      @include media-breakpoint-up(md) {
+        padding-bottom: .25ex;
+      }
     }
   }
 }

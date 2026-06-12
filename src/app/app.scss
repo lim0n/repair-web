@@ -135,6 +135,7 @@ button {
   cursor: pointer;
   border: none;
   background-color: oklch(var(--scheme-1-lch) / 10%);
+  color: currentColor;
 }
 
 .container {

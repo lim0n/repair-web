@@ -5,7 +5,7 @@ import { HOW_WE_WORKS } from './how-we-works.config';
   selector: 'how-we-works',
   templateUrl: './how-we-works.html',
   styleUrl: './how-we-works.scss',
-  host: { class: 'how-we-works container' },
+  host: { class: 'how-we-works' },
   encapsulation: ViewEncapsulation.None
 })
 export class HowWeWorks {

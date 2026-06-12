@@ -43,3 +43,12 @@ $grid-breakpoints: (
     #ff004d 91.67% + $offset,
     red     100% + $offset);
 }
+
+@mixin font-icon-mobile-fix() {
+  display: flex;
+  align-items: end;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  overflow: hidden;
+  padding-bottom: .5ex;
+}

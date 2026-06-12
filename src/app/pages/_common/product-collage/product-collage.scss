@@ -4,7 +4,7 @@
   container: cell/inline-size;
   position: relative;
   display: flex;
-  min-height: calc(100dvh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
 
   --scheme: var(--scheme-1-lch);
   --scheme-dark: var(--scheme-1-lch-dark);
@@ -40,6 +40,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1lh var(--container-gap);
+    min-height: calc(100dvh - var(--header-height));
+
+    @container cell (max-width: 35em) {
+      padding: 2em;
+    }
   }
 
   &-form {
@@ -88,8 +93,18 @@
     
     @container cell (min-width: 35em) {
       grid-row: 1 / -4;
-      align-self: start;
+      // align-self: start;
     }
+
+    @container cell (min-width: 58em) {
+      // align-self: center;
+    }
+  }
+
+  &__icon {
+    
+    @include font-icon-mobile-fix();
+    padding-bottom: .125ex;
   }
 
   &__list {
@@ -121,15 +136,15 @@
   }
 
   &__button {
-    width: calc(100% - 1em);
+    width: calc(100% - .5ex);
     border: none;
     background-image: var(--linear-gradient);
     position: relative;
-    margin: .5ex;
+    margin: .25ex;
     padding: .75em 2em;
 
-    @include media-breakpoint-up(md) {
-      width: 50%;
+    @container cell (min-width: 35em) {
+      width: fit-content;
     }
 
     border-radius: .125em;
