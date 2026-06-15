@@ -44,6 +44,7 @@
     gap: 1lh var(--container-gap);
     min-height: calc(100dvh - var(--header-height));
     min-width: 100%;
+    padding: 1em;
   }
 
   &-form {
@@ -215,6 +216,7 @@
       padding: 2em;
       min-height: calc(50dvh - var(--header-height)) !important;
       grid-template-columns: 1fr 2fr;
+      padding: 0;
     }
 
     &-form {
