@@ -13,7 +13,9 @@
     </h1>
 
     @if (product.icon?.src) {
-      <div class="product-collage__kv" style="--kv-source: url({{product.icon?.src}})"></div>
+      <div class="product-collage__kv" style="--kv-source: url({{product.icon?.src}})">
+        <div class="product-collage__kv-icon"></div>
+      </div>
     }
 
     @if (step === 'welcome') {

@@ -16,8 +16,8 @@
 
     // min-height: calc(100dvh - var(--header-height));
 
-    @include media-breakpoint-up(md) {
-      min-height: calc(50dvh - var(--header-height));
-    }
+    // @include media-breakpoint-up(md) {
+    //   min-height: calc(50dvh - var(--header-height));
+    // }
   }
 }

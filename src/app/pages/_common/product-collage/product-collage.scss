@@ -3,7 +3,6 @@
 .product-collage {
   container: cell/inline-size;
   position: relative;
-  display: flex;
   min-height: calc(100vh - var(--header-height));
 
   --scheme: var(--scheme-1-lch);
@@ -36,15 +35,32 @@
   }
   
   &__wrapper {
-    flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1lh var(--container-gap);
-    height: calc(100dvh - var(--header-height));
+    min-height: calc(100dvh - var(--header-height));
     min-width: 100%;
 
     @container cell (max-width: 35em) {
       padding: 2em;
+    }
+  }
+
+  @container cell (min-width: 35em) {
+    & {
+      min-height: calc(50vh - var(--header-height)) !important;
+    }
+
+    &__wrapper {
+      min-height: calc(50dvh - var(--header-height)) !important;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    min-height: calc(50vh - var(--header-height));
+    
+    &__wrapper {
+      min-height: calc(50dvh - var(--header-height)) !important;
     }
   }
 
@@ -85,10 +101,7 @@
 
   &__kv {
     grid-row: 1 / 2;
-    background: var(--linear-gradient);
-    mask-image: var(--kv-source);
-    mask-size: contain;
-    mask-repeat: no-repeat;
+    
     display: flex;
     aspect-ratio: 1 / 1;
     min-width: 4em;
@@ -102,6 +115,24 @@
     @container cell (min-width: 58em) {
       grid-row: 1 / 3;
       align-self: start;
+    }
+
+    perspective: 800px;
+
+    &-icon {
+      flex: 1;
+      background: var(--linear-gradient);
+      mask-image: var(--kv-source);
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      transform: rotateY(0deg);
+      transition: transform 1s;
+
+      @starting-style {
+        & {
+          transform: rotateY(35deg);
+        }
+      }
     }
   }
 
@@ -220,7 +251,7 @@
   &-form__name~textarea,
   &-form__name~button,
   &-form__details,
-  &__kv,
+  // &__kv,
   &__title,
   &__list,
   &__button-group,

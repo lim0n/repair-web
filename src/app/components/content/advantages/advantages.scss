@@ -13,7 +13,7 @@
     background: var(--linear-gradient);
     color: var(--text-inverted);
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 5em;
     grid-template-rows: auto 1fr;
     padding: var(--container-padding);
     padding-top: calc(var(--container-padding) / 2);
