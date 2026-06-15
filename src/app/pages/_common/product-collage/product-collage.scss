@@ -3,7 +3,11 @@
 .product-collage {
   container: cell/inline-size;
   position: relative;
-  min-height: calc(100vh - var(--header-height));
+  display: block;
+  
+  &__container {
+    min-height: calc(100vh - var(--header-height));
+  }
 
   --scheme: var(--scheme-1-lch);
   --scheme-dark: var(--scheme-1-lch-dark);
@@ -40,48 +44,11 @@
     gap: 1lh var(--container-gap);
     min-height: calc(100dvh - var(--header-height));
     min-width: 100%;
-
-    @container cell (max-width: 35em) {
-      padding: 2em;
-    }
-  }
-
-  @container cell (min-width: 35em) {
-    & {
-      min-height: calc(50vh - var(--header-height)) !important;
-    }
-
-    &__wrapper {
-      min-height: calc(50dvh - var(--header-height)) !important;
-    }
-  }
-
-  @include media-breakpoint-up(sm) {
-    min-height: calc(50vh - var(--header-height));
-    
-    &__wrapper {
-      min-height: calc(50dvh - var(--header-height)) !important;
-    }
   }
 
   &-form {
     grid-column-end: span 2;
     align-self: start;
-  }
-
-  @container cell (min-width: 35em) {
-
-    &__wrapper {
-      grid-template-columns: 1fr 2fr;
-    }
-
-    &-form {
-      grid-column-end: span 1;
-
-      button {
-        max-width: 50%;
-      }
-    }
   }
 
   &__title {
@@ -106,17 +73,6 @@
     aspect-ratio: 1 / 1;
     min-width: 4em;
     align-self: center;
-    
-    @container cell (min-width: 35em) {
-      // grid-row: 1 / -4;
-      // align-self: start;
-    }
-
-    @container cell (min-width: 58em) {
-      grid-row: 1 / 3;
-      align-self: start;
-    }
-
     perspective: 800px;
 
     &-icon {
@@ -136,21 +92,11 @@
     }
   }
 
-  &__icon {
-    
-    @include font-icon-mobile-fix();
-    padding-bottom: .125ex;
-  }
-
   &__list {
     display: grid;
     align-content: start;
     gap: 1em var(--item-gap);
     grid-column: 1 / 3;
-
-    @container cell (min-width: 35rem) {
-      grid-column: 2 / 3;
-    }
   }
 
   &__list-item {
@@ -175,11 +121,6 @@
     position: relative;
     margin: .25ex;
     padding: .75em 2em;
-
-    @container cell (min-width: 35em) {
-      width: fit-content;
-    }
-
     border-radius: .125em;
 
     &:after {
@@ -192,28 +133,10 @@
       border-radius: calc(.125em + .25ex);
     }
 
-    
-
-
     &-group {
       grid-column: 1 / 3;
       align-self: end;
       padding-bottom: 1em;
-
-      @container cell (min-width: 35em) {
-        align-self: start;
-        grid-column: 2 / 3 !important;
-      }
-
-      @container cell (min-width: 58em) {
-      }
-    }
-
-    @container cell (min-width: 35rem) {
-      
-      &-group {
-        grid-column: auto;
-      }
     }
   }
 
@@ -248,27 +171,21 @@
 
   &-form__phone,
   &-form__name,
-  &-form__name~textarea,
-  &-form__name~button,
   &-form__details,
-  // &__kv,
   &__title,
   &__list,
   &__button-group,
-  &-agreement,
-  &-agreement ~ button {
+  &-agreement {
 
     &, &~button, &~textarea {
       animation-name: fade-in;
       animation-duration: .5s;
-      opacity: 1;
       transition: transform .5s;
       transform: translateY(0);
     }
 
     @starting-style {
       & {
-        opacity: 0;
         transform: translateY(3lh);
       }
     }
@@ -287,15 +204,60 @@
       flex-basis: 5%;
     }
   }
+
+  @container cell (min-width: 35rem) {
+
+    &__container {
+      min-height: calc(50vh - var(--header-height)) !important;
+    }
+
+    &__wrapper {
+      padding: 2em;
+      min-height: calc(50dvh - var(--header-height)) !important;
+      grid-template-columns: 1fr 2fr;
+    }
+
+    &-form {
+      grid-column-end: span 1;
+
+      button {
+        max-width: 50%;
+      }
+    }
+
+    &__kv {
+      grid-row: 1 / -4;
+      align-self: start;
+    }
+
+    &__list {
+      grid-column: 2 / 3;
+    }
+
+    &__button {
+      width: fit-content;
+
+      &-group {
+        align-self: start;
+        grid-column: 2 / 3 !important;
+      }
+    }
+  }
+
+  @container cell (min-width: 58em) {
+
+    &__kv {
+      grid-row: 1 / 3;
+      align-self: start;
+    }
+  }
 }
 
 @keyframes fade-in {
   from {
-    opacity:0;
     transform: translateY(3lh);
   }
   to {
-    opacity:1;
     transform: translateY(0);
   }
 }
