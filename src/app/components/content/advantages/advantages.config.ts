@@ -3,7 +3,8 @@ import { IEntity } from "@interfaces/entity.interface";
 export const OUR_ADVANTAGES: IEntity<IEntity[]> = {
   title: 'Почему нас выбирают',
   icon: {
-    character: '%'
+    character: '%',
+    link: 'settings_heart'
   },
   content: [
     {

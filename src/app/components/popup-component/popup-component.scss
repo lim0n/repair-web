@@ -16,11 +16,12 @@
   }
 
   &__close {
-    font-family: "Products4";
     background: transparent;
     border: none;
     position: absolute;
     right: .5em;
     top: .5em;
+    width: 2em;
+    height: 2em;
   }
 }

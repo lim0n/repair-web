@@ -9,14 +9,11 @@
   --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
   --linear-gradient-reverse: linear-gradient(in oklch 270deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
   
-  &__wrapper {}
-  
   &__grid {
     --columns: 1;
     display: grid;
     gap: var(--tile-gap);
     grid-template-columns: repeat(var(--columns), 1fr);
-    grid-auto-rows: 1fr;
   }
 
   @container cell (min-width: 35.5rem) {
@@ -27,29 +24,20 @@
 
   &-tile {
     display: grid;
-    grid-template-columns: min(12vw, 6em) 1fr;
+    grid-template-columns: min(12vw, 7em) 1fr;
     align-items: center;
     background: var(--surface-accented);
-    min-height: 7em;
     gap: 1ex;
 
     &__icon {
-      font-family: "Products4";
-      font-size: min(8vw, 4em);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: .25ex;
+      padding: .5em;
 
-      background: var(--linear-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      @include font-icon-mobile-fix();
-
-      @include media-breakpoint-up(md) {
-        padding-bottom: .25ex;
+      svg {
+        fill: oklch(var(--scheme));
+        height: 7em;
       }
     }
   }

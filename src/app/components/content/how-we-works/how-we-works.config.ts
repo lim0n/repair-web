@@ -4,25 +4,29 @@ export const HOW_WE_WORKS: IEntity[] = [
   {
     title: 'Бесплатный выезд мастера',
     icon: {
-      character: '!'
+      character: '!',
+      link: 'pin'
     }
   },
   {
     title: 'Диагностика и выявление причины поломки',
     icon: { 
-      character: '"'
+      character: '"',
+      link: 'search_check'
     }
   },
   {
     title: 'Согласование стоимости запчастей и работ',
     icon: { 
-      character: '#'
+      character: '#',
+      link: 'matching'
     }
   },
   {
     title: 'Ремонт, подключение, проверка, акт о проделанных работах',
     icon: { 
-      character: '$'
+      character: '$',
+      link: 'work'
     }
   }
 ];

@@ -4,7 +4,12 @@
     @for (item of data; track item) {
       <div class="how-we-works-tile">
         @if (typeof item.icon !== 'string') {
-          <div class="how-we-works-tile__icon">{{ item.icon?.character }}</div>
+          <!-- <div class="how-we-works-tile__icon">{{ item.icon?.character }}</div> -->
+           <div class="how-we-works-tile__icon">
+            <svg>
+              <use [attr.href]="'/images/products.svg#icon_'+item?.icon?.link"></use>
+            </svg>
+           </div>
         }
         <div class="how-we-works-tile__title">{{ item.title }}</div>
       </div>

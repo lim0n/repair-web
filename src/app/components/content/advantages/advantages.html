@@ -1,12 +1,18 @@
 <div class="app-advantages__wrapper container">
   <div class="app-advantages__title h2 with-mb">{{ data.title }}</div>
   <div class="app-advantages__kv">
-    {{ data.icon?.character }}
+    <svg>
+      <use [attr.href]="'/images/products.svg#icon_'+data?.icon?.link"></use>
+    </svg>
   </div>
   <div class="app-advantages__grid">
     @for (item of data.content; track item) {
       <div class="app-advantages-tile">
-        <div class="app-advantages-tile__mark">&lt;</div>
+        <div class="app-advantages-tile__mark">
+          <svg viewBox="0 0 44.4 44.4">
+            <use href="/images/products.svg#icon_check"></use>
+          </svg>
+        </div>
         <div class="app-advantages-tile__title h3">{{ item.title }}</div>
         <div class="app-advantages-tile__description">{{ item.description }}</div>
       </div>

@@ -9,6 +9,8 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     icon: {
       title: 'Стиральные машины',
       character: '1',
+      link: 'washing_machine',
+      src: '/images/washing-machine.svg'
     },
     route: 'washing-machine',
     content: [
@@ -16,21 +18,27 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
         title: 'Фронтальные',
         description: 'Прозрачное окно-дверца для загрузки белья',
         icon: {
-          character: 'a'
+          character: 'a',
+          src: '/images/front-load.svg',
+          link: 'icon_top_load'
         }
       },
       { 
         title: 'Вертикальные',
         description: 'Стиральные машины с загрузкой белья сверху',
         icon: {
-          character: 'b'
+          character: 'b',
+          src: '/images/top-load.svg',
+          link: 'icon_front_load'
         }
       },
       { 
         title: 'Встраиваемые',
         description: 'Конструкция предполагает наличие дополнительных крепежей',
         icon: {
-          character: 'c'
+          character: 'c',
+          src: '/images/expand.svg',
+          link: 'icon_built_in'
         }
       }
     ]
@@ -42,6 +50,8 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     icon: {
       title: 'Посудомоечные машины',
       character: '2',
+      link: 'dishwasher',
+      src: '/images/dishwasher.svg'
     },
     route: 'dishwasher',
     content: [
@@ -69,6 +79,8 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     icon: {
       title: 'Сушильные машины',
       character: '3',
+      link: 'dryer',
+      src: '/images/dryer.svg'
     },
     route: 'dryer',
     content: [
@@ -90,6 +102,8 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     icon: {
       title: 'Электрические кухонные плиты',
       character: '4',
+      link: 'stove',
+      src: '/images/stove.svg'
     },
     route: 'stove',
     content: [
@@ -111,6 +125,8 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     icon: {
       title: 'Духовки',
       character: '5',
+      link: 'oven',
+      src: '/images/oven.svg'
     },
     route: 'oven',
     content: [
@@ -132,6 +148,8 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
     icon: {
       title: 'Холодильники',
       character: '6',
+      link: 'refrigerator',
+      src: '/images/refrigerator.svg'
     },
     route: 'refrigerator',
     content: [

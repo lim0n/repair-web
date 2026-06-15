@@ -15,15 +15,18 @@
 </div>
 
 <ng-template #itemTemplate let-item>
-  @if (item.icon.character) {
+  <!-- @if (item.icon.character) {
     <span class="what-we-do-tile__icon">{{ item.icon.character }}</span>
-  }
-  @else if (item.icon.link) {
+  } -->
+  
+  <svg>
+    <use [attr.href]="'/images/products.svg#icon_'+item?.icon?.link"></use>
+  </svg>
+
+  <!-- @else if (item.icon.link) {
     <svg viewBox="0 0 44.4 44.4">
       <use [attr.href]="'#'+item.icon.link"></use>
     </svg>
-  }
+  } -->
   <div class="what-we-do-tile__title">{{ item.icon.title }}</div>
 </ng-template>
-
-

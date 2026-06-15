@@ -23,11 +23,6 @@
   &__title {}
 
   &__kv {
-    font-family: "Products4";
-    font-size: 14cqw;
-    text-align: center;
-
-    @include font-icon-mobile-fix();
     justify-content: center;
     aspect-ratio: 2/3;
     align-items: center;
@@ -50,10 +45,6 @@
       grid-row-end: span 2;
       aspect-ratio: 1 / 1;
       align-self: start;
-      font-family: "Products4";
-      font-size: min(6cqw, 2em);
-      position: relative;
-      top: -.5ex;
     }
 
     &__title {
