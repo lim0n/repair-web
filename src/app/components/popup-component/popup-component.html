@@ -1,6 +1,7 @@
 <div class="popup-component__slider" #slider>
   <div class="popup-component__slide"
     isVisible
+    [options]="{ root: null, threshold: 0.01 }"
     (visibilityChange)="onElementVisible($event)"
     #slide>
 
