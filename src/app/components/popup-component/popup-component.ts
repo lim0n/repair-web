@@ -1,9 +1,13 @@
 import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output, Type, ViewEncapsulation } from '@angular/core';
+import { IsVisibleDirective } from '@app/directives/is-visible.directive';
 
 @Component({
   selector: 'popup-component',
-  imports: [NgComponentOutlet],
+  imports: [
+    NgComponentOutlet,
+    IsVisibleDirective
+  ],
   templateUrl: './popup-component.html',
   styleUrl: './popup-component.scss',
   host: { class: 'popup-component' },
@@ -27,5 +31,11 @@ export class PopupComponent {
 
   close() {
     this.closed.emit();
+  }
+
+  onElementVisible(visible: boolean): void {
+    if (!visible) {
+      this.close();
+    }
   }
 }

@@ -2,7 +2,7 @@
 
   &__window {
     position: relative;
-    transition: transform .5s cubic-bezier(0, 0, 0.58, 1);
+    transition: transform .35s cubic-bezier(0, .75, .25, 1);
     transform: translateY(0);
     background: var(--surface-main);
     border: none;
@@ -10,7 +10,7 @@
 
     @starting-style {
       & {
-        transform: translateY(5lh);
+        transform: translateY(-100%);
       }
     }
   }
@@ -23,5 +23,29 @@
     top: .5em;
     width: 2em;
     height: 2em;
+  }
+
+  @media (pointer: coarse) {
+
+    @supports (scroll-snap-type: y mandatory) {
+  
+      &__slider {
+        scroll-snap-type: y mandatory;
+        overscroll-behavior-y: contain;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+      }
+  
+      &__slide {
+        width: 100%;
+        scroll-snap-align: center;
+      }
+  
+      &__empty-slide {
+        height: 100%;
+        scroll-snap-align: center;
+      }
+    }
   }
 }

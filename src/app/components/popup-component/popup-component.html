@@ -1,13 +1,22 @@
-<fieldset class="popup-component__window" (click)="$event.stopPropagation()">
-  @if (message) {
-    <legend>{{ message }}</legend>
-  }
+<div class="popup-component__slider" #slider>
+  <div class="popup-component__slide"
+    isVisible
+    (visibilityChange)="onElementVisible($event)"
+    #slide>
 
-  <ng-container *ngComponentOutlet="component"></ng-container>
-
-  <button class="popup-component__close" (click)="close()">
-    <svg viewBox="0 0 44.4 44.4">
-      <use href="/images/products.svg#icon_close"></use>
-    </svg>
-  </button>
-</fieldset>
+    <fieldset class="popup-component__window" (click)="$event.stopPropagation()">
+      @if (message) {
+        <legend>{{ message }}</legend>
+      }
+    
+      <ng-container *ngComponentOutlet="component"></ng-container>
+    
+      <button class="popup-component__close" (click)="close()">
+        <svg viewBox="0 0 44.4 44.4">
+          <use href="/images/products.svg#icon_close"></use>
+        </svg>
+      </button>
+    </fieldset>
+  </div>
+  <div class="popup-component__empty-slide"></div>
+</div>
