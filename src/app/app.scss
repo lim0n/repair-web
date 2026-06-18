@@ -67,7 +67,8 @@
   --text-secondary: var(--text-secondary-light);
   --text-inverted: var(--text-main-dark);
 
-  &[data-theme='dark'] {
+  &[data-theme='dark'],
+  &[data-theme='light dark'] {
     color-scheme: dark;
     --surface-main: var(--surface-dark);
     --surface-accented: var(--surface-accented-dark);
