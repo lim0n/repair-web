@@ -46,7 +46,7 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
   {
     title: 'Посудомоечные машины',
     longTitle: 'Ремонт посудомоечных машин',
-    orderName: 'Заявка на ремонт посудомоечных машин',
+    orderName: 'Заявка на ремонт посудомоечной машины',
     icon: {
       title: 'Посудомоечные машины',
       character: '2',
@@ -75,7 +75,7 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
   {
     title: 'Сушильные машины',
     longTitle: 'Ремонт сушильных машин',
-    orderName: 'Заявка на ремонт сушильных машин',
+    orderName: 'Заявка на ремонт сушильной машины',
     icon: {
       title: 'Сушильные машины',
       character: '3',
@@ -98,7 +98,7 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
   {
     title: 'Электрические кухонные плиты',
     longTitle: 'Ремонт электрических кухонных плит',
-    orderName: 'Заявка на ремонт электрических кухонных плит',
+    orderName: 'Заявка на ремонт электрической кухонной плиты',
     icon: {
       title: 'Электрические кухонные плиты',
       character: '4',
@@ -121,7 +121,7 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
   {
     title: 'Духовки',
     longTitle: 'Ремонт духовок',
-    orderName: 'Заявка на ремонт духовок',
+    orderName: 'Заявка на ремонт духовки',
     icon: {
       title: 'Духовки',
       character: '5',
@@ -144,7 +144,7 @@ export const SERVICE_PRODUCTS: IOrderBanner<IEntity[]>[] = [
   {
     title: 'Холодильники',
     longTitle: 'Ремонт холодильников',
-    orderName: 'Заявка на ремонт холодильников',
+    orderName: 'Заявка на ремонт холодильника',
     icon: {
       title: 'Холодильники',
       character: '6',
