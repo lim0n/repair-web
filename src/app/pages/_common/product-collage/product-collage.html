@@ -15,7 +15,10 @@
   
       @if (product.icon?.src) {
         <div class="product-collage__kv" style="--kv-source: url({{product.icon?.src}})">
-          <div class="product-collage__kv-icon"></div>
+          <div class="product-collage__kv-icon">
+            <div class="product-collage__kv-icon-layer-kv"></div>
+            <div class="product-collage__kv-icon-layer-shadow"></div>
+          </div>
         </div>
       }
   
