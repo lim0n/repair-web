@@ -12,6 +12,8 @@
 :root {
   &, &[data-theme='light dark'] { color-scheme: light dark; }
   &[data-theme='light'] { color-scheme: light; }
+
+  
   
 
   --surface-light: #fefefe;
@@ -67,15 +69,21 @@
   --text-secondary: var(--text-secondary-light);
   --text-inverted: var(--text-main-dark);
 
-  &[data-theme='dark'],
-  &[data-theme='light dark'] {
-    color-scheme: dark;
+  @mixin dark-scheme {
     --surface-main: var(--surface-dark);
     --surface-accented: var(--surface-accented-dark);
     --surface-inverted: var(--surface-accented-light);
     --text-main: var(--text-main-dark);
     --text-secondary: var(--text-secondary-dark);
     --text-inverted: var(--text-main-light);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @include dark-scheme;
+  }
+
+  &[data-theme='dark'] {
+    @include dark-scheme;
   }
 
   --breakpoint-sm: 37.5rem; // 600
