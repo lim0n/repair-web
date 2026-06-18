@@ -10,8 +10,10 @@
 }
 
 :root {
-  &, &[data-theme='light dark'] { color-scheme: light dark; }
+  & { color-scheme: light; }
+  &[data-theme='light dark'] { color-scheme: light dark; }
   &[data-theme='light'] { color-scheme: light; }
+  &[data-theme='dark'] { color-scheme: dark; }
 
   
   
@@ -61,13 +63,14 @@
   --scheme-6-lch-dark: 0.3 0.15 25;
   --scheme-6-hash: #fd193f;
 
-
-  --surface-main: var(--surface-light);
-  --surface-accented: var(--surface-accented-light);
-  --surface-inverted: var(--surface-accented-dark);
-  --text-main: var(--text-main-light);
-  --text-secondary: var(--text-secondary-light);
-  --text-inverted: var(--text-main-dark);
+  @mixin light-scheme {
+    --surface-main: var(--surface-light);
+    --surface-accented: var(--surface-accented-light);
+    --surface-inverted: var(--surface-accented-dark);
+    --text-main: var(--text-main-light);
+    --text-secondary: var(--text-secondary-light);
+    --text-inverted: var(--text-main-dark);
+  }
 
   @mixin dark-scheme {
     --surface-main: var(--surface-dark);
@@ -78,12 +81,22 @@
     --text-inverted: var(--text-main-light);
   }
 
+  @include light-scheme;
+
   @media (prefers-color-scheme: dark) {
     @include dark-scheme;
   }
 
+  @media (prefers-color-scheme: light) {
+    @include light-scheme;
+  }
+
   &[data-theme='dark'] {
     @include dark-scheme;
+  }
+
+  &[data-theme='light'] {
+    @include light-scheme;
   }
 
   --breakpoint-sm: 37.5rem; // 600
