@@ -4,10 +4,7 @@
   display: block;
   container: cell/inline-size;
 
-  --scheme: var(--scheme-1-lch);
-  --scheme-dark: var(--scheme-1-lch-dark);
-  --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
-  --linear-gradient-reverse: linear-gradient(in oklch 270deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
+  @include schemes;
   
   &__grid {
     --columns: 1;

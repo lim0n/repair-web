@@ -51,3 +51,30 @@ $grid-breakpoints: (
   overflow: hidden;
   padding-bottom: .5ex;
 }
+
+@mixin schemes {
+  --scheme: var(--scheme-1-lch);
+  --scheme-dark: var(--scheme-1-lch-dark);
+  @at-root .dishwasher-page & {
+    --scheme: var(--scheme-2-lch);
+    --scheme-dark: var(--scheme-2-lch-dark);
+  }
+  @at-root .dryer-page & {
+    --scheme: var(--scheme-3-lch);
+    --scheme-dark: var(--scheme-3-lch-dark);
+  }
+  @at-root .stove-page & {
+    --scheme: var(--scheme-4-lch);
+    --scheme-dark: var(--scheme-4-lch-dark);
+  }
+  @at-root .oven-page & {
+    --scheme: var(--scheme-5-lch);
+    --scheme-dark: var(--scheme-5-lch-dark);
+  }
+  @at-root .refrigerator-page & {
+    --scheme: var(--scheme-6-lch);
+    --scheme-dark: var(--scheme-6-lch-dark);
+  }
+  --linear-gradient: linear-gradient(in oklch 90deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
+  --linear-gradient-reverse: linear-gradient(in oklch 270deg, oklch(var(--scheme)) 0.0%, oklch(var(--scheme-dark)) 100.0%);
+}
