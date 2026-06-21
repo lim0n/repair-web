@@ -19,14 +19,22 @@
   
 
   --surface-light: #fefefe;
+  --surface-light-lch: 99.703% 0.00011 271.152;
   --surface-dark: #0e0e0e;
+  --surface-dark-lch: 16.376% 0.00002 271.152;
   --surface-accented-light: #efefef;
+  --surface-accented-light-lch: 95.213% 0.00011 271.152;
   --surface-accented-dark: #181818;
+  --surface-accented-dark-lch: 20.904% 0.00002 271.152;
 
   --text-main-light: #080808;
+  --text-main-light-lch: 13.441% 0.00002 271.152;
   --text-secondary-light: #111111;
+  --text-secondary-light-lch: 17.764% 0.00002 271.152;
   --text-main-dark: #f8f8f8;
+  --text-main-dark-lch: 97.913% 0.00011 271.152;
   --text-secondary-dark: #dedede;
+  --text-secondary-dark-lch: 90.06% 0.0001 271.152;
 
   // --surface-light: 254, 254, 254;           // #fefefe
   // --surface-dark: 14, 14, 14;               // #0e0e0e
@@ -65,20 +73,32 @@
 
   @mixin light-scheme {
     --surface-main: var(--surface-light);
+    --surface-main-lch: var(--surface-light-lch);
     --surface-accented: var(--surface-accented-light);
+    --surface-accented-lch: var(--surface-accented-light-lch);
     --surface-inverted: var(--surface-accented-dark);
+    --surface-inverted-lch: var(--surface-accented-dark-lch);
     --text-main: var(--text-main-light);
+    --text-main-lch: var(--text-main-light-lch);
     --text-secondary: var(--text-secondary-light);
+    --text-secondary-lch: var(--text-secondary-light-lch);
     --text-inverted: var(--text-main-dark);
+    --text-inverted-lch: var(--text-main-dark-lch);
   }
 
   @mixin dark-scheme {
     --surface-main: var(--surface-dark);
+    --surface-main-lch: var(--surface-dark-lch);
     --surface-accented: var(--surface-accented-dark);
+    --surface-accented-lch: var(--surface-accented-dark-lch);
     --surface-inverted: var(--surface-accented-light);
+    --surface-inverted-lch: var(--surface-accented-light-lch);
     --text-main: var(--text-main-dark);
+    --text-main-lch: var(--text-main-dark-lch);
     --text-secondary: var(--text-secondary-dark);
+    --text-secondary-lch: var(--text-secondary-dark-lch);
     --text-inverted: var(--text-main-light);
+    --text-inverted-lch: var(--text-main-light-lch);
   }
 
   @include light-scheme;

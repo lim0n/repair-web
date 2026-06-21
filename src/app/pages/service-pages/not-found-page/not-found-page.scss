@@ -1,0 +1,53 @@
+.not-found-page {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 100dvh;
+    container: cell / inline-size;
+
+    background: conic-gradient(
+            from 180deg at -50% -50%,
+            oklch(var(--scheme-3-lch) / 100%),
+            oklch(var(--scheme-1-lch) / 100%)
+        );
+
+    &__wrapper {
+        padding: 1em;
+        position: relative;
+
+        background: conic-gradient(
+            from 180deg at 0% 0%,
+            oklch(var(--scheme-1-lch) / 100%),
+            oklch(var(--scheme-5-lch) / 100%),
+        );
+        
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent; 
+    }
+
+    &__kv {
+        font-family: "Roboto Condensed", sans-serif;
+        font-weight: 900;
+        font-size: clamp(1em, 30cqw, 7.5em);
+        letter-spacing: .05em;
+        text-align: center;
+    }
+    
+    &__logo {
+        font-size: 0.75em;
+        justify-self: center;
+        margin-left: -1em;
+        
+        svg {
+            fill: color-mix(in oklch, oklch(var(--scheme-1-lch)) 50%, oklch(var(--text-main-lch)) ) !important;
+        }
+    }
+
+    &__description {
+        font-family: "Roboto Condensed", sans-serif;
+        font-size: clamp(1em, 6cqw, 1.5em);
+        text-align: center;
+    }
+}
