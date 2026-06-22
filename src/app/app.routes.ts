@@ -7,9 +7,8 @@ export const routes: Routes = [
         loadChildren: () => import('@pages/site.routes').then(m => m.SITE_ROUTES),
         title: 'Эксперт-сервис',
         data: {
-            description: 'Ремонт стиральных машин, обслуживание, диангостика, консультации',
-            ogDescription: '',
-            ogImage: ''
+            description: 'Ремонт стиральных машин, обслуживание, диангостика. Ремонт бытовой техники - стиральных машин, сушильных и посудомоечных машин, ремонт электрических кухонных плит и духовок, ремонт холодильников',
+            ogImage: '/favicon-180.png'
         }
     },
     {
