@@ -17,7 +17,7 @@ export const SITE_ROUTES: Routes = [
       { 
         path: 'privacy-policy',
         loadComponent: () => import('@pages/privacy-policy/privacy-policy-page-component').then(m => m.PrivacyPolicyPageComponent),
-        title: 'Согласие на обработку персональных данных'
+        title: 'Политика обработки персональных данных'
       },
       { 
         path: 'washing-machine',

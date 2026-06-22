@@ -5,7 +5,12 @@ export const routes: Routes = [
     {
         path: '',
         loadChildren: () => import('@pages/site.routes').then(m => m.SITE_ROUTES),
-        title: 'Эксперт-сервис'
+        title: 'Эксперт-сервис',
+        data: {
+            description: 'Ремонт стиральных машин, обслуживание, диангостика, консультации',
+            ogDescription: '',
+            ogImage: ''
+        }
     },
     {
         path: 'articles/:name',
