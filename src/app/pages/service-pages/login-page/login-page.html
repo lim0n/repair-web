@@ -21,8 +21,8 @@
             <div class="login-page-error">Необходимо ввести пароль</div>
         }
         <button [disabled]="loading">Войти</button>
-        @if (error) {
-            <div class="login-page-error">{{ error }}</div>
+        @if (error() !== '') {
+            <div class="login-page-error">{{ error() }}</div>
         }
     </form>
 </fieldset>

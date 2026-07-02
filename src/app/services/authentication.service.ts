@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { DOCUMENT, Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, skip, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, skip, tap, throwError } from 'rxjs';
 import { environment } from '@src/environments/environment';
 import { PlatformService } from './platform.service';
 import { IJwt } from '@interfaces/jwt.interface';
+import { BYPASS_AUTH } from '@app/core/tokens/bypass-auth.token';
 
 @Injectable({
     providedIn: 'root',
@@ -41,12 +42,21 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<IJwt>(`${this.apiWithPrefix}/auth/login`,
-            { username, password })
-            .pipe(
-                tap(data => {
-                    this.setData(data);
-                }));
+        return this.http.post<IJwt>(
+            `${this.apiWithPrefix}/auth/login`,
+            { username, password },
+            {
+                context: new HttpContext().set(BYPASS_AUTH, true)
+            }
+        )
+        .pipe(
+            tap(data => {
+                this.setData(data);
+            }),
+            catchError((error: HttpErrorResponse) => {
+                return throwError(() => error);
+            })
+        );
     }
 
     logout() {

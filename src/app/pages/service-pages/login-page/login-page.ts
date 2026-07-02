@@ -1,9 +1,9 @@
 import { NgClass, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
-import { first, take } from 'rxjs/operators';
+import { finalize, first, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-page',
@@ -22,7 +22,8 @@ export class LoginPage implements OnInit {
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
-  error = '';
+  error = signal('');
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,14 +50,20 @@ export class LoginPage implements OnInit {
 
     this.loading = true;
     this.authenticationService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
-      .pipe(first())
+      .pipe(
+        first(),
+        finalize(() => {
+          // This always runs at the very end
+          this.loading = false; 
+        })
+      )
       .subscribe({
-        next: () => {
-          this.loading = false;
-          // this.router.navigate([this.returnUrl]);
-        },
+        // next: () => {
+        //   // this.router.navigate([this.returnUrl]);
+        // },
         error: (error) => {
-          this.error = error;
+          console.warn('error', error);
+          this.error.set(error?.error?.message ?? error?.statusText);
           this.loading = false;
         }
       })
