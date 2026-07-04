@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
   loading = false;
   submitted = false;
   error = signal('');
+  shake = signal(false);
 
 
   constructor(
@@ -49,7 +50,7 @@ export class LoginPage implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
+    this.authenticationService.login(this.loginForm.get('username')?.value, this.loginForm.get('password')?.value)
       .pipe(
         first(),
         finalize(() => {
@@ -62,9 +63,15 @@ export class LoginPage implements OnInit {
         //   // this.router.navigate([this.returnUrl]);
         // },
         error: (error) => {
-          console.warn('error', error);
           this.error.set(error?.error?.message ?? error?.statusText);
           this.loading = false;
+          if (error?.status === 401) {
+            this.shake.set(true);
+            setTimeout(() => {
+              this.shake.set(false);
+              this.loginForm.get('password')?.reset();
+            }, 500); 
+          }
         }
       })
       ;

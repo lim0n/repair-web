@@ -1,9 +1,13 @@
 <fieldset>
     <legend routerLink="/">Эксперт-сервис</legend>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" 
+        (ngSubmit)="onSubmit()" 
+        [ngClass]="{'login-page-shake': shake()}">
+
         <label for="username">Логин</label>
         <input type="text" 
             formControlName="username" 
+            id="username"
             [ngClass]="{ 'is-invalid': submitted && loginForm.controls['username'].errors }" 
         />
         @if (submitted && loginForm.controls['username'].errors) {
@@ -13,6 +17,7 @@
         }
         <label for="password">Пароль</label>
         <input type="password"
+            id="password"
             formControlName="password"
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && loginForm.controls['password'].errors }" 
